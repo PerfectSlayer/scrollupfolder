@@ -4,12 +4,12 @@
     <prefpane>
         <preferences>
             <preference id="extensions.scrollupfolder.parseGetVars" name="extensions.scrollupfolder.parseGetVars" type="bool" />
-            <preference id="extensions.scrollupfolder.dirtyUriAction" name="extensions.scrollupfolder.dirtyUriAction" type="int" />
+            <preference id="extensions.scrollupfolder.badUriAction" name="extensions.scrollupfolder.badUriAction" type="int" />
         </preferences>
         <checkbox label="Parse GET variables in URL:" preference="extensions.scrollupfolder.parseGetVars" />
         <groupbox>
-            <caption label="Action to perform when trying to load a non well-formed url:" />
-            <radiogroup preference="extensions.scrollupfolder.dirtyUriAction">
+            <caption label="Action to perform when trying to load a badly formed url:" />
+            <radiogroup preference="extensions.scrollupfolder.badUriAction">
                 <radio value="0" label="Do nothing" />
                 <radio value="1" label="Replace with current URL"/>
                 <radio value="2" label="Force to load" />

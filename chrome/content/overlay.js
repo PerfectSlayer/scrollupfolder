@@ -1,6 +1,10 @@
 // Scroll Up Folder object
 var scrollupfolder = {
-	
+	/**
+	 * Preferences service.
+	 */
+	prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService),
+
 	/**
 	 * Add events.
 	 */
@@ -48,24 +52,29 @@ var scrollupfolder = {
 		var url = document.getElementById('urlbar').value;
 		// Check event (only middle-clic) and url
 		if (e.button != 1 || url == null || url.length <= 0) {
-			sendLog('rien');
 			return;
 		}
 		try {
-			// Create URI from chosen url
+			// Create valid URI from chosen url
 			var urlClean = scrollupfolder.returnURL(url);
-			sendLog(url.spec+' compare to '+document.getElementById('urlbar').value);
 			// Load URI in current tab
-			getBrowser().selectedBrowser.loadURI(urlClean.spec);			// TODO Why new url var ?
+			getBrowser().selectedBrowser.loadURI(urlClean.spec);
 		}
-		// If is not a well formed URI
+		// Catching if it is a badly formed URI
 		catch(e) {
 			sendLog('failed new URI');
-			// Force to load URI
-
-			// Get back to current URI
-
-			// Do noting
+			var prefBadUriAction = prefs.getIntPref('extensions.scrollupfolder.badUriAction');
+			switch (prefBadUriAction) {
+			case 2:
+				// Force to load URI
+				getBrowser().selectedBrowser.loadURI(url);
+			break;
+			case 1:
+				// Replace with current URI
+				document.getElementById('urlbar').value = getBrowser().selectedBrowser.currentURI.spec;
+			break;
+			// Otherwise, do noting
+			}
 		}
 	},
 
