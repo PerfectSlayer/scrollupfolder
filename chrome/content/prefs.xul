@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<prefwindow id="scrollupfolderPrefs" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="Scrull Up Folder Preferences">
+    <prefpane>
+        <preferences>
+            <preference id="extensions.scrollupfolder.parseGetVars" name="extensions.scrollupfolder.parseGetVars" type="bool" />
+            <preference id="extensions.scrollupfolder.dirtyUriAction" name="extensions.scrollupfolder.dirtyUriAction" type="int" />
+        </preferences>
+        <checkbox label="Parse GET variables in URL:" preference="extensions.scrollupfolder.parseGetVars" />
+        <groupbox>
+            <caption label="Action to perform when trying to load a non well-formed url:" />
+            <radiogroup preference="extensions.scrollupfolder.dirtyUriAction">
+                <radio value="0" label="Do nothing" />
+                <radio value="1" label="Replace with current URL"/>
+                <radio value="2" label="Force to load" />
+            </radiogroup>
+        </groupbox>
+    </prefpane>
+</prefwindow>
