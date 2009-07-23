@@ -1,0 +1,3 @@
+content	scrollupfolder	chrome/content/
+skin	scrollupfolder	classic/1.0 chrome/skin/
+overlay	chrome://browser/content/browser.xul	chrome://scrollupfolder/content/overlay.xul
