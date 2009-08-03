@@ -4,7 +4,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>scrollupfolder@omni.n0ne.org</em:id>
-    <em:version>3.0.0b</em:version>
+    <em:version>3.0.0</em:version>
     <em:type>2</em:type>
 
     <em:targetApplication>
@@ -21,6 +21,6 @@
     <em:creator>Omar Khan</em:creator>
     <em:developer>Perfect Slayer</em:developer>
     <em:iconURL>chrome://scrollupfolder/skin/icon.png</em:iconURL>
-    <em:homepageURL>http://www.hardcoding.fr/index.php?page=scrollupfolder</em:homepageURL>
+    <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
   </Description>
 </RDF>
