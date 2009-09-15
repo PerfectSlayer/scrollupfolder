@@ -1,5 +1,10 @@
-// Scroll Up Folder object
-var scrollupfolder = {
+// Create packaging
+if(!fr) var fr = {};
+if(!fr.hardcoding) fr.hardcoding = {};
+if(!fr.hardcoding.scrollupfolder) fr.hardcoding.scrollupfolder = {};
+
+// Define Scroll Up Folder package
+fr.hardcoding.scrollupfolder = {
 	/**
 	 * Preferences service.
 	 */
@@ -10,13 +15,13 @@ var scrollupfolder = {
 	 */
 	onload: function(event) {
 		// Remove event on load
-		gBrowser.removeEventListener('load', scrollupfolder.onload, true);
+		gBrowser.removeEventListener('load', fr.hardcoding.scrollupfolder.onload, true);
 		// Add scrolling event on urlbar-container
-		document.getElementById('urlbar-container').addEventListener('DOMMouseScroll', scrollupfolder.scrollbar, true);
+		document.getElementById('urlbar-container').addEventListener('DOMMouseScroll', fr.hardcoding.scrollupfolder.scrollbar, true);
 		// Add clicking event on urlbar
-		document.getElementById('urlbar').addEventListener('click', scrollupfolder.clickbar, true);
+		document.getElementById('urlbar').addEventListener('click', fr.hardcoding.scrollupfolder.clickbar, true);
 		// Add focusing envent on urlbar-container
-		document.getElementById('urlbar-container').addEventListener('mouseover', scrollupfolder.focused, true);
+		document.getElementById('urlbar-container').addEventListener('mouseover', fr.hardcoding.scrollupfolder.focused, true);
 	},
 
 	/**
@@ -35,7 +40,7 @@ var scrollupfolder = {
 			// Create paths
 			while(path != null)	{
 				paths.push(path);
-				path = scrollupfolder.canGoUp(path);
+				path = fr.hardcoding.scrollupfolder.canGoUp(path);
 			}
 			// Set path to current tab
 			currentTab.SUFPaths = paths;
@@ -56,7 +61,7 @@ var scrollupfolder = {
 		}
 		try {
 			// Create valid URI from chosen url
-			var urlClean = scrollupfolder.returnURL(url);
+			var urlClean = fr.hardcoding.scrollupfolder.returnURL(url);
 			// Load URI in current tab
 			getBrowser().selectedBrowser.loadURI(urlClean.spec);
 		}
@@ -105,7 +110,7 @@ var scrollupfolder = {
 		}
 		var url = null;
 		try {
-			var url = new scrollupfolder.returnURL(baseUrl);
+			var url = new fr.hardcoding.scrollupfolder.returnURL(baseUrl);
 		}
 		catch(ex) {
 			return null;
@@ -120,12 +125,12 @@ var scrollupfolder = {
 		var resolvedUrl;
 		var indexGetParam = baseUrl.indexOf('?');
 		if (baseUrl.charAt(baseUrl.length - 1) == '/') {
-			resolvedUrl = scrollupfolder.doResolve(baseUrl, '..');
+			resolvedUrl = fr.hardcoding.scrollupfolder.doResolve(baseUrl, '..');
 		} else if (indexGetParam != -1) {
 			// Improvement for GET variables
 			resolvedUrl = baseUrl.substring(0, indexGetParam);
 		} else {
-			resolvedUrl = scrollupfolder.doResolve(baseUrl, '.');
+			resolvedUrl = fr.hardcoding.scrollupfolder.doResolve(baseUrl, '.');
 		}
 		if (resolvedUrl != baseUrl) {
 			returnUrl = resolvedUrl;
@@ -168,7 +173,7 @@ var scrollupfolder = {
 };
 
 // Add onload event
-getBrowser().addEventListener('load', scrollupfolder.onload, true);
+getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onload, true);
 
 // Send debug message to console (debug only)
 function sendLog(msg) {
