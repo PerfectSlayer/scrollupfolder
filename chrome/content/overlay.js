@@ -1,3 +1,7 @@
+
+alert("test2");
+
+
 // Create packaging
 if(!fr) var fr = {};
 if(!fr.hardcoding) fr.hardcoding = {};
@@ -12,22 +16,32 @@ fr.hardcoding.scrollupfolder = {
 
 	/**
 	 * Add events.
+	 * @param	event		Event
 	 */
-	onload: function(event) {
-		// Remove event on load
-		gBrowser.removeEventListener('load', fr.hardcoding.scrollupfolder.onload, true);
-		// Add scrolling event on urlbar-container
-		document.getElementById('urlbar-container').addEventListener('DOMMouseScroll', fr.hardcoding.scrollupfolder.scrollbar, true);
-		// Add clicking event on urlbar
-		document.getElementById('urlbar').addEventListener('click', fr.hardcoding.scrollupfolder.clickbar, true);
+	onLoad: function(event) {
+		// Remove event onLoad
+		gBrowser.removeEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
+		// Get urlbar-container element
+		var urlbar_container = document.getElementById('urlbar-container');
+		// Get urlbar element
+		var urlbar = document.getElementById('urlbar');
 		// Add focusing envent on urlbar-container
-		document.getElementById('urlbar-container').addEventListener('mouseover', fr.hardcoding.scrollupfolder.focused, true);
+		urlbar_container.addEventListener('mouseover', fr.hardcoding.scrollupfolder.focused, true);
+		// Add scrolling event on urlbar-container
+		urlbar_container.addEventListener('DOMMouseScroll', fr.hardcoding.scrollupfolder.scrollBar, true);
+		// Add clicking event on urlbar
+		urlbar.addEventListener('click', fr.hardcoding.scrollupfolder.clickBar, true);
+		// Add key pressing down event on urlbar
+		urlbar.addEventListener('keydown', fr.hardcoding.scrollupfolder.displayPanel, true);
+		// Add key pressing up event on urlbar
+		urlbar.addEventListener('keyup', fr.hardcoding.scrollupfolder.hidePanel, true);
 	},
 
 	/**
 	 * Generate paths for a tab.
+	 * @param	event		Event
 	 */
-	focused: function(e) {
+	focused: function(event) {
 		// Get current tab
 		var currentTab = getBrowser().selectedBrowser;
 		// Get current URI (not from urlbar, but loaded URI from current tab)
@@ -51,12 +65,13 @@ fr.hardcoding.scrollupfolder = {
 
 	/**
 	 * Apply chosen URI.
+	 * @param	event		Event
 	 */
-	clickbar: function(e) {
+	clickBar: function(event) {
 		// Getting chosen url
 		var url = document.getElementById('urlbar').value;
 		// Check event (only middle-clic) and url
-		if (e.button != 1 || url == null || url.length <= 0) {
+		if (event.button != 1 || url == null || url.length <= 0) {
 			return;
 		}
 		try {
@@ -85,22 +100,60 @@ fr.hardcoding.scrollupfolder = {
 
 	/**
 	 * Browse paths.
+	 * @param	event		Event
 	 */
-	scrollbar: function(e)	{
+	scrollBar: function(event) {
 		var currentTab = getBrowser().selectedBrowser;
 		// Check if paths were generated
 		if (!currentTab.SUFPaths) {
 			return;
 		}
 		// Go up in paths list
-		if(e.detail < 0 && currentTab.SUFPointer < currentTab.SUFPaths.length-1)
+		if(event.detail < 0 && currentTab.SUFPointer < currentTab.SUFPaths.length-1)
 			currentTab.SUFPointer++;
 		// Go down in paths list
-		else if (e.detail > 0 && currentTab.SUFPointer > 0)
+		else if (event.detail > 0 && currentTab.SUFPointer > 0)
 			currentTab.SUFPointer--;
 		// Display chosen path and select it
 		document.getElementById('urlbar').value = currentTab.SUFPaths[currentTab.SUFPointer];
 		document.getElementById('urlbar').select();
+	},
+
+	/**
+	 * Display paths.
+	 * @param	event		Event
+	 */
+	displayPanel: function(event) {
+		if (event.altKey) {	// event.ctrlKey
+			// Stop event propagation
+			event.stopPropagation();
+			// Get panel element
+			var panel = document.getElementById('scrollupfolderUrls');
+			// Get urlbar element
+			var urlbar = document.getElementById('urlbar');
+			// Add urls in panel
+			// panel.appendItem('aaa');
+			// panel.appendItem('bbb');
+			// Displaying panel
+			panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+		}
+		// panel xul reference	https://developer.mozilla.org/en/XUL/panel
+		// panel menu guide		https://developer.mozilla.org/en/XUL/PopupGuide/Panels
+		// key codes			https://developer.mozilla.org/en/DOM/Event/UIEvent/KeyEvent
+	},
+	
+	/**
+	 * Hide paths.
+	 * @param	event		Event
+	 */
+	hidePanel: function(event) {
+		// Check if modifier is pressed up
+		if (!event.altKey) {
+			// Get panel element
+			var panel = document.getElementById('scrollupfolderUrls');
+			// Hide panel
+			panel.hidePopup();
+		}
 	},
 
 	canGoUp : function(baseUrl)	{
@@ -172,8 +225,8 @@ fr.hardcoding.scrollupfolder = {
 	}
 };
 
-// Add onload event
-getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onload, true);
+// Add onLoad event
+getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 
 // Send debug message to console (debug only)
 function sendLog(msg) {
