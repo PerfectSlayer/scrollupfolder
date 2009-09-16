@@ -3,7 +3,11 @@
     <script type="application/x-javascript" src="chrome://scrollupfolder/content/overlay.js"></script>
     <window>
     <panel id="scrollupfolderUrls" position="after_start" noautofocus="true"><!-- hidden="true" -->
-        <label value="Testing"/>
+        <label value="Testing1"/>
+        <label value="Testing2"/>
+        <label value="Testing3"/>
+        <label value="Testing4"/>
+        <label value="Testing5"/>
     </panel>
     </window>
 </overlay>
