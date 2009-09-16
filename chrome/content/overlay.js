@@ -120,13 +120,22 @@ fr.hardcoding.scrollupfolder = {
 	 * @param	event		Event
 	 */
 	displayPanel: function(event) {
-		if (event.altKey) {	// event.ctrlKey
+		// Get panel element
+		var panel = document.getElementById('scrollupfolderUrls');
+		if (event.altKey && panel.state == 'closed') {	// event.ctrlKey
 			// Stop event propagation
 			event.stopPropagation();
-			// Get panel element
-			var panel = document.getElementById('scrollupfolderUrls');
 			// Get urlbar element
 			var urlbar = document.getElementById('urlbar');
+			// Get current tab
+			var currentTab = getBrowser().selectedBrowser;
+			// Create xxxxxxx
+			var index, label;
+			for (index in currentTab.SUFPaths) {
+				label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
+				label.setAttribute('value', currentTab.SUFPaths[index]);
+				panel.appendChild(label);
+			}
 			// Add urls in panel
 			// panel.appendItem('aaa');
 			// panel.appendItem('bbb');
@@ -136,6 +145,7 @@ fr.hardcoding.scrollupfolder = {
 		// panel xul reference	https://developer.mozilla.org/en/XUL/panel
 		// panel menu guide		https://developer.mozilla.org/en/XUL/PopupGuide/Panels
 		// key codes			https://developer.mozilla.org/en/DOM/Event/UIEvent/KeyEvent
+		// DOM & xul			https://developer.mozilla.org/en/Dynamically_modifying_XUL-based_user_interface
 	},
 	
 	/**
@@ -145,10 +155,17 @@ fr.hardcoding.scrollupfolder = {
 	hidePanel: function(event) {
 		// Check if modifier is pressed up
 		if (!event.altKey) {
+			// Stop event propagation
+			event.stopPropagation();
 			// Get panel element
 			var panel = document.getElementById('scrollupfolderUrls');
 			// Hide panel
 			panel.hidePopup();
+			// Remove xxxxx
+			while(panel.hasChildNodes()){
+				panel.removeChild(panel.firstChild);
+			}
+
 		}
 	},
 
@@ -188,8 +205,8 @@ fr.hardcoding.scrollupfolder = {
 			/* delete first . of domain */
 			var newDomain = domain.replace(/.*?\./,'');
 			var currentURI = getBrowser().selectedBrowser.currentURI;
-			sendLog(['old', content.document.domain]);
-			sendLog(['new', currentURI.host]);
+			// sendLog(['old', content.document.domain]);
+			// sendLog(['new', currentURI.host]);
 			if (newDomain != null && newDomain != content.document.domain && newDomain.indexOf('.') != -1) {
 				/* if one period add www */
 				var matches = newDomain.match(/\./g);
