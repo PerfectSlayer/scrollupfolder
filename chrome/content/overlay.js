@@ -1,7 +1,3 @@
-
-alert("test2");
-
-
 // Create packaging
 if(!fr) var fr = {};
 if(!fr.hardcoding) fr.hardcoding = {};
