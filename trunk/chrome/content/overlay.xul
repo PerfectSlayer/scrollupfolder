@@ -2,12 +2,9 @@
 <overlay id="scrollupfolder" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml">
     <script type="application/x-javascript" src="chrome://scrollupfolder/content/overlay.js"></script>
     <window>
-    <panel id="scrollupfolderUrls" position="after_start" noautofocus="true"><!-- hidden="true" -->
-        <label value="Testing1"/>
-        <label value="Testing2"/>
-        <label value="Testing3"/>
-        <label value="Testing4"/>
-        <label value="Testing5"/>
+    <panel id="scrollupfolderUrlsPanel" position="after_start" noautofocus="true"><!-- hidden="true" -->
+        <listbox id="scrollupfolderUrlsListbox">
+        </listbox>
     </panel>
     </window>
 </overlay>
