@@ -21,6 +21,8 @@ fr.hardcoding.scrollupfolder = {
 		var urlbar_container = document.getElementById('urlbar-container');
 		// Get urlbar element
 		var urlbar = document.getElementById('urlbar');
+		// Get scrollupfolderUrlsPanel element
+		// var listbox = document.getElementById('scrollupfolderUrlsListbox');
 		// Add focusing envent on urlbar-container
 		urlbar_container.addEventListener('mouseover', fr.hardcoding.scrollupfolder.focused, true);
 		// Add scrolling event on urlbar-container
@@ -31,6 +33,10 @@ fr.hardcoding.scrollupfolder = {
 		urlbar.addEventListener('keydown', fr.hardcoding.scrollupfolder.displayPanel, true);
 		// Add key pressing up event on urlbar
 		urlbar.addEventListener('keyup', fr.hardcoding.scrollupfolder.hidePanel, true);
+		// Add key pressing down event on scrollupfolderUrlsPanel
+		// listbox.addEventListener('keydown', fr.hardcoding.scrollupfolder.displayPanel, true);
+		// Add key pressing up event on scrollupfolderUrlsPanel
+		// listbox.addEventListener('keyup', fr.hardcoding.scrollupfolder.hidePanel, true);
 	},
 
 	/**
@@ -121,7 +127,7 @@ fr.hardcoding.scrollupfolder = {
 	 */
 	displayPanel: function(event) {
 		// Get panel element
-		var panel = document.getElementById('scrollupfolderUrls');
+		var panel = document.getElementById('scrollupfolderUrlsPanel');
 		if (event.altKey && panel.state == 'closed') {	// event.ctrlKey
 			// Stop event propagation
 			event.stopPropagation();
@@ -129,18 +135,40 @@ fr.hardcoding.scrollupfolder = {
 			var urlbar = document.getElementById('urlbar');
 			// Get current tab
 			var currentTab = getBrowser().selectedBrowser;
-			// Create xxxxxxx
-			var index, label;
+			// Get listbox
+			var listbox = document.getElementById('scrollupfolderUrlsListbox');
+			// Create listitems
+			var index, listitem, selectedlistitem;
 			for (index in currentTab.SUFPaths) {
-				label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
-				label.setAttribute('value', currentTab.SUFPaths[index]);
-				panel.appendChild(label);
+				listitem = listbox.appendItem(currentTab.SUFPaths[index]);
+				if (currentTab.SUFPointer == index) {
+					selectedlistitem = listitem;
+				}
+				//label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
+				//label.setAttribute('value', currentTab.SUFPaths[index]);
+				//panel.appendChild(label);
 			}
-			// Add urls in panel
-			// panel.appendItem('aaa');
-			// panel.appendItem('bbb');
-			// Displaying panel
+			// Select current item
+			// listbox.selectItem(currentTab.SUFPointer);
+			// label.setAttribute('selected', true);
+			selectedlistitem.setAttribute('selected', true);
+			// Fix the size of listbox
+			sendLog(listbox);
+			listbox.setAttribute('rows', currentTab.SUFPaths.length);
+					// Add urls in panel
+					// panel.appendItem('aaa');
+					// panel.appendItem('bbb');
+			// Display panel
 			panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+			// 
+			// listbox.selectItem(selectedlistitem);
+			// Give focus to the panel
+			// listbox.focus();
+			// selectedlistitem.focus();
+
+
+
+			
 		}
 		// panel xul reference	https://developer.mozilla.org/en/XUL/panel
 		// panel menu guide		https://developer.mozilla.org/en/XUL/PopupGuide/Panels
@@ -158,13 +186,18 @@ fr.hardcoding.scrollupfolder = {
 			// Stop event propagation
 			event.stopPropagation();
 			// Get panel element
-			var panel = document.getElementById('scrollupfolderUrls');
+			var panel = document.getElementById('scrollupfolderUrlsPanel');
+			// Get listbox element
+			var listbox = document.getElementById('scrollupfolderUrlsListbox');
 			// Hide panel
 			panel.hidePopup();
-			// Remove xxxxx
-			while(panel.hasChildNodes()){
-				panel.removeChild(panel.firstChild);
+			// Remove items
+			while(listbox.getRowCount() > 0) {
+				listbox.removeItemAt(0);
 			}
+			/* while(listbox.hasChildNodes()){
+				listbox.removeChild(listbox.firstChild);
+			} */
 
 		}
 	},
