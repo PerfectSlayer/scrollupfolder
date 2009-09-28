@@ -52,7 +52,6 @@ fr.hardcoding.scrollupfolder = {
 		if ((currentTab.SUFPaths && currentTab.SUFPaths.indexOf(path) == -1) || (!currentTab.SUFPaths && path.substr(0, 6) != 'about:')) {
 			// Initialize paths
 			var paths = new Array();
-			sendLog('init');
 			// Create paths
 			while(path != null)	{
 				paths.push(path);
@@ -126,49 +125,72 @@ fr.hardcoding.scrollupfolder = {
 	 * @param	event		Event
 	 */
 	displayPanel: function(event) {
-		// Get panel element
-		var panel = document.getElementById('scrollupfolderUrlsPanel');
-		if (event.altKey && panel.state == 'closed') {	// event.ctrlKey
-			// Stop event propagation
-			event.stopPropagation();
-			// Get urlbar element
-			var urlbar = document.getElementById('urlbar');
-			// Get current tab
-			var currentTab = getBrowser().selectedBrowser;
+		// Check if the modifier key is pressed up
+		if (event.altKey) {									// event.ctrlKey
+			// Get panel element
+			var panel = document.getElementById('scrollupfolderUrlsPanel');
 			// Get listbox
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
-			// Create listitems
-			var index, listitem, selectedlistitem;
-			for (index in currentTab.SUFPaths) {
-				listitem = listbox.appendItem(currentTab.SUFPaths[index]);
-				if (currentTab.SUFPointer == index) {
-					selectedlistitem = listitem;
+			// Check if the panel is closed
+			if (panel.state == 'closed') {
+				// Stop event propagation
+				event.stopPropagation();
+				// Get urlbar element
+				var urlbar = document.getElementById('urlbar');
+				// Get current tab
+				var currentTab = getBrowser().selectedBrowser;
+				// Create listitems
+				var index, listitem;
+				for (index in currentTab.SUFPaths) {
+					listitem = listbox.appendItem(currentTab.SUFPaths[index]);
+					if (currentTab.SUFPointer == index) {
+						// selectedlistitem = listitem;
+						listbox.selectItem(listitem);
+					}
+							//label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
+							//label.setAttribute('value', currentTab.SUFPaths[index]);
+							//panel.appendChild(label);
 				}
-				//label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
-				//label.setAttribute('value', currentTab.SUFPaths[index]);
-				//panel.appendChild(label);
+				// Select current item
+						// listbox.selectItem(currentTab.SUFPointer);
+						// label.setAttribute('selected', true);
+				// selectedlistitem.setAttribute('selected', true);
+				// Fix the size of listbox
+				listbox.setAttribute('rows', currentTab.SUFPaths.length);
+						// Add urls in panel
+						// panel.appendItem('aaa');
+						// panel.appendItem('bbb');
+				// Display panel
+				panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+						// 
+						// listbox.selectItem(selectedlistitem);
+						// Give focus to the panel
+						// listbox.focus();
+						// selectedlistitem.focus();
+				
+				sendLog({'rows': listbox.getAttribute('rows'), 'number': currentTab.SUFPaths.length});
+				
+			} else if (event.keyCode == event.DOM_VK_UP) {
+				// Stop event propagation
+				event.stopPropagation();
+				// Cancel event to prevent the awesome bar to be displayed
+				event.preventDefault();
+				sendLog('up');
+			} else if (event.keyCode == event.DOM_VK_DOWN) {
+				// Stop event propagation
+				event.stopPropagation();
+				// Cancel event to prevent the awesome bar to be displayed
+				event.preventDefault();
+				// Get the selected item
+				var selectedListItem = listbox.getSelectedItem(0);
+				// Check if it is the last row
+				var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
+				if (selectedListItemIdex == listbox.getRowCount()-1)
+					return;
+				// Select the next item
+				listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex+1));
+				sendLog({'index': selectedListItemIdex, 'action': 'down'});
 			}
-			// Select current item
-			// listbox.selectItem(currentTab.SUFPointer);
-			// label.setAttribute('selected', true);
-			selectedlistitem.setAttribute('selected', true);
-			// Fix the size of listbox
-			sendLog(listbox);
-			listbox.setAttribute('rows', currentTab.SUFPaths.length);
-					// Add urls in panel
-					// panel.appendItem('aaa');
-					// panel.appendItem('bbb');
-			// Display panel
-			panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
-			// 
-			// listbox.selectItem(selectedlistitem);
-			// Give focus to the panel
-			// listbox.focus();
-			// selectedlistitem.focus();
-
-
-
-			
 		}
 		// panel xul reference	https://developer.mozilla.org/en/XUL/panel
 		// panel menu guide		https://developer.mozilla.org/en/XUL/PopupGuide/Panels
@@ -181,12 +203,12 @@ fr.hardcoding.scrollupfolder = {
 	 * @param	event		Event
 	 */
 	hidePanel: function(event) {
-		// Check if modifier is pressed up
-		if (!event.altKey) {
+		// Get panel element
+		var panel = document.getElementById('scrollupfolderUrlsPanel');
+		// Check if modifier is pressed down and panel is 
+		if (!event.altKey && panel.state == 'open') {
 			// Stop event propagation
 			event.stopPropagation();
-			// Get panel element
-			var panel = document.getElementById('scrollupfolderUrlsPanel');
 			// Get listbox element
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
 			// Hide panel
@@ -238,8 +260,7 @@ fr.hardcoding.scrollupfolder = {
 			/* delete first . of domain */
 			var newDomain = domain.replace(/.*?\./,'');
 			var currentURI = getBrowser().selectedBrowser.currentURI;
-			// sendLog(['old', content.document.domain]);
-			// sendLog(['new', currentURI.host]);
+			// sendLog({'old': content.document.domain, 'new': currentURI.host});
 			if (newDomain != null && newDomain != content.document.domain && newDomain.indexOf('.') != -1) {
 				/* if one period add www */
 				var matches = newDomain.match(/\./g);
