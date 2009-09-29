@@ -21,7 +21,7 @@ fr.hardcoding.scrollupfolder = {
 		var urlbar_container = document.getElementById('urlbar-container');
 		// Get urlbar element
 		var urlbar = document.getElementById('urlbar');
-		// Get scrollupfolderUrlsPanel element
+		// Get scrollupfolderUrlsListbox element
 		// var listbox = document.getElementById('scrollupfolderUrlsListbox');
 		// Add focusing envent on urlbar-container
 		urlbar_container.addEventListener('mouseover', fr.hardcoding.scrollupfolder.focused, true);
@@ -141,6 +141,7 @@ fr.hardcoding.scrollupfolder = {
 				var currentTab = getBrowser().selectedBrowser;
 				// Create listitems
 				var index, listitem;
+				sendLog(currentTab.SUFPaths);
 				for (index in currentTab.SUFPaths) {
 					listitem = listbox.appendItem(currentTab.SUFPaths[index]);
 					if (currentTab.SUFPointer == index) {
@@ -151,12 +152,14 @@ fr.hardcoding.scrollupfolder = {
 							//label.setAttribute('value', currentTab.SUFPaths[index]);
 							//panel.appendChild(label);
 				}
-				// Select current item
+						// Select current item
 						// listbox.selectItem(currentTab.SUFPointer);
 						// label.setAttribute('selected', true);
-				// selectedlistitem.setAttribute('selected', true);
+						// selectedlistitem.setAttribute('selected', true);
 				// Fix the size of listbox
-				listbox.setAttribute('rows', currentTab.SUFPaths.length);
+						// listbox.setAttribute('rows', currentTab.SUFPaths.length);
+				listbox.setAttribute('rows', listbox.getRowCount());
+				sendLog({'getRowCount': listbox.getRowCount(), 'lenght:': currentTab.SUFPaths.length, 'rows': listbox.getAttribute('rows')});
 						// Add urls in panel
 						// panel.appendItem('aaa');
 						// panel.appendItem('bbb');
@@ -167,9 +170,6 @@ fr.hardcoding.scrollupfolder = {
 						// Give focus to the panel
 						// listbox.focus();
 						// selectedlistitem.focus();
-				
-				sendLog({'rows': listbox.getAttribute('rows'), 'number': currentTab.SUFPaths.length});
-				
 			} else if (event.keyCode == event.DOM_VK_UP) {
 				// Stop event propagation
 				event.stopPropagation();
