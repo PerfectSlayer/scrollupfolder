@@ -141,7 +141,6 @@ fr.hardcoding.scrollupfolder = {
 				var currentTab = getBrowser().selectedBrowser;
 				// Create listitems
 				var index, listitem;
-				sendLog(currentTab.SUFPaths);
 				for (index in currentTab.SUFPaths) {
 					listitem = listbox.appendItem(currentTab.SUFPaths[index]);
 					if (currentTab.SUFPointer == index) {
@@ -175,7 +174,15 @@ fr.hardcoding.scrollupfolder = {
 				event.stopPropagation();
 				// Cancel event to prevent the awesome bar to be displayed
 				event.preventDefault();
-				sendLog('up');
+				// Get the selected item
+				var selectedListItem = listbox.getSelectedItem(0);
+				// Check if it is the first row
+				var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
+				if (selectedListItemIdex == 0)
+					return;
+				// Select the next item
+				listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex-1));
+				sendLog({'index': selectedListItemIdex, 'action': 'up'});
 			} else if (event.keyCode == event.DOM_VK_DOWN) {
 				// Stop event propagation
 				event.stopPropagation();
@@ -217,10 +224,6 @@ fr.hardcoding.scrollupfolder = {
 			while(listbox.getRowCount() > 0) {
 				listbox.removeItemAt(0);
 			}
-			/* while(listbox.hasChildNodes()){
-				listbox.removeChild(listbox.firstChild);
-			} */
-
 		}
 	},
 
