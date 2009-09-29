@@ -4,12 +4,10 @@
     <script type="application/x-javascript" src="chrome://scrollupfolder/content/overlay.js"></script>
     <window>
     <panel id="scrollupfolderUrlsPanel" position="after_start" noautofocus="true"><!-- hidden="true" -->
-        <listbox id="scrollupfolderUrlsListbox" rows="5">
-            <listitem label="test"/>
-            <listitem label="test"/>
-            <listitem label="test"/>
-            <listitem label="test"/>
-            <listitem label="test"/>
+        <listbox id="scrollupfolderUrlsListbox" rows="3">
+            <listitem label="test1"/>
+            <listitem label="test2"/>
+            <listitem label="test3"/>
         </listbox>
     </panel>
     </window>
