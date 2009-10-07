@@ -157,13 +157,23 @@ fr.hardcoding.scrollupfolder = {
 						// selectedlistitem.setAttribute('selected', true);
 				// Fix the size of listbox
 						// listbox.setAttribute('rows', currentTab.SUFPaths.length);
-				listbox.setAttribute('rows', listbox.getRowCount());
-				sendLog({'getRowCount': listbox.getRowCount(), 'lenght:': currentTab.SUFPaths.length, 'rows': listbox.getAttribute('rows')});
+//				for (index in listbox.childNodes) {
+//					sendLog({'index:': index, 'valeur:':listbox.childNodes[index]});
+//				}
+//				var listbox_rows = listbox.getRowCount() == 0 ? listbox.childNodes.length : listbox.getRowCount();
+				var listbox_rows = listbox.getRowCount();
+				if (listbox_rows != 0) {
+					sendLog('taille définie: '+listbox_rows);
+					listbox.setAttribute('rows', listbox_rows);
+				}
+				sendLog({'getRowCount': listbox.getRowCount(), 'lenght:': currentTab.SUFPaths.length, 'childNodes:': listbox.childNodes.length, 'rows': listbox.getAttribute('rows')});
 						// Add urls in panel
 						// panel.appendItem('aaa');
 						// panel.appendItem('bbb');
 				// Display panel
 				panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+				
+				sendLog({'state:': panel.state, 'getRowCount': listbox.getRowCount(), 'lenght:': currentTab.SUFPaths.length, 'childNodes:': listbox.childNodes.length, 'rows': listbox.getAttribute('rows')});
 						// 
 						// listbox.selectItem(selectedlistitem);
 						// Give focus to the panel
@@ -203,6 +213,10 @@ fr.hardcoding.scrollupfolder = {
 		// panel menu guide		https://developer.mozilla.org/en/XUL/PopupGuide/Panels
 		// key codes			https://developer.mozilla.org/en/DOM/Event/UIEvent/KeyEvent
 		// DOM & xul			https://developer.mozilla.org/en/Dynamically_modifying_XUL-based_user_interface
+		
+		// Code review : populate list on popupshowing event : https://developer.mozilla.org/en/XUL/panel#a-onpopupshowing
+		// 				go to url on popuphiddin
+		//				clear listbox on popuphidden event
 	},
 	
 	/**
