@@ -1,0 +1,7 @@
+content	scrollupfolder	chrome/content/
+skin	scrollupfolder	classic/1.0 chrome/skin/
+locale	scrollupfolder	en-US chrome/locale/en-US/
+locale	scrollupfolder	fr-FR chrome/locale/fr-FR/
+
+overlay	chrome://browser/content/browser.xul	chrome://scrollupfolder/content/overlay.xul
+style	chrome://browser/content/browser.xul	chrome://scrollupfolder/skin/overlay.css
