@@ -1,3 +1,7 @@
 listbox#scrollupfolderUrlsListbox listitem[selected=true] {
 	color: red;
 }
+
+listbox#scrollupfolderUrlsListbox {
+	-mox-box-flex: 1;
+}

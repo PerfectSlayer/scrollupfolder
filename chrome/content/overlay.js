@@ -134,56 +134,117 @@ fr.hardcoding.scrollupfolder = {
 			document.getElementById('urlbar').select();
 		},
 		
+//		/**
+//		 * Display paths.
+//		 * @param	event		Event
+//		 */
+//		onKeyDown: function(event) {
+//			// Check if the modifier key is pressed up
+//			if (event.altKey) {									// event.ctrlKey
+//				// Get panel element
+//				var panel = document.getElementById('scrollupfolderUrlsPanel');
+//				// Check if the panel is closed
+//				if (panel.state == 'closed') {
+//					// Stop event propagation
+//					event.stopPropagation();
+//					// Get urlbar element
+//					var urlbar = document.getElementById('urlbar');
+//					// Display panel
+//					panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+//				} else if (event.keyCode == event.DOM_VK_UP) {
+//					// Stop event propagation
+//					event.stopPropagation();
+//					// Cancel event to prevent the awesome bar to be displayed
+//					event.preventDefault();
+//					// Get listbox element
+//					var listbox = document.getElementById('scrollupfolderUrlsListbox');
+//					// Get the selected item
+//					var selectedListItem = listbox.getSelectedItem(0);
+//					// Check if it is the first row
+//					var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
+//					if (selectedListItemIdex == 0)
+//						return;
+//					// Select the next item
+//					listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex-1));
+//					sendLog({'index': selectedListItemIdex, 'action': 'up'});
+//				} else if (event.keyCode == event.DOM_VK_DOWN) {
+//					// Stop event propagation
+//					event.stopPropagation();
+//					// Cancel event to prevent the awesome bar to be displayed
+//					event.preventDefault();
+//					// Get listbox item
+//					var listbox = document.getElementById('scrollupfolderUrlsListbox');
+//					// Get the selected item
+//					var selectedListItem = listbox.getSelectedItem(0);
+//					// Check if it is the last row
+//					var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
+//					if (selectedListItemIdex == listbox.getRowCount()-1)
+//						return;
+//					// Select the next item
+//					listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex+1));
+//					sendLog({'index': selectedListItemIdex, 'action': 'down'});
+//				}
+//			}
+//		},
+		
 		/**
 		 * Display paths.
 		 * @param	event		Event
 		 */
 		onKeyDown: function(event) {
+			// Get panel element
+			var panel = document.getElementById('scrollupfolderUrlsPanel');
 			// Check if the modifier key is pressed up
-			if (event.altKey) {									// event.ctrlKey
-				// Get panel element
-				var panel = document.getElementById('scrollupfolderUrlsPanel');
-				// Check if the panel is closed
-				if (panel.state == 'closed') {
-					// Stop event propagation
-					event.stopPropagation();
-					// Get urlbar element
-					var urlbar = document.getElementById('urlbar');
-					// Display panel
-					panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
-				} else if (event.keyCode == event.DOM_VK_UP) {
-					// Stop event propagation
-					event.stopPropagation();
-					// Cancel event to prevent the awesome bar to be displayed
-					event.preventDefault();
-					// Get listbox element
-					var listbox = document.getElementById('scrollupfolderUrlsListbox');
-					// Get the selected item
-					var selectedListItem = listbox.getSelectedItem(0);
-					// Check if it is the first row
-					var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
-					if (selectedListItemIdex == 0)
-						return;
-					// Select the next item
-					listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex-1));
-					sendLog({'index': selectedListItemIdex, 'action': 'up'});
-				} else if (event.keyCode == event.DOM_VK_DOWN) {
-					// Stop event propagation
-					event.stopPropagation();
-					// Cancel event to prevent the awesome bar to be displayed
-					event.preventDefault();
-					// Get listbox item
-					var listbox = document.getElementById('scrollupfolderUrlsListbox');
-					// Get the selected item
-					var selectedListItem = listbox.getSelectedItem(0);
-					// Check if it is the last row
-					var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
-					if (selectedListItemIdex == listbox.getRowCount()-1)
-						return;
-					// Select the next item
-					listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex+1));
-					sendLog({'index': selectedListItemIdex, 'action': 'down'});
-				}
+			if (event.altKey && panel.state == 'closed') {									// event.ctrlKey
+				// Stop event propagation
+				event.stopPropagation();
+				// Get urlbar element
+				var urlbar = document.getElementById('urlbar');
+				// Display panel
+				panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+			} else if (event.altKey && panel.state == 'open') {
+				// Stop event propagation
+				event.stopPropagation();
+				// Get listbox element
+				var listbox = document.getElementById('scrollupfolderUrlsListbox');
+				// Hide panel
+				panel.hidePopup();
+//				// Remove items			// A placer dans l'écouter de fermeture du popup ?
+//				while(listbox.getRowCount() > 0) {
+//					listbox.removeItemAt(0);
+//				}
+			} else if (event.keyCode == event.DOM_VK_UP && panel.state == 'open') {
+				// Stop event propagation
+				event.stopPropagation();
+				// Cancel event to prevent the awesome bar to be displayed
+				event.preventDefault();
+				// Get listbox element
+				var listbox = document.getElementById('scrollupfolderUrlsListbox');
+				// Get the selected item
+				var selectedListItem = listbox.getSelectedItem(0);
+				// Check if it is the first row
+				var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
+				if (selectedListItemIdex == 0)
+					return;
+				// Select the next item
+				listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex-1));
+				sendLog({'index': selectedListItemIdex, 'action': 'up'});
+			} else if (event.keyCode == event.DOM_VK_DOWN && panel.state == 'open') {
+				// Stop event propagation
+				event.stopPropagation();
+				// Cancel event to prevent the awesome bar to be displayed
+				event.preventDefault();
+				// Get listbox item
+				var listbox = document.getElementById('scrollupfolderUrlsListbox');
+				// Get the selected item
+				var selectedListItem = listbox.getSelectedItem(0);
+				// Check if it is the last row
+				var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
+				if (selectedListItemIdex == listbox.getRowCount()-1)
+					return;
+				// Select the next item
+				listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex+1));
+				sendLog({'index': selectedListItemIdex, 'action': 'down'});
 			}
 		},
 		
@@ -192,21 +253,21 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onKeyUp: function(event) {
-			// Get panel element
-			var panel = document.getElementById('scrollupfolderUrlsPanel');
-			// Check if modifier is pressed down and panel is 
-			if (!event.altKey && panel.state == 'open') {
-				// Stop event propagation
-				event.stopPropagation();
-				// Get listbox element
-				var listbox = document.getElementById('scrollupfolderUrlsListbox');
-				// Hide panel
-				panel.hidePopup();
-				// Remove items
-				while(listbox.getRowCount() > 0) {
-					listbox.removeItemAt(0);
-				}
-			}
+//			// Get panel element
+//			var panel = document.getElementById('scrollupfolderUrlsPanel');
+//			// Check if modifier is pressed down and panel is 
+//			if (!event.altKey && panel.state == 'open') {
+//				// Stop event propagation
+//				event.stopPropagation();
+//				// Get listbox element
+//				var listbox = document.getElementById('scrollupfolderUrlsListbox');
+//				// Hide panel
+//				panel.hidePopup();
+//				// Remove items			// A placer dans l'écouter de fermeture du popup ?
+//				while(listbox.getRowCount() > 0) {
+//					listbox.removeItemAt(0);
+//				}
+//			}
 		}
 	},
 	
@@ -223,6 +284,7 @@ fr.hardcoding.scrollupfolder = {
 			// Setting panel behavior
 			panel.setAttribute('onpopupshowing', 'fr.hardcoding.scrollupfolder.urlpanel.onShowing();');
 			panel.setAttribute('onpopupshown', 'fr.hardcoding.scrollupfolder.urlpanel.onShown();');
+			panel.setAttribute('onpopuphidden', 'fr.hardcoding.scrollupfolder.urlpanel.onHidden();');
 		},
 		
 		/**
@@ -237,9 +299,14 @@ fr.hardcoding.scrollupfolder = {
 			var index, listitem;
 			for (index in currentTab.SUFPaths) {
 				listitem = listbox.appendItem(currentTab.SUFPaths[index]);
-				if (currentTab.SUFPointer == index)
-					listbox.selectItem(listitem);
+//				if (currentTab.SUFPointer == index)
+//					listbox.selectItem(listitem);
 			}
+			// Fix listbox size
+			var rows = listbox.getRowCount();
+			if (rows != 0)
+				listbox.setAttribute('rows', rows);
+			return true;
 		},
 		
 		/**
@@ -253,9 +320,39 @@ fr.hardcoding.scrollupfolder = {
 			if (listbox_rows != 0) {
 				sendLog('taille définie: '+listbox_rows);
 				listbox.setAttribute('rows', listbox_rows);
+				// window.setTimeout(fr.hardcoding.scrollupfolder.urlpanel.setSize, 100, listbox_rows);
 			} else
 				sendLog('taille 0..');
 			sendLog({'getRowCount': listbox.getRowCount(), 'childNodes:': listbox.childNodes.length, 'rows': listbox.getAttribute('rows')});
+			// Get current tab
+			var currentTab = getBrowser().selectedBrowser;
+			// Select current url
+			listbox.selectItem(listbox.getItemAtIndex(currentTab.SUFPointer));
+			return true;
+		},
+		
+		/**
+		 * Remove rows from panel.
+		 */
+		onHidden: function() {
+			// Get listbox element
+			var listbox = document.getElementById('scrollupfolderUrlsListbox');
+			// Get selected item
+			// TODO						Mettre ce passage en option "go at url on exit"
+			var item = listbox.getSelectedItem(0);
+			if (item != null) {
+				sendLog(item);
+				// Get current tab
+				var currentTab = getBrowser().selectedBrowser;
+				// Update SUF pointer
+				currentTab.SUFPointer = listbox.getIndexOfItem(item);
+				// Load URI in current tab
+				currentTab.loadURI(item.label);
+			}
+			// Remove items
+			while(listbox.getRowCount() > 0) {
+				listbox.removeItemAt(0);
+			}
 		}
 	
 	
@@ -356,4 +453,4 @@ function sendLog(msg) {
 // Add onLoad event
 getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 
-//alert('chargement de SUF');
+//alert('chargement de SUF');      
