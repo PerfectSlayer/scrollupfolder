@@ -134,59 +134,6 @@ fr.hardcoding.scrollupfolder = {
 			document.getElementById('urlbar').select();
 		},
 		
-//		/**
-//		 * Display paths.
-//		 * @param	event		Event
-//		 */
-//		onKeyDown: function(event) {
-//			// Check if the modifier key is pressed up
-//			if (event.altKey) {									// event.ctrlKey
-//				// Get panel element
-//				var panel = document.getElementById('scrollupfolderUrlsPanel');
-//				// Check if the panel is closed
-//				if (panel.state == 'closed') {
-//					// Stop event propagation
-//					event.stopPropagation();
-//					// Get urlbar element
-//					var urlbar = document.getElementById('urlbar');
-//					// Display panel
-//					panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
-//				} else if (event.keyCode == event.DOM_VK_UP) {
-//					// Stop event propagation
-//					event.stopPropagation();
-//					// Cancel event to prevent the awesome bar to be displayed
-//					event.preventDefault();
-//					// Get listbox element
-//					var listbox = document.getElementById('scrollupfolderUrlsListbox');
-//					// Get the selected item
-//					var selectedListItem = listbox.getSelectedItem(0);
-//					// Check if it is the first row
-//					var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
-//					if (selectedListItemIdex == 0)
-//						return;
-//					// Select the next item
-//					listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex-1));
-//					sendLog({'index': selectedListItemIdex, 'action': 'up'});
-//				} else if (event.keyCode == event.DOM_VK_DOWN) {
-//					// Stop event propagation
-//					event.stopPropagation();
-//					// Cancel event to prevent the awesome bar to be displayed
-//					event.preventDefault();
-//					// Get listbox item
-//					var listbox = document.getElementById('scrollupfolderUrlsListbox');
-//					// Get the selected item
-//					var selectedListItem = listbox.getSelectedItem(0);
-//					// Check if it is the last row
-//					var selectedListItemIdex = listbox.getIndexOfItem(selectedListItem);
-//					if (selectedListItemIdex == listbox.getRowCount()-1)
-//						return;
-//					// Select the next item
-//					listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex+1));
-//					sendLog({'index': selectedListItemIdex, 'action': 'down'});
-//				}
-//			}
-//		},
-		
 		/**
 		 * Display paths.
 		 * @param	event		Event
@@ -194,26 +141,8 @@ fr.hardcoding.scrollupfolder = {
 		onKeyDown: function(event) {
 			// Get panel element
 			var panel = document.getElementById('scrollupfolderUrlsPanel');
-			// Check if the modifier key is pressed up
-			if (event.altKey && panel.state == 'closed') {									// event.ctrlKey
-				// Stop event propagation
-				event.stopPropagation();
-				// Get urlbar element
-				var urlbar = document.getElementById('urlbar');
-				// Display panel
-				panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
-			} else if (event.altKey && panel.state == 'open') {
-				// Stop event propagation
-				event.stopPropagation();
-				// Get listbox element
-				var listbox = document.getElementById('scrollupfolderUrlsListbox');
-				// Hide panel
-				panel.hidePopup();
-//				// Remove items			// A placer dans l'écouter de fermeture du popup ?
-//				while(listbox.getRowCount() > 0) {
-//					listbox.removeItemAt(0);
-//				}
-			} else if (event.keyCode == event.DOM_VK_UP && panel.state == 'open') {
+			// Select next element in listbox
+			if (event.keyCode == event.DOM_VK_UP && panel.state == 'open') {
 				// Stop event propagation
 				event.stopPropagation();
 				// Cancel event to prevent the awesome bar to be displayed
@@ -227,9 +156,14 @@ fr.hardcoding.scrollupfolder = {
 				if (selectedListItemIdex == 0)
 					return;
 				// Select the next item
-				listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex-1));
+				var item = listbox.getItemAtIndex(selectedListItemIdex-1)
+				listbox.selectItem(item);
+				// Update url in urlbar						// TODO Should be optionnal
+				document.getElementById('urlbar').value = item.label;
 				sendLog({'index': selectedListItemIdex, 'action': 'up'});
-			} else if (event.keyCode == event.DOM_VK_DOWN && panel.state == 'open') {
+			} else 
+			// Select previous element in listbox
+			if (event.keyCode == event.DOM_VK_DOWN && panel.state == 'open') {
 				// Stop event propagation
 				event.stopPropagation();
 				// Cancel event to prevent the awesome bar to be displayed
@@ -243,7 +177,10 @@ fr.hardcoding.scrollupfolder = {
 				if (selectedListItemIdex == listbox.getRowCount()-1)
 					return;
 				// Select the next item
-				listbox.selectItem(listbox.getItemAtIndex(selectedListItemIdex+1));
+				var item = listbox.getItemAtIndex(selectedListItemIdex+1);
+				listbox.selectItem(item);
+				// Update url in urlbar					// TODO Should be optionnal
+				document.getElementById('urlbar').value = item.label;
 				sendLog({'index': selectedListItemIdex, 'action': 'down'});
 			}
 		},
@@ -253,21 +190,72 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onKeyUp: function(event) {
-//			// Get panel element
-//			var panel = document.getElementById('scrollupfolderUrlsPanel');
-//			// Check if modifier is pressed down and panel is 
-//			if (!event.altKey && panel.state == 'open') {
-//				// Stop event propagation
-//				event.stopPropagation();
-//				// Get listbox element
-//				var listbox = document.getElementById('scrollupfolderUrlsListbox');
-//				// Hide panel
-//				panel.hidePopup();
+			// Get panel element
+			var panel = document.getElementById('scrollupfolderUrlsPanel');
+			// Get current tab
+			var currentTab = getBrowser().selectedBrowser;
+			// Open the panel
+			if (event.keyCode == event.DOM_VK_ALT && panel.state == 'closed') {						// event.ctrlKey
+				// Stop event propagation
+				event.stopPropagation();
+				// Get urlbar element
+				var urlbar = document.getElementById('urlbar');
+				// Display panel
+				panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+			} else 
+			// Close the panel
+			if (event.keyCode == event.DOM_VK_ALT && panel.state == 'open') {
+				// Stop event propagation
+				event.stopPropagation();
+				// Get listbox element
+				var listbox = document.getElementById('scrollupfolderUrlsListbox');
+				// Hide panel
+				panel.hidePopup();
 //				// Remove items			// A placer dans l'écouter de fermeture du popup ?
 //				while(listbox.getRowCount() > 0) {
 //					listbox.removeItemAt(0);
 //				}
-//			}
+			} else
+			// Go up
+			if (event.altKey && event.keyCode == event.DOM_VK_UP) {
+				// Check if it's already on top
+				if (currentTab.SUFPointer == 0)
+					return;
+				sendLog("monte");
+				sendLog("position "+currentTab.SUFPointer);
+				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
+				// Stop event propagation
+				event.stopPropagation();
+				// Cancel event to prevent the awesome bar to be displayed
+				event.preventDefault();
+				// Update pointer
+				currentTab.SUFPointer--;
+				// Go to url
+				currentTab.loadURI(currentTab.SUFPaths[currentTab.SUFPointer]);
+				sendLog("nouveau");
+				sendLog("position "+currentTab.SUFPointer);
+				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
+			} else
+			// Go down
+			if (event.altKey && event.keyCode == event.DOM_VK_DOWN) {
+				// Check if it's already on bottom
+				if (currentTab.SUFPointer == currentTab.SUFPaths.length-1)
+					return;
+				sendLog("descend");
+				sendLog("position "+currentTab.SUFPointer);
+				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
+				// Stop event propagation
+				event.stopPropagation();
+				// Cancel event to prevent the awesome bar to be displayed
+				event.preventDefault();
+				// Update pointer
+				currentTab.SUFPointer++;
+				// Go to url
+				currentTab.loadURI(currentTab.SUFPaths[currentTab.SUFPointer]);
+				sendLog("nouveau");
+				sendLog("position "+currentTab.SUFPointer);
+				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
+			}
 		}
 	},
 	
@@ -297,11 +285,8 @@ fr.hardcoding.scrollupfolder = {
 			var currentTab = getBrowser().selectedBrowser;
 			// Create listitems
 			var index, listitem;
-			for (index in currentTab.SUFPaths) {
+			for (index in currentTab.SUFPaths)
 				listitem = listbox.appendItem(currentTab.SUFPaths[index]);
-//				if (currentTab.SUFPointer == index)
-//					listbox.selectItem(listitem);
-			}
 			// Fix listbox size
 			var rows = listbox.getRowCount();
 			if (rows != 0)
@@ -320,7 +305,6 @@ fr.hardcoding.scrollupfolder = {
 			if (listbox_rows != 0) {
 				sendLog('taille définie: '+listbox_rows);
 				listbox.setAttribute('rows', listbox_rows);
-				// window.setTimeout(fr.hardcoding.scrollupfolder.urlpanel.setSize, 100, listbox_rows);
 			} else
 				sendLog('taille 0..');
 			sendLog({'getRowCount': listbox.getRowCount(), 'childNodes:': listbox.childNodes.length, 'rows': listbox.getAttribute('rows')});
@@ -337,11 +321,9 @@ fr.hardcoding.scrollupfolder = {
 		onHidden: function() {
 			// Get listbox element
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
-			// Get selected item
-			// TODO						Mettre ce passage en option "go at url on exit"
+			// Get selected item			// TODO Should be optional
 			var item = listbox.getSelectedItem(0);
 			if (item != null) {
-				sendLog(item);
 				// Get current tab
 				var currentTab = getBrowser().selectedBrowser;
 				// Update SUF pointer
