@@ -34,6 +34,11 @@ fr.hardcoding.scrollupfolder = {
 	 */
 	urlbar: {
 		/**
+		 * Prevent the urlpanel to be shown.
+		 */
+		preventUrlPanelShowing: false,
+		
+		/**
 		 * Initialise urlbar event.
 		 */
 		onLoad: function() {
@@ -196,6 +201,12 @@ fr.hardcoding.scrollupfolder = {
 			var currentTab = getBrowser().selectedBrowser;
 			// Open the panel
 			if (event.keyCode == event.DOM_VK_ALT && panel.state == 'closed') {						// event.ctrlKey
+				// Prevent panel opening if key up event were for another key binding
+				if (preventUrlPanelShowing) {
+					// Ask to stop to prevent url panel showing
+					preventUrlPanelShowing = false;
+					return;
+				}
 				// Stop event propagation
 				event.stopPropagation();
 				// Get urlbar element
@@ -211,10 +222,6 @@ fr.hardcoding.scrollupfolder = {
 				var listbox = document.getElementById('scrollupfolderUrlsListbox');
 				// Hide panel
 				panel.hidePopup();
-//				// Remove items			// A placer dans l'écouter de fermeture du popup ?
-//				while(listbox.getRowCount() > 0) {
-//					listbox.removeItemAt(0);
-//				}
 			} else
 			// Go up
 			if (event.altKey && event.keyCode == event.DOM_VK_UP) {
@@ -252,9 +259,14 @@ fr.hardcoding.scrollupfolder = {
 				currentTab.SUFPointer++;
 				// Go to url
 				currentTab.loadURI(currentTab.SUFPaths[currentTab.SUFPointer]);
-				sendLog("nouveau");
+				sendLog("new");
 				sendLog("position "+currentTab.SUFPointer);
 				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
+			} else
+			// Record a keybinding (starting with alt key but not for SUF)
+			if (event.altKey) {
+				// Ask to prevent url panel showing
+				preventUrlPanelShowing = true;
 			}
 		}
 	},
@@ -435,4 +447,4 @@ function sendLog(msg) {
 // Add onLoad event
 getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 
-//alert('chargement de SUF');      
+//alert('chargement de SUF');
