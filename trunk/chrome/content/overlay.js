@@ -48,6 +48,7 @@ fr.hardcoding.scrollupfolder = {
 			var urlbar = document.getElementById('urlbar');
 			// Add focusing envent on urlbar-container
 			urlbar_container.addEventListener('mouseover', fr.hardcoding.scrollupfolder.urlbar.onFocus, true);
+			urlbar.addEventListener('focus', fr.hardcoding.scrollupfolder.urlbar.onFocus, true);
 			// Add scrolling event on urlbar-container
 			urlbar_container.addEventListener('DOMMouseScroll', fr.hardcoding.scrollupfolder.urlbar.onScroll, true);
 			// Add clicking event on urlbar
@@ -63,6 +64,7 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onFocus: function(event) {
+			sendLog("focus");
 			// Get current tab
 			var currentTab = getBrowser().selectedBrowser;
 			// Get current URI (not from urlbar, but loaded URI from current tab)
@@ -202,9 +204,9 @@ fr.hardcoding.scrollupfolder = {
 			// Open the panel
 			if (event.keyCode == event.DOM_VK_ALT && panel.state == 'closed') {						// event.ctrlKey
 				// Prevent panel opening if key up event were for another key binding
-				if (preventUrlPanelShowing) {
+				if (this.preventUrlPanelShowing) {
 					// Ask to stop to prevent url panel showing
-					preventUrlPanelShowing = false;
+					this.preventUrlPanelShowing = false;
 					return;
 				}
 				// Stop event propagation
@@ -220,6 +222,16 @@ fr.hardcoding.scrollupfolder = {
 				event.stopPropagation();
 				// Get listbox element
 				var listbox = document.getElementById('scrollupfolderUrlsListbox');
+				// Get selected item			// TODO Should be optional
+				var item = listbox.getSelectedItem(0);
+				if (item != null) {
+					// Get current tab
+					var currentTab = getBrowser().selectedBrowser;
+					// Update SUF pointer
+					currentTab.SUFPointer = listbox.getIndexOfItem(item);
+					// Load URI in current tab
+					currentTab.loadURI(item.label);
+				}
 				// Hide panel
 				panel.hidePopup();
 			} else
@@ -266,7 +278,7 @@ fr.hardcoding.scrollupfolder = {
 			// Record a keybinding (starting with alt key but not for SUF)
 			if (event.altKey) {
 				// Ask to prevent url panel showing
-				preventUrlPanelShowing = true;
+				this.preventUrlPanelShowing = true;
 			}
 		}
 	},
@@ -333,16 +345,16 @@ fr.hardcoding.scrollupfolder = {
 		onHidden: function() {
 			// Get listbox element
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
-			// Get selected item			// TODO Should be optional
-			var item = listbox.getSelectedItem(0);
-			if (item != null) {
-				// Get current tab
-				var currentTab = getBrowser().selectedBrowser;
-				// Update SUF pointer
-				currentTab.SUFPointer = listbox.getIndexOfItem(item);
-				// Load URI in current tab
-				currentTab.loadURI(item.label);
-			}
+//			// Get selected item			// TODO Should be optional
+//			var item = listbox.getSelectedItem(0);
+//			if (item != null) {
+//				// Get current tab
+//				var currentTab = getBrowser().selectedBrowser;
+//				// Update SUF pointer
+//				currentTab.SUFPointer = listbox.getIndexOfItem(item);
+//				// Load URI in current tab
+//				currentTab.loadURI(item.label);
+//			}
 			// Remove items
 			while(listbox.getRowCount() > 0) {
 				listbox.removeItemAt(0);
