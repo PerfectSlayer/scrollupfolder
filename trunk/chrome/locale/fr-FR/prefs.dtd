@@ -1,6 +1,10 @@
-<!ENTITY title "Préférences de Scrull Up Folder">
-<!ENTITY parsegetvars "Analyser les variables GET de l'URL :">
-<!ENTITY actionbadurl.title "Action à effectuer lorsqu'on essaie de charger une URL non valide :">
+<!ENTITY title "Préférences de Scroll Up Folder">
+<!ENTITY controlmode.title "Mode de contrôle :">
+<!ENTITY controlmode.mouseonly "Seulement à la souris">
+<!ENTITY controlmode.keyboardonly "Seulement au clavier">
+<!ENTITY controlmode.both "Les deux (à la souris et au clavier)">
+<!ENTITY parsegetvars "Analyser aussi les variables GET de l'URL">
+<!ENTITY actionbadurl.title "Action à effectuer lors du chargment d'une URL non valide :">
 <!ENTITY actionbadurl.donothing "Ne rien faire">
 <!ENTITY actionbadurl.replacewithcurrenturl "Remplacer pour l'URL de la page courante">
 <!ENTITY actionbadurl.forcetoload "Forcer le chargement">
