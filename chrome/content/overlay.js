@@ -8,7 +8,11 @@ fr.hardcoding.scrollupfolder = {
 	/**
 	 * Preferences service.
 	 */
-	prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService),
+	prefs: {
+		controlMode: Application.prefs.get('extensions.scrollupfolder.controlMode'),
+		parseGetVars: Application.prefs.get('extensions.scrollupfolder.parseGetVars'),
+		badUriAction: Application.prefs.get('extensions.scrollupfolder.badUriAction')
+	},
 
 	/**
 	 * Add events.
@@ -90,34 +94,18 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onClick: function(event) {
+			// Check the mouse control mode
+			if (fr.hardcoding.scrollupfolder.prefs.controlMode.value == 2) {
+				return;
+			}
 			// Getting chosen url
 			var url = document.getElementById('urlbar').value;
 			// Check event (only middle-clic) and url
 			if (event.button != 1 || url == null || url.length <= 0) {
 				return;
 			}
-			try {
-				// Create valid URI from chosen url
-				var urlClean = fr.hardcoding.scrollupfolder.returnURL(url);
-				// Load URI in current tab
-				getBrowser().selectedBrowser.loadURI(urlClean.spec);
-			}
-			// Catching if it is a badly formed URI
-			catch(e) {
-				sendLog('failed new URI');
-				var prefBadUriAction = prefs.getIntPref('extensions.scrollupfolder.badUriAction');
-				switch (prefBadUriAction) {
-				case 2:
-					// Force to load URI
-					getBrowser().selectedBrowser.loadURI(url);
-				break;
-				case 1:
-					// Replace with current URI
-					document.getElementById('urlbar').value = getBrowser().selectedBrowser.currentURI.spec;
-				break;
-				// Otherwise, do noting
-				}
-			}
+			// Load url in current tab
+			fr.hardcoding.scrollupfolder.loadURI(url);
 		},
 
 		/**
@@ -125,13 +113,17 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onScroll: function(event) {
+			// Check the mouse control mode
+			if (fr.hardcoding.scrollupfolder.prefs.controlMode.value == 2) {
+				return;
+			}
 			var currentTab = getBrowser().selectedBrowser;
 			// Check if paths were generated
 			if (!currentTab.SUFPaths) {
 				return;
 			}
 			// Go up in paths list
-			if(event.detail < 0 && currentTab.SUFPointer < currentTab.SUFPaths.length-1)
+			if (event.detail < 0 && currentTab.SUFPointer < currentTab.SUFPaths.length-1)
 				currentTab.SUFPointer++;
 			// Go down in paths list
 			else if (event.detail > 0 && currentTab.SUFPointer > 0)
@@ -197,12 +189,14 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onKeyUp: function(event) {
+			// Check the keyboard control mode
+			if (fr.hardcoding.scrollupfolder.prefs.controlMode.value == 1) {
+				return;
+			}
 			// Get panel element
 			var panel = document.getElementById('scrollupfolderUrlsPanel');
-			// Get current tab
-			var currentTab = getBrowser().selectedBrowser;
 			// Open the panel
-			if (event.keyCode == event.DOM_VK_ALT && panel.state == 'closed') {						// event.ctrlKey
+			if (event.keyCode == event.DOM_VK_ALT && panel.state == 'closed') {
 				// Prevent panel opening if key up event were for another key binding
 				if (this.preventUrlPanelShowing) {
 					// Ask to stop to prevent url panel showing
@@ -222,7 +216,7 @@ fr.hardcoding.scrollupfolder = {
 				event.stopPropagation();
 				// Get listbox element
 				var listbox = document.getElementById('scrollupfolderUrlsListbox');
-				// Get selected item			// TODO Should be optional
+				// Get selected item
 				var item = listbox.getSelectedItem(0);
 				if (item != null) {
 					// Get current tab
@@ -230,50 +224,10 @@ fr.hardcoding.scrollupfolder = {
 					// Update SUF pointer
 					currentTab.SUFPointer = listbox.getIndexOfItem(item);
 					// Load URI in current tab
-					currentTab.loadURI(item.label);
+					fr.hardcoding.scrollupfolder.loadURI(item.label);
 				}
 				// Hide panel
 				panel.hidePopup();
-			} else
-			// Go up
-			if (event.altKey && event.keyCode == event.DOM_VK_UP) {
-				// Check if it's already on top
-				if (currentTab.SUFPointer == 0)
-					return;
-				sendLog("monte");
-				sendLog("position "+currentTab.SUFPointer);
-				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
-				// Stop event propagation
-				event.stopPropagation();
-				// Cancel event to prevent the awesome bar to be displayed
-				event.preventDefault();
-				// Update pointer
-				currentTab.SUFPointer--;
-				// Go to url
-				currentTab.loadURI(currentTab.SUFPaths[currentTab.SUFPointer]);
-				sendLog("nouveau");
-				sendLog("position "+currentTab.SUFPointer);
-				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
-			} else
-			// Go down
-			if (event.altKey && event.keyCode == event.DOM_VK_DOWN) {
-				// Check if it's already on bottom
-				if (currentTab.SUFPointer == currentTab.SUFPaths.length-1)
-					return;
-				sendLog("descend");
-				sendLog("position "+currentTab.SUFPointer);
-				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
-				// Stop event propagation
-				event.stopPropagation();
-				// Cancel event to prevent the awesome bar to be displayed
-				event.preventDefault();
-				// Update pointer
-				currentTab.SUFPointer++;
-				// Go to url
-				currentTab.loadURI(currentTab.SUFPaths[currentTab.SUFPointer]);
-				sendLog("new");
-				sendLog("position "+currentTab.SUFPointer);
-				sendLog("current post"+currentTab.SUFPaths[currentTab.SUFPointer]);
 			} else
 			// Record a keybinding (starting with alt key but not for SUF)
 			if (event.altKey) {
@@ -345,16 +299,6 @@ fr.hardcoding.scrollupfolder = {
 		onHidden: function() {
 			// Get listbox element
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
-//			// Get selected item			// TODO Should be optional
-//			var item = listbox.getSelectedItem(0);
-//			if (item != null) {
-//				// Get current tab
-//				var currentTab = getBrowser().selectedBrowser;
-//				// Update SUF pointer
-//				currentTab.SUFPointer = listbox.getIndexOfItem(item);
-//				// Load URI in current tab
-//				currentTab.loadURI(item.label);
-//			}
 			// Remove items
 			while(listbox.getRowCount() > 0) {
 				listbox.removeItemAt(0);
@@ -372,6 +316,33 @@ fr.hardcoding.scrollupfolder = {
 	//				clear listbox on popuphidden event
 	},
 	
+	/**
+	 * Load an URI in current tab.
+	 * @param	uri			The URI to load.
+	 */
+	loadURI : function(uri) {
+		try {
+			// Create valid URI from chosen url
+			var urlClean = fr.hardcoding.scrollupfolder.returnURL(uri);
+			// Load URI in current tab
+			getBrowser().selectedBrowser.loadURI(urlClean.spec);
+		}
+		// Catching if it is a badly formed URI
+		catch(e) {
+			sendLog('failed new URI');
+			switch (fr.hardcoding.scrollupfolder.prefs.badUriAction.value) {
+			case 2:
+				// Force to load URI
+				getBrowser().selectedBrowser.loadURI(url);
+			break;
+			case 1:
+				// Replace with current URI
+				document.getElementById('urlbar').value = getBrowser().selectedBrowser.currentURI.spec;
+			break;
+			// Otherwise, do noting
+			}
+		}
+	},	
 
 	canGoUp : function(baseUrl)	{
 		var returnUrl;
@@ -459,4 +430,4 @@ function sendLog(msg) {
 // Add onLoad event
 getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 
-//alert('chargement de SUF');
+alert('chargement de SUF');

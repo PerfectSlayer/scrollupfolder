@@ -4,9 +4,18 @@
 <prefwindow id="scrollupfolderPrefs" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&title;">
     <prefpane>
         <preferences>
+        	<preference id="extensions.scrollupfolder.controlMode" name="extensions.scrollupfolder.controlMode" type="int" />
             <preference id="extensions.scrollupfolder.parseGetVars" name="extensions.scrollupfolder.parseGetVars" type="bool" />
             <preference id="extensions.scrollupfolder.badUriAction" name="extensions.scrollupfolder.badUriAction" type="int" />
         </preferences>
+        <groupbox>
+            <caption label="&controlmode.title;" />
+            <radiogroup preference="extensions.scrollupfolder.controlMode">
+                <radio value="1" label="&controlmode.mouseonly;" />
+                <radio value="2" label="&controlmode.keyboardonly;"/>
+                <radio value="3" label="&controlmode.both;" />
+            </radiogroup>
+        </groupbox>
         <checkbox label="&parsegetvars;" preference="extensions.scrollupfolder.parseGetVars" />
         <groupbox>
             <caption label="&actionbadurl.title;" />
