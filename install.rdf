@@ -17,18 +17,6 @@
     <em:optionsURL>chrome://scrollupfolder/content/prefs.xul</em:optionsURL>  
 
     <em:name>Scroll Up Folder</em:name>
-    <em:localized>
-      <Description>
-        <em:locale>en-US</em:locale>
-        <em:description>Goes up a folder of a website.</em:description>
-      </Description>
-    </em:localized>
-    <em:localized>
-      <Description>
-        <em:locale>fr-FR</em:locale>
-        <em:description>Naviguez dans les répertoires d'un site.</em:description>
-      </Description>
-    </em:localized>
     <em:creator>Omar Khan</em:creator>
     <em:developer>Perfect Slayer</em:developer>
     <em:iconURL>chrome://scrollupfolder/skin/icon.png</em:iconURL>
