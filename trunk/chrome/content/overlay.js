@@ -367,8 +367,8 @@ fr.hardcoding.scrollupfolder = {
 		var indexGetParam = baseUrl.indexOf('?');
 		if (baseUrl.charAt(baseUrl.length - 1) == '/') {
 			resolvedUrl = fr.hardcoding.scrollupfolder.doResolve(baseUrl, '..');
-		} else if (indexGetParam != -1) {
-			// Improvement for GET variables
+		} else if (indexGetParam != -1 && fr.hardcoding.scrollupfolder.prefs.parseGetVars.value) {
+			// TODO Improvement for GET variables
 			resolvedUrl = baseUrl.substring(0, indexGetParam);
 		} else {
 			resolvedUrl = fr.hardcoding.scrollupfolder.doResolve(baseUrl, '.');
@@ -379,7 +379,7 @@ fr.hardcoding.scrollupfolder = {
 			/* lets see if can go up domain */
 			/* delete first . of domain */
 			var newDomain = domain.replace(/.*?\./,'');
-			var currentURI = getBrowser().selectedBrowser.currentURI;
+			// var currentURI = getBrowser().selectedBrowser.currentURI;
 			// sendLog({'old': content.document.domain, 'new': currentURI.host});
 			if (newDomain != null && newDomain != content.document.domain && newDomain.indexOf('.') != -1) {
 				/* if one period add www */
@@ -430,4 +430,4 @@ function sendLog(msg) {
 // Add onLoad event
 getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 
-alert('chargement de SUF');
+//alert('chargement de SUF');
