@@ -1,5 +1,5 @@
 listbox#scrollupfolderUrlsListbox listitem[selected=true] {
-	color: red;
+	font-weight: bold;
 }
 
 listbox#scrollupfolderUrlsListbox {
