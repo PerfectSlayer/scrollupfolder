@@ -262,7 +262,7 @@ fr.hardcoding.scrollupfolder = {
 			// Get current tab
 			var currentTab = getBrowser().selectedBrowser;
 			// Check if paths were generated
-			if (currentTab.SUFPaths === undefined || currentTab.SUFPaths.count() == 0)
+			if (currentTab.SUFPaths === undefined || currentTab.SUFPaths.count == 0)
 				// Prevent panel showing if these is no path
 				return false;
 			// Create listitems
@@ -285,7 +285,7 @@ fr.hardcoding.scrollupfolder = {
 			// Fix listbox size
 			var listbox_rows = listbox.getRowCount();
 			if (listbox_rows != 0) {
-				sendLog('taille d�finie: '+listbox_rows);
+				sendLog('taille définie: '+listbox_rows);
 				listbox.setAttribute('rows', listbox_rows);
 			} else
 				sendLog('taille 0..');
