@@ -248,9 +248,9 @@ fr.hardcoding.scrollupfolder = {
 			// Get panel element
 			var panel = document.getElementById('scrollupfolderUrlsPanel');
 			// Setting panel behavior
-			panel.setAttribute('onpopupshowing', 'fr.hardcoding.scrollupfolder.urlpanel.onShowing();');
-			panel.setAttribute('onpopupshown', 'fr.hardcoding.scrollupfolder.urlpanel.onShown();');
-			panel.setAttribute('onpopuphidden', 'fr.hardcoding.scrollupfolder.urlpanel.onHidden();');
+			panel.setAttribute('onpopupshowing', 'return fr.hardcoding.scrollupfolder.urlpanel.onShowing();');
+			panel.setAttribute('onpopupshown', 'return fr.hardcoding.scrollupfolder.urlpanel.onShown();');
+			panel.setAttribute('onpopuphidden', 'return fr.hardcoding.scrollupfolder.urlpanel.onHidden();');
 		},
 		
 		/**
@@ -261,6 +261,10 @@ fr.hardcoding.scrollupfolder = {
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
 			// Get current tab
 			var currentTab = getBrowser().selectedBrowser;
+			// Check if paths were generated
+			if (currentTab.SUFPaths === undefined || currentTab.SUFPaths.count() == 0)
+				// Prevent panel showing if these is no path
+				return false;
 			// Create listitems
 			var index, listitem;
 			for (index in currentTab.SUFPaths)
@@ -281,7 +285,7 @@ fr.hardcoding.scrollupfolder = {
 			// Fix listbox size
 			var listbox_rows = listbox.getRowCount();
 			if (listbox_rows != 0) {
-				sendLog('taille définie: '+listbox_rows);
+				sendLog('taille dï¿½finie: '+listbox_rows);
 				listbox.setAttribute('rows', listbox_rows);
 			} else
 				sendLog('taille 0..');
@@ -303,6 +307,7 @@ fr.hardcoding.scrollupfolder = {
 			while(listbox.getRowCount() > 0) {
 				listbox.removeItemAt(0);
 			}
+			return true;
 		}
 	
 	
