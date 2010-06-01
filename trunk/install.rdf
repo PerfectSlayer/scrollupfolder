@@ -17,13 +17,21 @@
         <em:locale>fr</em:locale>
         <em:name>Scroll Up Folder</em:name>
         <em:description>Naviguez dans les répertoires d'un site.</em:description>
+         <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+         <em:contributor>Omar Khan</em:contributor>
+         <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
       </Description>
     </em:localized>
-    <em:name>Scroll Up Folder</em:name>
-    <em:description>Goes up a folder of a website.</em:description>
-    <em:creator>Omar Khan</em:creator>
-    <em:developer>Perfect Slayer</em:developer>
+    <em:localized>
+      <Description>
+        <em:locale>en-US</em:locale>
+          <em:name>Scroll Up Folder</em:name>
+          <em:description>Goes up a folder of a website.</em:description>
+          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+          <em:contributor>Omar Khan</em:contributor>
+          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+        </Description>
+    </em:localized>
     <em:iconURL>chrome://scrollupfolder/skin/icon.png</em:iconURL>
-    <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
   </Description>
 </RDF>
