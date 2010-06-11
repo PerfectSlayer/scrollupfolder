@@ -189,6 +189,8 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onKeyUp: function(event) {
+			sendLog("eventType: "+event.type);
+			sendLog("keyCode: "+event.keyCode);
 			// Check the keyboard control mode
 			if (fr.hardcoding.scrollupfolder.prefs.controlMode.value == 1) {
 				return;
@@ -207,6 +209,11 @@ fr.hardcoding.scrollupfolder = {
 				event.stopPropagation();
 				// Get urlbar element
 				var urlbar = document.getElementById('urlbar');
+				// Check if awesomebar popup is opened
+				if (urlbar.popup.state == "open") {
+					// Close the awesomebar popup
+					urlbar.popup.hidePopup();
+				}
 				// Display panel
 				panel.openPopup(urlbar, 'after_start', 0, 0, false, false);
 			} else 
