@@ -258,6 +258,88 @@ fr.hardcoding.scrollupfolder = {
 			panel.setAttribute('onpopupshowing', 'return fr.hardcoding.scrollupfolder.urlpanel.onShowing();');
 			panel.setAttribute('onpopupshown', 'return fr.hardcoding.scrollupfolder.urlpanel.onShown();');
 			panel.setAttribute('onpopuphidden', 'return fr.hardcoding.scrollupfolder.urlpanel.onHidden();');
+			// Adding page loading event
+			gBrowser.addProgressListener(fr.hardcoding.scrollupfolder.urlpanel.urlBarListener, Components.interfaces.nsIWebProgress.NOTIFY_STATUS);
+		},
+		
+		/**
+		 * Urlbar progress listener.
+		 * @see https://developer.mozilla.org/en/Code_snippets/Progress_Listeners
+		 * @see https://developer.mozilla.org/en/nsIWebProgressListener
+		 */
+		urlBarListener: {
+			/**
+			 * Provide listener.
+			 * @param	aIID		Interface.
+			 * @return				The listener.
+			 * @throws				Components.results.NS_NOINTERFACE
+			 */
+			QueryInterface: function(aIID) {
+				if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+						aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+						aIID.equals(Components.interfaces.nsISupports))
+					return this;
+				throw Components.results.NS_NOINTERFACE;
+			},
+			
+			/**
+			 * State change event handler.
+			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+			 * @param	aRequest			The nsIRequest  that has changed state (may be null).
+			 * @param	aFlag				Flags indicating the new state.
+			 * @param	aStatus				Error status code associated with the state change.
+			 */
+			onStateChange: function(aWebProgress, aRequest, aFlag, aStatus) {
+				// Get the "start" state
+				const STATE_START = Components.interfaces.nsIWebProgressListener.STATE_START;
+				// Check if the change state is a "start" state
+				if (aFlag & STATE_START) {
+					// Get panel element
+					var panel = document.getElementById('scrollupfolderUrlsPanel');
+					// Check if the panel is opened
+					if (panel.state == "open") {
+						// Close the panel
+						panel.hidePopup();
+					}
+					
+				}
+			},
+			
+			/**
+			 * Progress change event handler (empty function).
+			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+			 * @param	aRequest			The nsIRequest that has new progress.
+			 * @param	curSelfProgress		The current progress for aRequest.
+			 * @param	maxSelfProgress		The maximum progress for aRequest.
+			 * @param	curTotalProgress	The current progress for all requests associated with aWebProgress.
+			 * @param	maxTotalProgress	The total progress for all requests associated with aWebProgress.
+			 */
+			onProgressChange: function(aWebProgress, aRequest, curSelfProgress, maxSelfProgress, curTotalProgress, maxTotalProgress) { },
+			
+			/**
+			 * Location change event handler (empty function).
+			 * @param	aProgress			The nsIWebProgress instance that fired the notification.
+			 * @param	aRequest			The associated nsIRequest. This may be null in some cases.
+			 * @param	aLocation			The URI of the location that is being loaded.
+			 */
+			onLocationChange: function(aProgress, aRequest, aLocation) { },
+			
+			/**
+			 * Status change event handler (empty function).
+			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+			 * @param	aRequest			The nsIRequest that has new status.
+			 * @param	aStatus				This value is not an error code.
+			 * @param	aMessage			Localized text corresponding to aStatus. 
+			 */
+			onStatusChange: function(aWebProgress, aRequest, aStatus, aMessage) {},
+			
+			/**
+			 * Security change event handler (empty function).
+			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+			 * @param	aRequest			The nsIRequest that has new security state.
+			 * @param	aState				A value composed of the Security State Flags and the Security Strength Flags.
+			 */
+			onSecurityChange: function(aWebProgress, aRequest, aState) {}
 		},
 		
 		/**
