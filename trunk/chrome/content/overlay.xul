@@ -3,7 +3,7 @@
 <overlay id="scrollupfolder" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml">
     <script type="application/x-javascript" src="chrome://scrollupfolder/content/overlay.js"></script>
     <window>
-    <panel id="scrollupfolderUrlsPanel" position="after_start" noautofocus="true" width="1" style="border: none;">
+    <panel id="scrollupfolderUrlsPanel" position="after_start" noautofocus="true" width="1" style="border: none;" onpopupshowing="return fr.hardcoding.scrollupfolder.urlpanel.onShowing();" onpopupshown="return fr.hardcoding.scrollupfolder.urlpanel.onShown();" onpopuphidden="return fr.hardcoding.scrollupfolder.urlpanel.onHidden();">
         <listbox id="scrollupfolderUrlsListbox" flex="1" style="margin: 0px">
         </listbox>
     </panel>
