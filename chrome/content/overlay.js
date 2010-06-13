@@ -21,10 +21,10 @@ fr.hardcoding.scrollupfolder = {
 	onLoad: function(event) {
 		// Initialize urlbar event
 		fr.hardcoding.scrollupfolder.urlbar.init();
-		// Initialize urlpanel event
-		fr.hardcoding.scrollupfolder.urlpanel.init();
-		// Initialize progressListener event
-		fr.hardcoding.scrollupfolder.progressListener.init();
+		// Initialize browserProgressListener event
+		fr.hardcoding.scrollupfolder.browserProgressListener.init();
+		// Initialize tabProgressListener event
+		fr.hardcoding.scrollupfolder.tabProgressListener.init();
 				// Add key pressing down event on scrollupfolderUrlsPanel
 				// listbox.addEventListener('keydown', fr.hardcoding.scrollupfolder.urlbar.onKeyDown, true);
 				// Add key pressing up event on scrollupfolderUrlsPanel
@@ -34,6 +34,29 @@ fr.hardcoding.scrollupfolder = {
 		sendLog('chargement fini');
 	},
 	
+	/**
+	 * Generate paths for a tab.
+	 * @param	brower		The tab to generate paths.
+	 */
+	processPaths: function(browser) {
+		sendLog("focus");
+		// Get current URI (not from urlbar, but loaded URI from current tab)
+		var path = browser.currentURI.spec;
+		// Check if path are already generated and if they tally with current URI or if doesn't been generated because it's an about: URI
+		if ((browser.SUFPaths && browser.SUFPaths.indexOf(path) == -1) || (!browser.SUFPaths && path.substr(0, 6) != 'about:')) {
+			// Initialize paths
+			var paths = new Array();
+			// Create paths
+			while(path != null)	{
+				paths.push(path);
+				path = fr.hardcoding.scrollupfolder.canGoUp(path);
+			}
+			// Set path to current tab
+			browser.SUFPaths = paths;
+			// Set pointer position
+			browser.SUFPointer = 0;
+		}
+	},
 	
 	/**
 	 * Behavior of urlbar and his container.
@@ -52,9 +75,6 @@ fr.hardcoding.scrollupfolder = {
 			var urlbar_container = document.getElementById('urlbar-container');
 			// Get urlbar element
 			var urlbar = document.getElementById('urlbar');
-			// Add focusing event on urlbar-container
-			urlbar_container.addEventListener('mouseover', fr.hardcoding.scrollupfolder.urlbar.onFocus, true);
-			urlbar.addEventListener('focus', fr.hardcoding.scrollupfolder.urlbar.onFocus, true);
 			// Add scrolling event on urlbar-container
 			urlbar_container.addEventListener('DOMMouseScroll', fr.hardcoding.scrollupfolder.urlbar.onScroll, true);
 			// Add clicking event on urlbar
@@ -63,32 +83,6 @@ fr.hardcoding.scrollupfolder = {
 			urlbar.addEventListener('keydown', fr.hardcoding.scrollupfolder.urlbar.onKeyDown, true);
 			// Add key pressing up event on urlbar
 			urlbar.addEventListener('keyup', fr.hardcoding.scrollupfolder.urlbar.onKeyUp, true);
-		},
-		
-		/**
-		 * Generate paths for a tab.
-		 * @param	event		Event
-		 */
-		onFocus: function(event) {
-			sendLog("focus");
-			// Get current tab
-			var currentTab = getBrowser().selectedBrowser;
-			// Get current URI (not from urlbar, but loaded URI from current tab)
-			var path = currentTab.currentURI.spec;
-			// Check if path are already generated and if they tally with current URI or if doesn't been generated because it's an about: URI
-			if ((currentTab.SUFPaths && currentTab.SUFPaths.indexOf(path) == -1) || (!currentTab.SUFPaths && path.substr(0, 6) != 'about:')) {
-				// Initialize paths
-				var paths = new Array();
-				// Create paths
-				while(path != null)	{
-					paths.push(path);
-					path = fr.hardcoding.scrollupfolder.canGoUp(path);
-				}
-				// Set path to current tab
-				currentTab.SUFPaths = paths;
-				// Set pointer position
-				currentTab.SUFPointer = 0;
-			} 
 		},
 		
 		/**
@@ -191,8 +185,6 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	event		Event
 		 */
 		onKeyUp: function(event) {
-			sendLog("eventType: "+event.type);
-			sendLog("keyCode: "+event.keyCode);
 			// Check the keyboard control mode
 			if (fr.hardcoding.scrollupfolder.prefs.controlMode.value == 1) {
 				return;
@@ -250,18 +242,6 @@ fr.hardcoding.scrollupfolder = {
 	 * Behavior of url panel.
 	 */
 	urlpanel: {
-		/**
-		 * Initialize urlpanel event.
-		 */
-		init: function() {
-			// Get panel element
-			var panel = document.getElementById('scrollupfolderUrlsPanel');
-			// Setting panel behavior
-			panel.setAttribute('onpopupshowing', 'return fr.hardcoding.scrollupfolder.urlpanel.onShowing();');
-			panel.setAttribute('onpopupshown', 'return fr.hardcoding.scrollupfolder.urlpanel.onShown();');
-			panel.setAttribute('onpopuphidden', 'return fr.hardcoding.scrollupfolder.urlpanel.onHidden();');
-		},
-		
 		/**
 		 * Add paths to listbox.
 		 */
@@ -331,24 +311,24 @@ fr.hardcoding.scrollupfolder = {
 	},
 	
 	/**
-	 * Progress listener.
+	 * Browser progress listener.
 	 * @see https://developer.mozilla.org/en/Code_snippets/Progress_Listeners
 	 * @see https://developer.mozilla.org/en/nsIWebProgressListener
 	 */
-	progressListener: {
+	browserProgressListener: {
 		/**
 		 * Initialise urlbar event.
 		 */
 		init: function() {
 			// Adding page loading event
-			gBrowser.addProgressListener(fr.hardcoding.scrollupfolder.progressListener, Components.interfaces.nsIWebProgress.NOTIFY_STATUS);
+			gBrowser.addProgressListener(fr.hardcoding.scrollupfolder.browserProgressListener, Components.interfaces.nsIWebProgress.NOTIFY_STATUS);
 		},
 		
 		/**
 		 * Provide listener.
-		 * @param	aIID		Interface.
-		 * @return				The listener.
-		 * @throws				Components.results.NS_NOINTERFACE
+		 * @param	aIID									The IID of the requested interface.
+		 * @return											The resulting interface pointer.
+		 * @throws	Components.results.NS_NOINTERFACE		The requested interface is not available.
 		 */
 		QueryInterface: function(aIID) {
 			if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
@@ -368,8 +348,6 @@ fr.hardcoding.scrollupfolder = {
 		onStateChange: function(aWebProgress, aRequest, aFlag, aStatus) {
 			// Get the "start" state
 			const STATE_START = Components.interfaces.nsIWebProgressListener.STATE_START;
-			// Get the "stop" state
-			const STATE_STOP = Components.interfaces.nsIWebProgressListener.STATE_STOP;
 			// Check if the change state is a "start" state
 			if (aFlag & STATE_START) {
 				// Get panel element
@@ -380,9 +358,6 @@ fr.hardcoding.scrollupfolder = {
 					panel.hidePopup();
 				}
 			}
-//			else if (aFlag & STATE_STOP) {
-//				sendLog(aWebProgress.DOMWindow);		// TODO A tester
-//			}
 		},
 		
 		/**
@@ -419,7 +394,7 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	aStatus				This value is not an error code.
 		 * @param	aMessage			Localized text corresponding to aStatus. 
 		 */
-		onStatusChange: function(aWebProgress, aRequest, aStatus, aMessage) {},
+		onStatusChange: function(aWebProgress, aRequest, aStatus, aMessage) { },
 		
 		/**
 		 * Security change event handler (empty function).
@@ -427,7 +402,89 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	aRequest			The nsIRequest that has new security state.
 		 * @param	aState				A value composed of the Security State Flags and the Security Strength Flags.
 		 */
-		onSecurityChange: function(aWebProgress, aRequest, aState) {}
+		onSecurityChange: function(aWebProgress, aRequest, aState) { }
+	},
+	
+	/**
+	 * Tab progress listener.
+	 * @see https://developer.mozilla.org/En/Listening_to_events_on_all_tabs
+	 * @see https://developer.mozilla.org/en/nsIWebProgressListener
+	 */
+	tabProgressListener: {
+		/**
+		 * Initialise urlbar event.
+		 */
+		init: function() {
+			// Adding tabProgressListener to tabs
+			gBrowser.addTabsProgressListener(fr.hardcoding.scrollupfolder.tabProgressListener);
+		},
+		
+		/**
+		 * Provide listener.
+		 * @param	aIID									The IID of the requested interface.
+		 * @return											The resulting interface pointer.
+		 * @throws	Components.results.NS_NOINTERFACE		The requested interface is not available.
+		 */
+		QueryInterface: function(aIID) {
+			if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+					aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+					aIID.equals(Components.interfaces.nsISupports))
+				return this;
+			throw Components.results.NS_NOINTERFACE;
+		},
+		
+		/**
+		 * Location change event handler (used to asked path processing).
+		 * @param	aBrowser			The browser representing the tab whose location changed.
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The associated nsIRequest. This may be null in some cases.
+		 * @param	aLocation			The URI of the location that is being loaded.
+		 */
+		onLocationChange: function(aBrowser, aWebProgress, aRequest, aLocation) {
+			// Process paths for tab which send event 
+			fr.hardcoding.scrollupfolder.processPaths(aBrowser);
+		},
+		
+		/**
+		 * Progress change event handler (empty function).
+		 * @param	aBrowser			The browser representing the tab for which updated progress information is being provided.
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest that has new progress.
+		 * @param	curSelfProgress		The current progress for aRequest.
+		 * @param	maxSelfProgress		The maximum progress for aRequest.
+		 * @param	curTotalProgress	The current progress for all requests associated with aWebProgress.
+		 * @param	maxTotalProgress	The total progress for all requests associated with aWebProgress.
+		 */
+		onProgressChange: function(aWebProgress, aRequest, curSelfProgress, maxSelfProgress, curTotalProgress, maxTotalProgress) { },
+		
+		/**
+		 * Security change event handler (empty function).
+		 * @param	aBrowser			The browser that fired the notification.
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest that has new security state.
+		 * @param	aState				A value composed of the Security State Flags and the Security Strength Flags.
+		 */
+		onSecurityChange: function(aBrowser, aWebProgress, aRequest, aState) { },
+		
+		/**
+		 * State change event handler (empty function).
+		 * @param	aBrowser			The browser that fired the notification.
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest  that has changed state (may be null).
+		 * @param	aFlag				Flags indicating the new state.
+		 * @param	aStatus				Error status code associated with the state change.
+		 */
+		onStateChange: function(aBrowser, aWebProgress, aRequest, aFlag, aStatus) { },
+
+		/**
+		 * Status change event handler (empty function).
+		 * @param	aBrowser			The browser that fired the notification.
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest that has new status.
+		 * @param	aStatus				This value is not an error code.
+		 * @param	aMessage			Localized text corresponding to aStatus. 
+		 */
+		onStatusChange: function(aBrowser, aWebProgress, aRequest, aStatus, aMessage) { }
 	},
 	
 	/**
