@@ -19,16 +19,18 @@ fr.hardcoding.scrollupfolder = {
 	 * @param	event		Event
 	 */
 	onLoad: function(event) {
-		// Remove event onLoad
-		gBrowser.removeEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 		// Initialize urlbar event
-		fr.hardcoding.scrollupfolder.urlbar.onLoad();
+		fr.hardcoding.scrollupfolder.urlbar.init();
 		// Initialize urlpanel event
-		fr.hardcoding.scrollupfolder.urlpanel.onLoad();
+		fr.hardcoding.scrollupfolder.urlpanel.init();
+		// Initialize progressListener event
+		fr.hardcoding.scrollupfolder.progressListener.init();
 				// Add key pressing down event on scrollupfolderUrlsPanel
 				// listbox.addEventListener('keydown', fr.hardcoding.scrollupfolder.urlbar.onKeyDown, true);
 				// Add key pressing up event on scrollupfolderUrlsPanel
 				// listbox.addEventListener('keyup', fr.hardcoding.scrollupfolder.urlbar.onKeyUp, true);
+		// Remove event onLoad
+		gBrowser.removeEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 		sendLog('chargement fini');
 	},
 	
@@ -45,12 +47,12 @@ fr.hardcoding.scrollupfolder = {
 		/**
 		 * Initialise urlbar event.
 		 */
-		onLoad: function() {
+		init: function() {
 			// Get urlbar-container element
 			var urlbar_container = document.getElementById('urlbar-container');
 			// Get urlbar element
 			var urlbar = document.getElementById('urlbar');
-			// Add focusing envent on urlbar-container
+			// Add focusing event on urlbar-container
 			urlbar_container.addEventListener('mouseover', fr.hardcoding.scrollupfolder.urlbar.onFocus, true);
 			urlbar.addEventListener('focus', fr.hardcoding.scrollupfolder.urlbar.onFocus, true);
 			// Add scrolling event on urlbar-container
@@ -249,97 +251,15 @@ fr.hardcoding.scrollupfolder = {
 	 */
 	urlpanel: {
 		/**
-		 * Initialize event.
+		 * Initialize urlpanel event.
 		 */
-		onLoad: function() {
+		init: function() {
 			// Get panel element
 			var panel = document.getElementById('scrollupfolderUrlsPanel');
 			// Setting panel behavior
 			panel.setAttribute('onpopupshowing', 'return fr.hardcoding.scrollupfolder.urlpanel.onShowing();');
 			panel.setAttribute('onpopupshown', 'return fr.hardcoding.scrollupfolder.urlpanel.onShown();');
 			panel.setAttribute('onpopuphidden', 'return fr.hardcoding.scrollupfolder.urlpanel.onHidden();');
-			// Adding page loading event
-			gBrowser.addProgressListener(fr.hardcoding.scrollupfolder.urlpanel.urlBarListener, Components.interfaces.nsIWebProgress.NOTIFY_STATUS);
-		},
-		
-		/**
-		 * Urlbar progress listener.
-		 * @see https://developer.mozilla.org/en/Code_snippets/Progress_Listeners
-		 * @see https://developer.mozilla.org/en/nsIWebProgressListener
-		 */
-		urlBarListener: {
-			/**
-			 * Provide listener.
-			 * @param	aIID		Interface.
-			 * @return				The listener.
-			 * @throws				Components.results.NS_NOINTERFACE
-			 */
-			QueryInterface: function(aIID) {
-				if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-						aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-						aIID.equals(Components.interfaces.nsISupports))
-					return this;
-				throw Components.results.NS_NOINTERFACE;
-			},
-			
-			/**
-			 * State change event handler.
-			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
-			 * @param	aRequest			The nsIRequest  that has changed state (may be null).
-			 * @param	aFlag				Flags indicating the new state.
-			 * @param	aStatus				Error status code associated with the state change.
-			 */
-			onStateChange: function(aWebProgress, aRequest, aFlag, aStatus) {
-				// Get the "start" state
-				const STATE_START = Components.interfaces.nsIWebProgressListener.STATE_START;
-				// Check if the change state is a "start" state
-				if (aFlag & STATE_START) {
-					// Get panel element
-					var panel = document.getElementById('scrollupfolderUrlsPanel');
-					// Check if the panel is opened
-					if (panel.state == "open") {
-						// Close the panel
-						panel.hidePopup();
-					}
-					
-				}
-			},
-			
-			/**
-			 * Progress change event handler (empty function).
-			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
-			 * @param	aRequest			The nsIRequest that has new progress.
-			 * @param	curSelfProgress		The current progress for aRequest.
-			 * @param	maxSelfProgress		The maximum progress for aRequest.
-			 * @param	curTotalProgress	The current progress for all requests associated with aWebProgress.
-			 * @param	maxTotalProgress	The total progress for all requests associated with aWebProgress.
-			 */
-			onProgressChange: function(aWebProgress, aRequest, curSelfProgress, maxSelfProgress, curTotalProgress, maxTotalProgress) { },
-			
-			/**
-			 * Location change event handler (empty function).
-			 * @param	aProgress			The nsIWebProgress instance that fired the notification.
-			 * @param	aRequest			The associated nsIRequest. This may be null in some cases.
-			 * @param	aLocation			The URI of the location that is being loaded.
-			 */
-			onLocationChange: function(aProgress, aRequest, aLocation) { },
-			
-			/**
-			 * Status change event handler (empty function).
-			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
-			 * @param	aRequest			The nsIRequest that has new status.
-			 * @param	aStatus				This value is not an error code.
-			 * @param	aMessage			Localized text corresponding to aStatus. 
-			 */
-			onStatusChange: function(aWebProgress, aRequest, aStatus, aMessage) {},
-			
-			/**
-			 * Security change event handler (empty function).
-			 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
-			 * @param	aRequest			The nsIRequest that has new security state.
-			 * @param	aState				A value composed of the Security State Flags and the Security Strength Flags.
-			 */
-			onSecurityChange: function(aWebProgress, aRequest, aState) {}
 		},
 		
 		/**
@@ -408,6 +328,106 @@ fr.hardcoding.scrollupfolder = {
 	// Code review : populate list on popupshowing event : https://developer.mozilla.org/en/XUL/panel#a-onpopupshowing
 	// 				go to url on popuphiddin
 	//				clear listbox on popuphidden event
+	},
+	
+	/**
+	 * Progress listener.
+	 * @see https://developer.mozilla.org/en/Code_snippets/Progress_Listeners
+	 * @see https://developer.mozilla.org/en/nsIWebProgressListener
+	 */
+	progressListener: {
+		/**
+		 * Initialise urlbar event.
+		 */
+		init: function() {
+			// Adding page loading event
+			gBrowser.addProgressListener(fr.hardcoding.scrollupfolder.progressListener, Components.interfaces.nsIWebProgress.NOTIFY_STATUS);
+		},
+		
+		/**
+		 * Provide listener.
+		 * @param	aIID		Interface.
+		 * @return				The listener.
+		 * @throws				Components.results.NS_NOINTERFACE
+		 */
+		QueryInterface: function(aIID) {
+			if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+					aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+					aIID.equals(Components.interfaces.nsISupports))
+				return this;
+			throw Components.results.NS_NOINTERFACE;
+		},
+		
+		/**
+		 * State change event handler (used to close urlpanel when a page is loading).
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest  that has changed state (may be null).
+		 * @param	aFlag				Flags indicating the new state.
+		 * @param	aStatus				Error status code associated with the state change.
+		 */
+		onStateChange: function(aWebProgress, aRequest, aFlag, aStatus) {
+			// Get the "start" state
+			const STATE_START = Components.interfaces.nsIWebProgressListener.STATE_START;
+			// Get the "stop" state
+			const STATE_STOP = Components.interfaces.nsIWebProgressListener.STATE_STOP;
+			// Check if the change state is a "start" state
+			if (aFlag & STATE_START) {
+				// Get panel element
+				var panel = document.getElementById('scrollupfolderUrlsPanel');
+				// Check if the panel is opened
+				if (panel.state == "open") {
+					// Close the panel
+					panel.hidePopup();
+				}
+			}
+//			else if (aFlag & STATE_STOP) {
+//				sendLog(aWebProgress.DOMWindow);		// TODO A tester
+//			}
+		},
+		
+		/**
+		 * Progress change event handler (empty function).
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest that has new progress.
+		 * @param	curSelfProgress		The current progress for aRequest.
+		 * @param	maxSelfProgress		The maximum progress for aRequest.
+		 * @param	curTotalProgress	The current progress for all requests associated with aWebProgress.
+		 * @param	maxTotalProgress	The total progress for all requests associated with aWebProgress.
+		 */
+		onProgressChange: function(aWebProgress, aRequest, curSelfProgress, maxSelfProgress, curTotalProgress, maxTotalProgress) { },
+		
+		/**
+		 * Location change event handler (used to close urlpanel when changing tabs).
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The associated nsIRequest. This may be null in some cases.
+		 * @param	aLocation			The URI of the location that is being loaded.
+		 */
+		onLocationChange: function(aWebProgress, aRequest, aLocation) {
+			// Get panel element
+			var panel = document.getElementById('scrollupfolderUrlsPanel');
+			// Check if the panel is opened
+			if (panel.state == "open") {
+				// Close the panel
+				panel.hidePopup();
+			}
+		},
+		
+		/**
+		 * Status change event handler (empty function).
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest that has new status.
+		 * @param	aStatus				This value is not an error code.
+		 * @param	aMessage			Localized text corresponding to aStatus. 
+		 */
+		onStatusChange: function(aWebProgress, aRequest, aStatus, aMessage) {},
+		
+		/**
+		 * Security change event handler (empty function).
+		 * @param	aWebProgress		The nsIWebProgress instance that fired the notification.
+		 * @param	aRequest			The nsIRequest that has new security state.
+		 * @param	aState				A value composed of the Security State Flags and the Security Strength Flags.
+		 */
+		onSecurityChange: function(aWebProgress, aRequest, aState) {}
 	},
 	
 	/**
