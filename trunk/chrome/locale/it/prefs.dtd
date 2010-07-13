@@ -1,0 +1,10 @@
+<!ENTITY title "Opzioni di Scroll Up Folder">
+<!ENTITY controlmode.title "Modalità di controllo">
+<!ENTITY controlmode.mouseonly "Controlla solo tramite mouse">
+<!ENTITY controlmode.keyboardonly "Controlla solo tramite tastiera">
+<!ENTITY controlmode.both "Controlla tramite mouse e tastiera">
+<!ENTITY parsegetvars "Analizza le variabili GET anche nell&apos;URL">
+<!ENTITY actionbadurl.title "Azione da effettuare quando si prova a caricare un URL non valido">
+<!ENTITY actionbadurl.donothing "Non fare nulla">
+<!ENTITY actionbadurl.replacewithcurrenturl "Sostituisci con l&apos;URL attuale">
+<!ENTITY actionbadurl.forcetoload "Forza il caricamento">

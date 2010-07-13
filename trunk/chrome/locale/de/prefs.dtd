@@ -1,0 +1,10 @@
+<!ENTITY title "Scroll Up Folder - Einstellungen">
+<!ENTITY controlmode.title "Steuerung:">
+<!ENTITY controlmode.mouseonly "Nur Maus">
+<!ENTITY controlmode.keyboardonly "Nur Tastatur">
+<!ENTITY controlmode.both "Beides (Maus &amp; Tastatur)">
+<!ENTITY parsegetvars "GET-Variablen einer URL-Adresse ebenfalls einlesen">
+<!ENTITY actionbadurl.title "Aktion, welche beim Laden einer fehlerhaften URL-Adresse durchgeführt werden soll:">
+<!ENTITY actionbadurl.donothing "Nichts tun">
+<!ENTITY actionbadurl.replacewithcurrenturl "Mit aktueller URL-Adresse ersetzen">
+<!ENTITY actionbadurl.forcetoload "Trotzdem laden">
