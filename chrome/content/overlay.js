@@ -151,7 +151,7 @@ fr.hardcoding.scrollupfolder = {
 				if (selectedListItemIdex == 0)
 					return;
 				// Select the next item
-				var item = listbox.getItemAtIndex(selectedListItemIdex-1)
+				var item = listbox.getItemAtIndex(selectedListItemIdex-1);
 				listbox.selectItem(item);
 				// Update url in urlbar						// TODO Should be optionnal
 				document.getElementById('urlbar').value = item.label;
@@ -547,6 +547,9 @@ fr.hardcoding.scrollupfolder = {
 		if (resolvedUrl != baseUrl) {
 			returnUrl = resolvedUrl;
 		} else {
+			// Check if domain is IPv4 url
+			if (domain.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/))
+				return null;
 			/* lets see if can go up domain */
 			/* delete first . of domain */
 			var newDomain = domain.replace(/.*?\./,'');
@@ -587,7 +590,7 @@ fr.hardcoding.scrollupfolder = {
 function sendLog(msg) {
 	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
 	if (msg == null)
-		msg = "[valeure nulle]"
+		msg = "[valeure nulle]";
 	if (typeof msg == 'object') {
 		var newMsg = '';
 		for(item in msg) {
