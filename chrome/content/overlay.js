@@ -153,7 +153,7 @@ fr.hardcoding.scrollupfolder = {
 				// Select the next item
 				var item = listbox.getItemAtIndex(selectedListItemIdex-1);
 				listbox.selectItem(item);
-				// Update url in urlbar						// TODO Should be optionnal
+				// Update url in urlbar						// TODO Should be optional
 				document.getElementById('urlbar').value = item.label;
 				sendLog({'index': selectedListItemIdex, 'action': 'up'});
 			} else 
@@ -174,7 +174,7 @@ fr.hardcoding.scrollupfolder = {
 				// Select the next item
 				var item = listbox.getItemAtIndex(selectedListItemIdex+1);
 				listbox.selectItem(item);
-				// Update url in urlbar					// TODO Should be optionnal
+				// Update url in urlbar					// TODO Should be optional
 				document.getElementById('urlbar').value = item.label;
 				sendLog({'index': selectedListItemIdex, 'action': 'down'});
 			}
@@ -295,6 +295,48 @@ fr.hardcoding.scrollupfolder = {
 			// Remove items
 			while(listbox.getRowCount() > 0) {
 				listbox.removeItemAt(0);
+			}
+			return true;
+		},
+		
+		/**
+		 * Display the selected row in urlbar.
+		 */
+		onClick: function() {
+			// Get listbox element
+			var listbox = document.getElementById('scrollupfolderUrlsListbox');
+			// Get selected item
+			var item = listbox.getSelectedItem(0);
+			if (item != null) {
+				// Get current tab
+				var currentTab = getBrowser().selectedBrowser;
+				// Update SUF pointer
+				currentTab.SUFPointer = listbox.getIndexOfItem(item);
+				// Get the urlbar
+				var urlbar = document.getElementById('urlbar');
+				// Update urlbar localtion
+				urlbar.value = item.label;
+				// Set urlbar focus
+				urlbar.focus();
+			}
+			return true;
+		},
+		
+		/**
+		 * Load the selected row in urlbar.
+		 */
+		onDblClick: function() {
+			// Get listbox element
+			var listbox = document.getElementById('scrollupfolderUrlsListbox');
+			// Get selected item
+			var item = listbox.getSelectedItem(0);
+			if (item != null) {
+				// Get current tab
+				var currentTab = getBrowser().selectedBrowser;
+				// Update SUF pointer
+				currentTab.SUFPointer = listbox.getIndexOfItem(item);
+				// Load URI in current tab
+				fr.hardcoding.scrollupfolder.loadURI(item.label);
 			}
 			return true;
 		}
