@@ -124,9 +124,14 @@ fr.hardcoding.scrollupfolder = {
 			// Go down in paths list
 			else if (event.detail > 0 && currentTab.SUFPointer > 0)
 				currentTab.SUFPointer--;
-			// Display chosen path and select it
-			document.getElementById('urlbar').value = currentTab.SUFPaths[currentTab.SUFPointer];
-			document.getElementById('urlbar').select();
+			// Get the new path to display
+			var url = currentTab.SUFPaths[currentTab.SUFPointer];
+			// Get the urlbar element
+			var urlbar = document.getElementById('urlbar');
+			// Display chosen path
+			urlbar.value = currentTab.SUFPaths[currentTab.SUFPointer];
+			// Set the cursor at the end of path
+			urlbar.setSelectionRange(url.length, url.length);
 		},
 		
 		/**
@@ -318,6 +323,9 @@ fr.hardcoding.scrollupfolder = {
 				urlbar.value = item.label;
 				// Set urlbar focus
 				urlbar.focus();
+				// Set the cursor at the end of the url
+				var positionCursor = item.label.length;
+				urlbar.setSelectionRange(positionCursor, positionCursor);
 			}
 			return true;
 		},
