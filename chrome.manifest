@@ -4,6 +4,8 @@ locale	scrollupfolder	de		chrome/locale/de/
 locale	scrollupfolder	en-US	chrome/locale/en-US/
 locale	scrollupfolder	fr		chrome/locale/fr/
 locale	scrollupfolder	it		chrome/locale/it/
+locale	scrollupfolder	pt-BR	chrome/locale/pt-BR/
+locale	scrollupfolder	sr		chrome/locale/sr/
 
 overlay	chrome://browser/content/browser.xul	chrome://scrollupfolder/content/overlay.xul
 style	chrome://browser/content/browser.xul	chrome://scrollupfolder/skin/overlay.css
