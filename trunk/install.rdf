@@ -11,7 +11,17 @@
         <em:maxVersion>4.0b3pre</em:maxVersion>
       </Description>
     </em:targetApplication>
-    <em:optionsURL>chrome://scrollupfolder/content/prefs.xul</em:optionsURL>  
+    <em:optionsURL>chrome://scrollupfolder/content/prefs.xul</em:optionsURL> 
+    <em:localized>
+      <Description>
+        <em:locale>en-US</em:locale>
+          <em:name>Scroll Up Folder</em:name>
+          <em:description>Browse for folders of a website.</em:description>
+          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+          <em:contributor>Omar Khan</em:contributor>
+          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+        </Description>
+    </em:localized> 
     <em:localized>
       <Description>
         <em:locale>fr</em:locale>
@@ -24,9 +34,19 @@
     </em:localized>
     <em:localized>
       <Description>
-        <em:locale>en-US</em:locale>
+        <em:locale>pt-BR</em:locale>
+        <em:name>Scroll Up Folder</em:name>
+        <em:description>Navegue nas pastas de um site.</em:description>
+         <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+         <em:contributor>Omar Khan</em:contributor>
+         <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+      </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
+        <em:locale>sr</em:locale>
           <em:name>Scroll Up Folder</em:name>
-          <em:description>Browse for folders of a website.</em:description>
+          <em:description>Потражи фасцикле на страници.</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
           <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
