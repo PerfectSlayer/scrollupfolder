@@ -566,62 +566,79 @@ fr.hardcoding.scrollupfolder = {
 	},	
 
 	canGoUp : function(baseUrl)	{
-		var returnUrl;
-		if(baseUrl == null || baseUrl.length <= 0) {
-			return null;
-		}
+		/*-- Block could be down in the upper domain computation ? --*/
+		// Valid baseUrl making an URI
 		var url = null;
 		try {
-			var url = new fr.hardcoding.scrollupfolder.returnURL(baseUrl);
+			url = new fr.hardcoding.scrollupfolder.returnURL(baseUrl);
 		}
 		catch(ex) {
 			return null;
 		}
-		if (url == null) {
-			return null;
-		}
-		var domain = url.host;
-		if (domain == null) {
-			return null;
-		}
-		var resolvedUrl;
+		/*-- end of block --*/
+		var resolvedUrl = null;
 		var indexGetParam = baseUrl.indexOf('?');
-		if (baseUrl.charAt(baseUrl.length - 1) == '/') {
-			resolvedUrl = fr.hardcoding.scrollupfolder.doResolve(baseUrl, '..');
-		} else if (indexGetParam != -1 && fr.hardcoding.scrollupfolder.prefs.parseGetVars.value) {
+		// Try to escape GET variables
+		if (indexGetParam != -1 && fr.hardcoding.scrollupfolder.prefs.parseGetVars.value) {
 			// TODO Improvement for GET variables
-			resolvedUrl = baseUrl.substring(0, indexGetParam);
-		} else {
+//			alert("escape GET");
+			return baseUrl.substring(0, indexGetParam);
+		} else
+		// Try to go one directory up
+		if (baseUrl.charAt(baseUrl.length-1) == '/') {
+			resolvedUrl = fr.hardcoding.scrollupfolder.doResolve(baseUrl, '..');
+			// Check the URI resolution
+			if (baseUrl != resolvedUrl && resolvedUrl.substr(resolvedUrl.length-2, 2) != '..') {
+//				alert("directory up:\n"+baseUrl+" "+resolvedUrl);
+				return resolvedUrl;
+			}
+		} else 
+		// Try to resolve current place
+		{
 			resolvedUrl = fr.hardcoding.scrollupfolder.doResolve(baseUrl, '.');
-		}
-		if (resolvedUrl != baseUrl) {
-			returnUrl = resolvedUrl;
-		} else {
-			// Check if domain is IPv4 url
-			if (domain.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/))
-				return null;
-			/* lets see if can go up domain */
-			/* delete first . of domain */
-			var newDomain = domain.replace(/.*?\./,'');
-			// var currentURI = getBrowser().selectedBrowser.currentURI;
-			// sendLog({'old': content.document.domain, 'new': currentURI.host});
-			if (newDomain != null && newDomain != content.document.domain && newDomain.indexOf('.') != -1) {
-				/* if one period add www */
-				var matches = newDomain.match(/\./g);
-				if(matches != null && matches.length <= 1) {
-					returnUrl='http://www.'+newDomain+'/';
-				} else {
-					returnUrl='http://'+newDomain+'/';
-				}
-			} else {
-				return null;
+			if (resolvedUrl != baseUrl) {
+//				alert("resolveUrl:\n"+baseUrl+" "+resolvedUrl);
+				return resolvedUrl;
 			}
 		}
-		if (returnUrl == baseUrl) {
+//		alert("Resolved: "+resolvedUrl+"\nBase: "+baseUrl);
+//		if (resolvedUrl != baseUrl && resolvedUrl.substr(resolvedUrl.length-2, 2) != '..') {
+//			returnUrl = resolvedUrl;
+//		} else 
+		// Try to go one domain up
+		// Get domain URI
+		var domain = url.host;
+		// TODO Really usefull ?
+//			if (domain == null) {
+//				return null;
+//			}
+		// Check if domain is IPv4 url
+		if (domain.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/)) {
 			return null;
 		}
-
-		return returnUrl;
+		// Get schema URI
+		var scheme = url.scheme;
+		/* lets see if can go up domain */
+		/* delete first . of domain */
+		var newDomain = domain.replace(/.*?\./,'');
+		// var currentURI = getBrowser().selectedBrowser.currentURI;
+		// sendLog({'old': content.document.domain, 'new': currentURI.host});
+		// Check upper domain calculated
+		if (newDomain == null || newDomain == content.document.domain || newDomain.indexOf('.') == -1) {
+			return null;
+		}
+		/* if one period add www */
+		var matches = newDomain.match(/\./g);
+		if(matches != null && matches.length <= 1) {
+			resolvedUrl = scheme+'://www.'+newDomain+'/';
+		} else {
+			resolvedUrl = scheme+'://'+newDomain+'/';
+		}
+//		alert("other:\n"+baseUrl+" "+resolvedUrl);
+		if (resolvedUrl == baseUrl) {
+			return null;
+		}
+		return resolvedUrl;
 	},
 
 	doResolve : function(base, relative) {
