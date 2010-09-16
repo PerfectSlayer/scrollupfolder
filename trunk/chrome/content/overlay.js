@@ -565,6 +565,11 @@ fr.hardcoding.scrollupfolder = {
 		}
 	},	
 
+	/**
+	 * Compute upper url from a base url.
+	 * @param	baseURL					The base URL for computation.
+	 * @return							The upper URL from base URL.
+	 */
 	canGoUp : function(baseUrl)	{
 		/*-- Block could be down in the upper domain computation ? --*/
 		// Valid baseUrl making an URI
