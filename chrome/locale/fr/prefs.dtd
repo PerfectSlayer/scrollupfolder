@@ -1,4 +1,5 @@
 <!ENTITY title "Préférences de Scroll Up Folder">
+<!ENTITY showbutton "Afficher le bouton dans la barre d'adresse">
 <!ENTITY controlmode.title "Mode de contrôle :">
 <!ENTITY controlmode.mouseonly "Seulement à la souris">
 <!ENTITY controlmode.keyboardonly "Seulement au clavier">
