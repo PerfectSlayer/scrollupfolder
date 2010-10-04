@@ -1,7 +1,26 @@
+/* URL listbox */
 listbox#scrollupfolderUrlsListbox listitem[selected=true] {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 listbox#scrollupfolderUrlsListbox {
-	-mox-box-flex: 1;
+    -mox-box-flex: 1;
+}
+
+/* urlbar button */
+#suf-button {
+    list-style-image: url("chrome://scrollupfolder/skin/folder.png");
+    -moz-image-region: rect(0px 16px 16px 0px);
+}
+
+#suf-button:hover {
+    -moz-image-region: rect(0px 32px 16px 16px);
+}
+
+#suf-button:hover:active {
+    -moz-image-region: rect(0px 48px 16px 32px);
+}
+
+#suf-button[open="true"] {
+    -moz-image-region: rect(0px 64px 16px 48px);
 }

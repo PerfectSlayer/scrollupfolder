@@ -4,10 +4,12 @@
 <prefwindow id="scrollupfolderPrefs" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&title;">
     <prefpane>
         <preferences>
+        	<preference id="extensions.scrollupfolder.showButton" name="extensions.scrollupfolder.showButton" type="bool" />
         	<preference id="extensions.scrollupfolder.controlMode" name="extensions.scrollupfolder.controlMode" type="int" />
             <preference id="extensions.scrollupfolder.parseGetVars" name="extensions.scrollupfolder.parseGetVars" type="bool" />
             <preference id="extensions.scrollupfolder.badUriAction" name="extensions.scrollupfolder.badUriAction" type="int" />
         </preferences>
+        <checkbox label="&showbutton;" preference="extensions.scrollupfolder.showButton" />
         <groupbox>
             <caption label="&controlmode.title;" />
             <radiogroup preference="extensions.scrollupfolder.controlMode">

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://scrollupfolder/skin/overlay.css" type="text/css"?>
+<!DOCTYPE dialog SYSTEM "chrome://scrollupfolder/locale/overlay.dtd">
 <overlay id="scrollupfolder" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml">
     <script type="application/x-javascript" src="chrome://scrollupfolder/content/overlay.js"></script>
     <window>
@@ -8,4 +9,7 @@
         </listbox>
     </panel>
     </window>
+    <hbox id="urlbar-icons">
+        <image id="suf-button" class="urlbar-icon" insertbefore="go-button" open="false" tooltiptext="&button.tooltip;"/>
+    </hbox>
 </overlay>

@@ -9,6 +9,7 @@ fr.hardcoding.scrollupfolder = {
 	 * Preferences service.
 	 */
 	prefs: {
+		showButton: Application.prefs.get('extensions.scrollupfolder.showButton'),
 		controlMode: Application.prefs.get('extensions.scrollupfolder.controlMode'),
 		parseGetVars: Application.prefs.get('extensions.scrollupfolder.parseGetVars'),
 		badUriAction: Application.prefs.get('extensions.scrollupfolder.badUriAction')
@@ -16,15 +17,19 @@ fr.hardcoding.scrollupfolder = {
 
 	/**
 	 * Add events.
-	 * @param	event		Event
+	 * @param	event		Event.
 	 */
 	onLoad: function(event) {
 		// Initialize urlbar event
 		fr.hardcoding.scrollupfolder.urlbar.init();
+		// Initialize urlbar button event
+		fr.hardcoding.scrollupfolder.button.init();
 		// Initialize browserProgressListener event
 		fr.hardcoding.scrollupfolder.browserProgressListener.init();
 		// Initialize tabProgressListener event
 		fr.hardcoding.scrollupfolder.tabProgressListener.init();
+		// Initialize prefObserver event
+		fr.hardcoding.scrollupfolder.prefObserver.init();
 				// Add key pressing down event on scrollupfolderUrlsPanel
 				// listbox.addEventListener('keydown', fr.hardcoding.scrollupfolder.urlbar.onKeyDown, true);
 				// Add key pressing up event on scrollupfolderUrlsPanel
@@ -87,7 +92,7 @@ fr.hardcoding.scrollupfolder = {
 		
 		/**
 		 * Apply chosen URI.
-		 * @param	event		Event
+		 * @param	event		Event.
 		 */
 		onClick: function(event) {
 			// Check the mouse control mode
@@ -106,7 +111,7 @@ fr.hardcoding.scrollupfolder = {
 
 		/**
 		 * Browse paths.
-		 * @param	event		Event
+		 * @param	event		Event.
 		 */
 		onScroll: function(event) {
 			// Check the mouse control mode
@@ -136,7 +141,7 @@ fr.hardcoding.scrollupfolder = {
 		
 		/**
 		 * Display paths.
-		 * @param	event		Event
+		 * @param	event		Event.
 		 */
 		onKeyDown: function(event) {
 			// Get panel element
@@ -187,7 +192,7 @@ fr.hardcoding.scrollupfolder = {
 		
 		/**
 		 * Hide paths.
-		 * @param	event		Event
+		 * @param	event		Event.
 		 */
 		onKeyUp: function(event) {
 			// Check the keyboard control mode
@@ -259,7 +264,7 @@ fr.hardcoding.scrollupfolder = {
 			if (currentTab.SUFPaths === undefined || currentTab.SUFPaths.count == 0)
 				// Prevent panel showing if these is no path
 				return false;
-			// Create listitems
+			// Create listitem
 			var index, listitem;
 			for (index in currentTab.SUFPaths)
 				listitem = listbox.appendItem(currentTab.SUFPaths[index]);
@@ -288,6 +293,15 @@ fr.hardcoding.scrollupfolder = {
 			var currentTab = getBrowser().selectedBrowser;
 			// Select current url
 			listbox.selectItem(listbox.getItemAtIndex(currentTab.SUFPointer));
+			// Get the urlbar element
+			var urlbar = document.getElementById('urlbar');
+			// Set the cursor at the end of the url
+			var positionCursor = urlbar.value.length;
+			urlbar.setSelectionRange(positionCursor, positionCursor);
+			// Get the suf-button element
+			var suf_button = document.getElementById('suf-button');
+			// Mark the button as open
+			suf_button.setAttribute("open", "true");
 			return true;
 		},
 		
@@ -301,6 +315,10 @@ fr.hardcoding.scrollupfolder = {
 			while(listbox.getRowCount() > 0) {
 				listbox.removeItemAt(0);
 			}
+			// Get the suf-button element
+			var suf_button = document.getElementById('suf-button');
+			// Mark the button as closed
+			suf_button.setAttribute("open", "false");
 			return true;
 		},
 		
@@ -361,13 +379,59 @@ fr.hardcoding.scrollupfolder = {
 	},
 	
 	/**
+	 * Behavior of urlbar button.
+	 */
+	button: {
+		/**
+		 * Initialise urlbar button event.
+		 */
+		init: function() {
+			// Get suf-button element
+			var suf_button = document.getElementById('suf-button');
+			// Add clicking event on suf_button
+			suf_button.addEventListener('click', fr.hardcoding.scrollupfolder.button.onClick, true);
+			// Update suf_button display
+			this.updateDisplay();
+		},
+		
+		/**
+		 * Open the urlpanel and manage focus.
+		 * @param	event		Event.
+		 */
+		onClick: function(event) {
+			// Check the event button
+			if (event.button != 0)
+				return true;
+			// Get urlbar element
+			var urlbar = document.getElementById('urlbar');
+			// Get urlpanel element
+			var urlpanel = document.getElementById('scrollupfolderUrlsPanel');
+			// Give focus to urlbar
+			urlbar.focus();
+			// Open popup
+			urlpanel.openPopup(urlbar, 'after_start', 0, 0, false, false);
+			return true;
+		},
+		
+		/**
+		 * Update button display according user preferences.
+		 */
+		updateDisplay: function() {
+			// Get suf-button element
+			var suf_button = document.getElementById('suf-button');
+			// Set the display mode
+			suf_button.setAttribute("hidden", !fr.hardcoding.scrollupfolder.prefs.showButton.value);
+		}
+	},
+	
+	/**
 	 * Browser progress listener.
 	 * @see https://developer.mozilla.org/en/Code_snippets/Progress_Listeners
 	 * @see https://developer.mozilla.org/en/nsIWebProgressListener
 	 */
 	browserProgressListener: {
 		/**
-		 * Initialise urlbar event.
+		 * Initialise browser progress listener event.
 		 */
 		init: function() {
 			// Adding page loading event
@@ -462,7 +526,7 @@ fr.hardcoding.scrollupfolder = {
 	 */
 	tabProgressListener: {
 		/**
-		 * Initialise urlbar event.
+		 * Initialise tab progress listener event.
 		 */
 		init: function() {
 			// Adding tabProgressListener to tabs
@@ -535,6 +599,65 @@ fr.hardcoding.scrollupfolder = {
 		 * @param	aMessage			Localized text corresponding to aStatus. 
 		 */
 		onStatusChange: function(aBrowser, aWebProgress, aRequest, aStatus, aMessage) { }
+	},
+	
+	/**
+	 * Preferences observer.
+	 * @see https://developer.mozilla.org/en/Code_snippets/Preferences#Using_preference_observers
+	 * @see https://developer.mozilla.org/en/nsIObserver
+	 */
+	prefObserver: {
+		/**
+		 * Initialise preferences listener event.
+		 */
+		init: function() {
+			// Register preferences observer
+			this.register();
+		},
+		
+		/**
+		 * Register observer on preferences service.
+		 */
+		register: function() {
+			// Get the preferences service
+			var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+			// Observer scrollupfolder and children preferences
+			this._branch = prefService.getBranch("extensions.scrollupfolder.");
+			// Queue the interface for observing preferences change
+			this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+			// Add the observer
+			this._branch.addObserver("", this, false);
+		},
+
+		/**
+		 * Unregister observer of preferences services.
+		 */
+		unregister: function() {
+			// Check if observer is registered
+			if (!this._branch)
+				return;
+			// Remove the observer
+			this._branch.removeObserver("", this);
+		},
+
+		/**
+		 * Observe preferences change.
+		 * @param	aSubject			Notification specific interface pointer.
+		 * @param	aTopic				The notification topic or subject.
+		 * @param	aData				Notification specific wide string.
+		 */
+		observe: function(aSubject, aTopic, aData) {
+			// Check if if is a preferences change
+			if (aTopic != "nsPref:changed")
+				return;
+			// Process changes according preferences changed
+			switch (aData) {
+				case "showButton":
+					// Set the urlbar button display
+					fr.hardcoding.scrollupfolder.button.updateDisplay();
+					break;
+			}
+		}
 	},
 	
 	/**
