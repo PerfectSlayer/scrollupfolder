@@ -44,6 +44,16 @@
     </em:localized>
     <em:localized>
       <Description>
+        <em:locale>it</em:locale>
+        <em:name>Scroll Up Folder</em:name>
+        <em:description>Permette di salire al livello superiore durante la navigazione.</em:description>
+         <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+         <em:contributor>Omar Khan</em:contributor>
+         <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+      </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
         <em:locale>pt-BR</em:locale>
         <em:name>Scroll Up Folder</em:name>
         <em:description>Navegue nas pastas de um site.</em:description>
