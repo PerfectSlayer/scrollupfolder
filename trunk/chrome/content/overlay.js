@@ -797,6 +797,12 @@ function sendLog(msg) {
 }
 
 // Add onLoad event
-getBrowser().addEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
+window.addEventListener(
+	"load",
+	function () {
+		gBrowser.addEventListener("load", fr.hardcoding.scrollupfolder.onLoad, true);
+	},
+	false
+);
 
 //alert('chargement de SUF');
