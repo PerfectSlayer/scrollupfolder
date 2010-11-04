@@ -1,0 +1,42 @@
+#summary Scroll Up Folder: First run experience.
+
+= Introduction =
+
+Thanks you for installing Scroll Up Folder !<br/>
+In this page, you may quickly learn how to use this extension.
+
+== Last changes 4.2.0 ==
+ * New url bar icon
+ * First run experience
+
+
+= Usage =
+
+== Mouse ==
+
+=== Url bar icon ===
+
+Clicking on the toolbar icon (put icon) open panel below url bar with all folders. The bold row is your current address.<br/>
+You may click one to change url bar address with the selected address. You could also double-click on one row to load the selected address.
+
+_Tip:_ Once you select an address, you may immediatly type its end in your url bar.
+
+=== Url bar address ===
+
+Move your mouse over the url bar. Scroll up or down to browse folders.<br/>
+Once the desired folder is shown, middle-clic to load the display url.
+
+_Tip:_ You may reload a page by middle-click the url bar.
+
+== Keyboard ==
+
+When your url bar is selected, press ALT key to open panel below url bar with all folders. The bold row is your current address.<br/>
+Press UP or DOWN keys to browse folders and change url bar address.<br/>
+You may type the end of your address or press ENTER key to load the address.
+
+_Tip:_ You may select your url bar by using the F6 shortcut if you don't want use your mouse at all.
+
+
+== Preferences ==
+
+Coming !
