@@ -47,20 +47,32 @@ fr.hardcoding.scrollupfolder = {
 		sendLog("focus");
 		// Get current URI (not from urlbar, but loaded URI from current tab)
 		var path = browser.currentURI.spec;
-		// Check if path are already generated and if they tally with current URI or if doesn't been generated because it's an about: URI
-		if ((browser.SUFPaths && browser.SUFPaths.indexOf(path) == -1) || (!browser.SUFPaths && path.substr(0, 6) != 'about:')) {
-			// Initialize paths
-			var paths = new Array();
-			// Create paths
-			while(path != null)	{
-				paths.push(path);
-				path = fr.hardcoding.scrollupfolder.canGoUp(path);
-			}
-			// Set path to current tab
-			browser.SUFPaths = paths;
-			// Set pointer position
-			browser.SUFPointer = 0;
+		// Prevent path computation on about page
+		if (path.substr(0, 6) == 'about:') {
+			return;
 		}
+		// Check if paths are already generated
+		if (browser.SUFPaths) {
+			// Check if they tally with current URI
+			var index = browser.SUFPaths.indexOf(path);
+			if (index != -1) {
+				// Update pointer position
+				browser.SUFPointer = index;
+				// End path computation
+				return;
+			}
+		}
+		// Initialize paths
+		var paths = new Array();
+		// Create paths
+		while(path != null)	{
+			paths.push(path);
+			path = fr.hardcoding.scrollupfolder.canGoUp(path);
+		}
+		// Set path to current tab
+		browser.SUFPaths = paths;
+		// Set pointer position
+		browser.SUFPointer = 0;
 	},
 	
 	/**
@@ -777,7 +789,7 @@ fr.hardcoding.scrollupfolder = {
 
 	returnURL : function(str) {
 		var baseURI = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService).newURI(str, null, null);
-		return baseURI.QueryInterface(Components.interfaces.nsIURL);	
+		return baseURI.QueryInterface(Components.interfaces.nsIURL);
 	}
 };
 
