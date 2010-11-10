@@ -117,6 +117,8 @@ fr.hardcoding.scrollupfolder = {
 			if (event.button != 1 || url == null || url.length <= 0) {
 				return;
 			}
+			// Stop event propagation (for X server/linux)
+			event.stopPropagation();
 			// Load url in current tab
 			fr.hardcoding.scrollupfolder.loadURI(url);
 		},
