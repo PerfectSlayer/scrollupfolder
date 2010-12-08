@@ -83,6 +83,10 @@ fr.hardcoding.scrollupfolder = {
 		 * Prevent the urlpanel to be shown.
 		 */
 		preventUrlPanelShowing: false,
+		/**
+		 * Timestamp of last scrolling event proceed.
+		 */
+		lastEventTimeStamp: 0,
 		
 		/**
 		 * Initialise urlbar event.
@@ -137,12 +141,20 @@ fr.hardcoding.scrollupfolder = {
 			if (!currentTab.SUFPaths) {
 				return;
 			}
+			// Check if event was already proceed
+			if (event.timeStamp == fr.hardcoding.scrollupfolder.urlbar.lastEventTimeStamp) {
+				return;
+			} else {
+				// Save event timestamp
+				fr.hardcoding.scrollupfolder.urlbar.lastEventTimeStamp = event.timeStamp;
+			}
 			// Go up in paths list
-			if (event.detail < 0 && currentTab.SUFPointer < currentTab.SUFPaths.length-1)
+			if (event.detail < 0 && currentTab.SUFPointer < currentTab.SUFPaths.length-1) {
 				currentTab.SUFPointer++;
 			// Go down in paths list
-			else if (event.detail > 0 && currentTab.SUFPointer > 0)
+			} else if (event.detail > 0 && currentTab.SUFPointer > 0) {
 				currentTab.SUFPointer--;
+			}
 			// Get the new path to display
 			var url = currentTab.SUFPaths[currentTab.SUFPointer];
 			// Get the urlbar element
