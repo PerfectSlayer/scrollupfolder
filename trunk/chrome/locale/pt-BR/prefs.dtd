@@ -1,10 +1,12 @@
 <!ENTITY title "Preferências do Scroll Up Folder">
+<!ENTITY description "Navegue nas pastas de um site.">
+<!ENTITY showbutton "Exibir botão na barra de endereços">
 <!ENTITY controlmode.title "Modo de controle:">
 <!ENTITY controlmode.mouseonly "Apenas mouse">
 <!ENTITY controlmode.keyboardonly "Apenas teclado">
 <!ENTITY controlmode.both "Ambos (mouse e teclado)">
-<!ENTITY parsegetvars "Analisar variáveis GET também na URL">
-<!ENTITY actionbadurl.title "Ação a ser executada ao tentar carregar uma url mal formada">
+<!ENTITY parsegetvars "Também analisar variáveis GET na URL">
+<!ENTITY actionbadurl.title "Ação a ser executada ao tentar carregar uma URL mal formada">
 <!ENTITY actionbadurl.donothing "Não fazer nada">
 <!ENTITY actionbadurl.replacewithcurrenturl "Substituir pela URL atual">
 <!ENTITY actionbadurl.forcetoload "Forçar carregar">

@@ -1,4 +1,5 @@
 <!ENTITY title "Scroll Up Folder Preferences">
+<!ENTITY description "Browse for folders of a website.">
 <!ENTITY showbutton "Show button in address bar">
 <!ENTITY controlmode.title "Control mode:">
 <!ENTITY controlmode.mouseonly "Mouse only">

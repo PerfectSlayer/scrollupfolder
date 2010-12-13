@@ -34,6 +34,16 @@
     </em:localized>
     <em:localized>
       <Description>
+        <em:locale>es-ES</em:locale>
+          <em:name>Scroll Up Folder</em:name>
+          <em:description>Buscar carpetas en sitio web.</em:description>
+          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+          <em:contributor>Omar Khan</em:contributor>
+          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+        </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
         <em:locale>fr</em:locale>
         <em:name>Scroll Up Folder</em:name>
         <em:description>Naviguez dans les répertoires d'un site.</em:description>
@@ -54,6 +64,16 @@
     </em:localized>
     <em:localized>
       <Description>
+        <em:locale>nl</em:locale>
+        <em:name>Scroll Up Folder</em:name>
+        <em:description>Naar mappen van een website bladeren.</em:description>
+         <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+         <em:contributor>Omar Khan</em:contributor>
+         <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+      </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
         <em:locale>pt-BR</em:locale>
         <em:name>Scroll Up Folder</em:name>
         <em:description>Navegue nas pastas de um site.</em:description>
@@ -67,6 +87,26 @@
         <em:locale>sr</em:locale>
           <em:name>Scroll Up Folder</em:name>
           <em:description>Потражи фасцикле на страници.</em:description>
+          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+          <em:contributor>Omar Khan</em:contributor>
+          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+        </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
+        <em:locale>sv-SE</em:locale>
+          <em:name>Scroll Up Folder</em:name>
+          <em:description>Bläddra efter en webbsidas mappar.</em:description>
+          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+          <em:contributor>Omar Khan</em:contributor>
+          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+        </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
+        <em:locale>zh-CN</em:locale>
+          <em:name>Scroll Up Folder</em:name>
+          <em:description>浏览一个网站的文件夹</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
           <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
