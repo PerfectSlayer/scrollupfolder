@@ -1,4 +1,6 @@
 <!ENTITY title "Scroll Up Folder - Einstellungen">
+<!ENTITY description "Navigieren Sie durch die übergeordneten Ordner einer URL mit dem Mausrad oder der Tastatur.">
+<!ENTITY showbutton "Schaltfläche in der Adressleiste anzeigen">
 <!ENTITY controlmode.title "Steuerung:">
 <!ENTITY controlmode.mouseonly "Nur Maus">
 <!ENTITY controlmode.keyboardonly "Nur Tastatur">

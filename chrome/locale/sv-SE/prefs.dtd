@@ -1,0 +1,12 @@
+<!ENTITY title "Inställningar för Scroll Up Folder">
+<!ENTITY description "Bläddra efter en webbsidas mappar.">
+<!ENTITY showbutton "Visa knapp i adressfältet">
+<!ENTITY controlmode.title "Kontrolläge:">
+<!ENTITY controlmode.mouseonly "Endast mus">
+<!ENTITY controlmode.keyboardonly "Endast tangentbord">
+<!ENTITY controlmode.both "Bägge (mus &amp; tangentbord)">
+<!ENTITY parsegetvars "Parsa GET-variabler även i URL">
+<!ENTITY actionbadurl.title "Åtgärd att utföra när dåligt utformad URL försöker ladda:">
+<!ENTITY actionbadurl.donothing "Gör ingenting">
+<!ENTITY actionbadurl.replacewithcurrenturl "Ersätt med aktuell webbsidas URL">
+<!ENTITY actionbadurl.forcetoload "Tvinga laddning">
