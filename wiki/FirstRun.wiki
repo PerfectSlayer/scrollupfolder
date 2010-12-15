@@ -16,7 +16,7 @@ This page may quickly learn you how to use this extension.
 
 === Url bar icon ===
 
-Clicking on the toolbar icon <img src="urlbaricon.png"/> open panel below url bar with all folders. The bold row is your current address.<br/>
+Clicking on the toolbar icon <img src="https://scrollupfolder.googlecode.com/svn/wiki/urlbaricon.png"/> open panel below url bar with all folders. The bold row is your current address.<br/>
 You may click one to change url bar address with the selected address. You could also double-click on one row to load the selected address.
 
 _Tip:_ Once you select an address, you may immediatly type its end in your url bar.
@@ -39,5 +39,21 @@ _Tip:_ You may select your url bar by using the F6 or CTRL+L shortcut if you don
 
 == Preferences ==
 
-This is the preferences window :
-<img src="preferences"/>
+This is the preferences window :<br/>
+<img src="https://scrollupfolder.googlecode.com/svn/wiki/preferences.png"/>
+<ul>
+ <li>_Show button in address bar_: allow you to hide url bar icon,</li>
+ <li>_Control mode_: change the way to use your extension,</li>
+ <ul>
+  <li>_Mouse only_</li>
+  <li>_Keyboard only_</li>
+  <li>_Both (mouse & keyboard)_</li>
+ </ul>
+ <li>_Parse GET variables in URL also_: also propose the current address without GET variables as parent folder,</li>
+ <li>_Action to perform when trying to load a no wellformed url_: what happens if you want load a non URL text in your url bar with the extension,</li>
+ <ul>
+  <li>_Do nothing_</li>
+  <li>_Replace with current URL_</li>
+  <li>_Force to load_</li>
+ </ul>
+</ul>
