@@ -2,8 +2,8 @@
 
 = Introduction =
 
-Thanks you for installing Scroll Up Folder !<br/>
-In this page, you may quickly learn how to use this extension.
+Thanks you for using Scroll Up Folder !<br/>
+This page may quickly learn you how to use this extension.
 
 == Last changes 4.2.0 ==
  * New url bar icon
@@ -16,7 +16,7 @@ In this page, you may quickly learn how to use this extension.
 
 === Url bar icon ===
 
-Clicking on the toolbar icon (put icon) open panel below url bar with all folders. The bold row is your current address.<br/>
+Clicking on the toolbar icon <img src="urlbaricon.png"/> open panel below url bar with all folders. The bold row is your current address.<br/>
 You may click one to change url bar address with the selected address. You could also double-click on one row to load the selected address.
 
 _Tip:_ Once you select an address, you may immediatly type its end in your url bar.
@@ -34,9 +34,10 @@ When your url bar is selected, press ALT key to open panel below url bar with al
 Press UP or DOWN keys to browse folders and change url bar address.<br/>
 You may type the end of your address or press ENTER key to load the address.
 
-_Tip:_ You may select your url bar by using the F6 shortcut if you don't want use your mouse at all.
+_Tip:_ You may select your url bar by using the F6 or CTRL+L shortcut if you don't want use your mouse at all.
 
 
 == Preferences ==
 
-Coming !
+This is the preferences window :
+<img src="preferences"/>
