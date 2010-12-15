@@ -12,23 +12,23 @@ This page may quickly learn you how to use this extension.
 
 = Usage =
 
-== Mouse ==
+== <img align="top" src="https://scrollupfolder.googlecode.com/svn/wiki/mouseicon.png"/> Mouse ==
 
-=== Url bar icon ===
+==== <img align="top" src="https://scrollupfolder.googlecode.com/svn/wiki/urlbaricon.png"/> Url bar icon ====
 
-Clicking on the toolbar icon <img src="https://scrollupfolder.googlecode.com/svn/wiki/urlbaricon.png"/> open panel below url bar with all folders. The bold row is your current address.<br/>
+Clicking on the toolbar icon opens panel below url bar with all folders. The bold row is your current address.<br/>
 You may click one to change url bar address with the selected address. You could also double-click on one row to load the selected address.
 
 _Tip:_ Once you select an address, you may immediatly type its end in your url bar.
 
-=== Url bar address ===
+==== <img align="top" src="https://scrollupfolder.googlecode.com/svn/wiki/urlbaraddress.png"/> Url bar address ====
 
 Move your mouse over the url bar. Scroll up or down to browse folders.<br/>
 Once the desired folder is shown, middle-clic to load the display url.
 
 _Tip:_ You may reload a page by middle-click the url bar.
 
-== Keyboard ==
+== <img align="top" src="https://scrollupfolder.googlecode.com/svn/wiki/keyboardicon.png"/> Keyboard ==
 
 When your url bar is selected, press ALT key to open panel below url bar with all folders. The bold row is your current address.<br/>
 Press UP or DOWN keys to browse folders and change url bar address.<br/>
@@ -37,7 +37,7 @@ You may type the end of your address or press ENTER key to load the address.
 _Tip:_ You may select your url bar by using the F6 or CTRL+L shortcut if you don't want use your mouse at all.
 
 
-== Preferences ==
+== <img align="top" src="https://scrollupfolder.googlecode.com/svn/wiki/preferencesicon.png"/> Preferences ==
 
 This is the preferences window :<br/>
 <img src="https://scrollupfolder.googlecode.com/svn/wiki/preferences.png"/>
