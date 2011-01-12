@@ -35,6 +35,8 @@ fr.hardcoding.scrollupfolder = {
 				// listbox.addEventListener('keydown', fr.hardcoding.scrollupfolder.urlbar.onKeyDown, true);
 				// Add key pressing up event on scrollupfolderUrlsPanel
 				// listbox.addEventListener('keyup', fr.hardcoding.scrollupfolder.urlbar.onKeyUp, true);
+		// Check update
+		fr.hardcoding.scrollupfolder.checkUpdate();
 		// Remove event onLoad
 		gBrowser.removeEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
 		sendLog('chargement fini');
@@ -44,24 +46,27 @@ fr.hardcoding.scrollupfolder = {
 	 * Check the update or the first run of the extension.
 	 */
 	checkUpdate: function() {
+		sendLog("checkUpdate");
 		// Get the extension manager
 		var extensionManager = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager);
 		// Get the current version of the extension
 		var currentVersion = extensionManager.getItemForID("scrollupfolder@omni.n0ne.org").version;
+		sendLog("lastRunVersion: "+fr.hardcoding.scrollupfolder.prefs.version.value);
+		sendLog("currentVersion: "+currentVersion);
 		// Check the version registered in preferences
 		if (fr.hardcoding.scrollupfolder.prefs.version.value == "uninstalled") {
 			// Open the first run page
-			window.setTimeout(function(){	// TODO Tester le timeout
-				gBrowser.selectedTab = gBrowser.addTab("about:mozilla");
+			window.setTimeout(function(){
+				gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/FirstRun");
 			}, 1500);
-		} else {
+		} else if (fr.hardcoding.scrollupfolder.prefs.version.value != currentVersion) {
+			// Save the current version in preferences
+			fr.hardcoding.scrollupfolder.prefs.version.value = currentVersion;
 			// Open the changelog page
-			window.setTimeout(function(){ // TODO Tester le timeout
-				gBrowser.selectedTab = gBrowser.addTab("about:mozilla");
+			window.setTimeout(function(){
+				gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/Changelog#Version_"+currentVersion+":");
 			}, 1500);
 		}
-		// Save the current version in preferences
-		fr.hardcoding.scrollupfolder.prefs.version.value = currentVersion;
 	},
 	
 	/**
