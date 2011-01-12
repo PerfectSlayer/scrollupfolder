@@ -12,7 +12,8 @@ fr.hardcoding.scrollupfolder = {
 		showButton: Application.prefs.get('extensions.scrollupfolder.showButton'),
 		controlMode: Application.prefs.get('extensions.scrollupfolder.controlMode'),
 		parseGetVars: Application.prefs.get('extensions.scrollupfolder.parseGetVars'),
-		badUriAction: Application.prefs.get('extensions.scrollupfolder.badUriAction')
+		badUriAction: Application.prefs.get('extensions.scrollupfolder.badUriAction'),
+		version: Application.prefs.get('extensions.scrollupfolder.version')
 	},
 
 	/**
@@ -40,39 +41,27 @@ fr.hardcoding.scrollupfolder = {
 	},
 	
 	/**
-	 * Generate paths for a tab.
-	 * @param	brower		The tab to generate paths.
+	 * Check the update or the first run of the extension.
 	 */
-	processPaths: function(browser) {
-		sendLog("focus");
-		// Get current URI (not from urlbar, but loaded URI from current tab)
-		var path = browser.currentURI.spec;
-		// Prevent path computation on about page
-		if (path.substr(0, 6) == 'about:') {
-			return;
+	checkUpdate: function() {
+		// Get the extension manager
+		var extensionManager = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager);
+		// Get the current version of the extension
+		var currentVersion = extensionManager.getItemForID("scrollupfolder@omni.n0ne.org").version;
+		// Check the version registered in preferences
+		if (fr.hardcoding.scrollupfolder.prefs.version.value == "uninstalled") {
+			// Open the first run page
+			window.setTimeout(function(){	// TODO Tester le timeout
+				gBrowser.selectedTab = gBrowser.addTab("about:mozilla");
+			}, 1500);
+		} else {
+			// Open the changelog page
+			window.setTimeout(function(){ // TODO Tester le timeout
+				gBrowser.selectedTab = gBrowser.addTab("about:mozilla");
+			}, 1500);
 		}
-		// Check if paths are already generated
-		if (browser.SUFPaths) {
-			// Check if they tally with current URI
-			var index = browser.SUFPaths.indexOf(path);
-			if (index != -1) {
-				// Update pointer position
-				browser.SUFPointer = index;
-				// End path computation
-				return;
-			}
-		}
-		// Initialize paths
-		var paths = new Array();
-		// Create paths
-		while(path != null)	{
-			paths.push(path);
-			path = fr.hardcoding.scrollupfolder.canGoUp(path);
-		}
-		// Set path to current tab
-		browser.SUFPaths = paths;
-		// Set pointer position
-		browser.SUFPointer = 0;
+		// Save the current version in preferences
+		fr.hardcoding.scrollupfolder.prefs.version.value = currentVersion;
 	},
 	
 	/**
@@ -712,7 +701,43 @@ fr.hardcoding.scrollupfolder = {
 			// Otherwise, do noting
 			}
 		}
-	},	
+	},
+	
+	/**
+	 * Generate paths for a tab.
+	 * @param	brower		The tab to generate paths.
+	 */
+	processPaths: function(browser) {
+		sendLog("focus");
+		// Get current URI (not from urlbar, but loaded URI from current tab)
+		var path = browser.currentURI.spec;
+		// Prevent path computation on about page
+		if (path.substr(0, 6) == 'about:') {
+			return;
+		}
+		// Check if paths are already generated
+		if (browser.SUFPaths) {
+			// Check if they tally with current URI
+			var index = browser.SUFPaths.indexOf(path);
+			if (index != -1) {
+				// Update pointer position
+				browser.SUFPointer = index;
+				// End path computation
+				return;
+			}
+		}
+		// Initialize paths
+		var paths = new Array();
+		// Create paths
+		while(path != null)	{
+			paths.push(path);
+			path = fr.hardcoding.scrollupfolder.canGoUp(path);
+		}
+		// Set path to current tab
+		browser.SUFPaths = paths;
+		// Set pointer position
+		browser.SUFPointer = 0;
+	},
 
 	/**
 	 * Compute upper url from a base url.
