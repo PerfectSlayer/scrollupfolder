@@ -1,5 +1,7 @@
 #summary Wiki siderbar
 
-= Introduction =
+== Navigation ==
+<br/>
+* [FirstRun First run experiences]
 
-Add your content here.
+* [Changelog Changelog]
