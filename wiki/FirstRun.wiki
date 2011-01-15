@@ -1,13 +1,10 @@
 #summary Scroll Up Folder: First run experience.
+#sidebar Sidebar
 
 = Introduction =
 
 Thanks you for using Scroll Up Folder !<br/>
 This page may quickly learn you how to use this extension.
-
-== Last changes 4.2.0 ==
- * New url bar icon
- * First run experience
 
 
 = Usage =
