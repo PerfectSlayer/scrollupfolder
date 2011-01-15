@@ -1,4 +1,4 @@
-#summary The lastest changes of Scroll Up Folder
+#summary The lastest changes of Scroll Up Folder.
 #sidebar Sidebar
 
 = Changelog =
