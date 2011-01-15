@@ -1,6 +1,11 @@
-#summary One-sentence summary of this page.
+#summary The lastest changes of Scroll Up Folder
+#sidebar Sidebar
 
 = Changelog =
 
 ==== Version 4.2.0: ====
-Content here
+ * Add url bar icon
+ * Display First run experience wiki page on first start up
+ * Display Changelog wiki page on update
+ * Add Firefox 4.0.`*` support
+ * Update Manifest (install.rdf) fix for compatibility and adding translators
