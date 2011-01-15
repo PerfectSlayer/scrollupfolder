@@ -2,8 +2,23 @@
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
     <em:id>scrollupfolder@omni.n0ne.org</em:id>
-    <em:version>4.2.0</em:version>
     <em:type>2</em:type>
+    <em:version>4.2.0</em:version>
+    <em:name>Scroll Up Folder</em:name>
+    <em:description>Browse for folders of a website.</em:description>
+    <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+    <em:contributor>Omar Khan</em:contributor>
+    <em:translator>erglo</em:translator>
+    <em:translator>markh</em:translator>
+    <em:translator>RigoNet</em:translator>
+    <em:translator>l0stintranslation</em:translator>
+    <em:translator>Luana Di Muzio</em:translator>
+    <em:translator>Marcelo Ghelman</em:translator>
+    <em:translator>ДакСРБИЈА</em:translator>
+    <em:translator>Mikael Hiort af Ornäs</em:translator>
+    <em:translator>yfdyh000</em:translator>
+    <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+    <em:iconURL>chrome://scrollupfolder/skin/icon.png</em:iconURL>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
@@ -18,7 +33,6 @@
           <em:name>Scroll Up Folder</em:name>
           <em:description>Navigieren Sie durch die übergeordneten Ordner einer URL mit dem Mausrad oder der Tastatur.</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-          <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
         </Description>
     </em:localized>
@@ -28,7 +42,6 @@
           <em:name>Scroll Up Folder</em:name>
           <em:description>Browse for folders of a website.</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-          <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
         </Description>
     </em:localized>
@@ -38,7 +51,6 @@
           <em:name>Scroll Up Folder</em:name>
           <em:description>Buscar carpetas en sitio web.</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-          <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
         </Description>
     </em:localized>
@@ -48,7 +60,6 @@
         <em:name>Scroll Up Folder</em:name>
         <em:description>Naviguez dans les répertoires d'un site.</em:description>
          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-         <em:contributor>Omar Khan</em:contributor>
          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
       </Description>
     </em:localized>
@@ -58,7 +69,6 @@
         <em:name>Scroll Up Folder</em:name>
         <em:description>Permette di salire al livello superiore durante la navigazione.</em:description>
          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-         <em:contributor>Omar Khan</em:contributor>
          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
       </Description>
     </em:localized>
@@ -68,7 +78,6 @@
         <em:name>Scroll Up Folder</em:name>
         <em:description>Naar mappen van een website bladeren.</em:description>
          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-         <em:contributor>Omar Khan</em:contributor>
          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
       </Description>
     </em:localized>
@@ -78,7 +87,6 @@
         <em:name>Scroll Up Folder</em:name>
         <em:description>Navegue nas pastas de um site.</em:description>
          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-         <em:contributor>Omar Khan</em:contributor>
          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
       </Description>
     </em:localized>
@@ -88,7 +96,6 @@
           <em:name>Scroll Up Folder</em:name>
           <em:description>Потражи фасцикле на страници.</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-          <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
         </Description>
     </em:localized>
@@ -98,7 +105,6 @@
           <em:name>Scroll Up Folder</em:name>
           <em:description>Bläddra efter en webbsidas mappar.</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-          <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
         </Description>
     </em:localized>
@@ -108,10 +114,8 @@
           <em:name>Scroll Up Folder</em:name>
           <em:description>浏览一个网站的文件夹</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
-          <em:contributor>Omar Khan</em:contributor>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
         </Description>
     </em:localized>
-    <em:iconURL>chrome://scrollupfolder/skin/icon.png</em:iconURL>
   </Description>
 </RDF>

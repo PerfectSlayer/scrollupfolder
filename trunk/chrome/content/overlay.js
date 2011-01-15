@@ -15,6 +15,11 @@ fr.hardcoding.scrollupfolder = {
 		badUriAction: Application.prefs.get('extensions.scrollupfolder.badUriAction'),
 		version: Application.prefs.get('extensions.scrollupfolder.version')
 	},
+	
+	/**
+	 * Tab timer.
+	 */
+	tabTimer: Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer),
 
 	/**
 	 * Add events.
@@ -55,17 +60,29 @@ fr.hardcoding.scrollupfolder = {
 		sendLog("currentVersion: "+currentVersion);
 		// Check the version registered in preferences
 		if (fr.hardcoding.scrollupfolder.prefs.version.value == "uninstalled") {
-			// Open the first run page
-			window.setTimeout(function(){
-				gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/FirstRun");
-			}, 1500);
+			// Save the current version in preferences
+			fr.hardcoding.scrollupfolder.prefs.version.value = currentVersion;
+			// Create timer callback
+			var timerCallbak = {
+				notify: function(timer) {
+					// Open the first run page
+					gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/FirstRun");
+				}
+			};
+			// Initialize the tab timer
+			fr.hardcoding.scrollupfolder.tabTimer.initWithCallback(timerCallbak, 1500, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 		} else if (fr.hardcoding.scrollupfolder.prefs.version.value != currentVersion) {
 			// Save the current version in preferences
 			fr.hardcoding.scrollupfolder.prefs.version.value = currentVersion;
-			// Open the changelog page
-			window.setTimeout(function(){
-				gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/Changelog#Version_"+currentVersion+":");
-			}, 1500);
+			// Create timer callback
+			var timerCallbak = {
+				notify: function(timer) {
+					// Open the changelog page
+					gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/Changelog");
+				}
+			};
+			// Initialize the tab timer
+			fr.hardcoding.scrollupfolder.tabTimer.initWithCallback(timerCallbak, 1500, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 		}
 	},
 	
@@ -850,7 +867,7 @@ function sendLog(msg) {
 		msg = newMsg.substring(0, newMsg.length-3);
 	}
 	consoleService.logStringMessage(msg);
-}
+};
 
 // Add onLoad event
 window.addEventListener(

@@ -450,6 +450,6 @@ EXHIBIT A -Mozilla Public License.
 	 All Rights Reserved.
 
      Contributor(s): erglo (German translation), markh (English & Dutch translation),
-	 RigoNet (Spanish translation), l0stintranslation & Luana Di Muzio(Italian translation),
+	 RigoNet (Spanish translation), l0stintranslation & Luana Di Muzio (Italian translation),
 	 Marcelo Ghelman (Brezilian translation), ДакСРБИЈА (Serbian translation),
 	 Mikael Hiort af Ornäs (Swedish translation), yfdyh000 (Chinese translation).
