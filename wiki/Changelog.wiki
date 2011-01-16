@@ -9,3 +9,47 @@
  * Display Changelog wiki page on update
  * Add Firefox 4.0.`*` support
  * Update Manifest (install.rdf) fix for compatibility and adding translators
+
+==== Version 4.1.5: ====
+ * Fix a bug which skip some URL (thanks to HFT.Man)
+ * Now compatible Firefox 4b9pre 
+
+==== Version 4.1.4: ====
+ * Fix url highlighting
+ * Fix middle-click for Linux / X server users (thanks to Ente.final) 
+
+==== Version 4.1.3: ====
+ * Fix a bug: right button toolbar no more disappear
+
+==== Version 4.1.2: ====
+ * Add deutch description
+ * Update Firefox 4.0 beta 8 pre compatibility 
+
+==== Version 4.1.1: ====
+ * Fix url computation for FTP protocol: the add-on should now be compatible with all protocols.
+
+==== Version 4.1.0: ====
+ * Add new feature: url rows of panel could be now clicked:
+    * clic will change the current url in urlbar
+    * double clic will load the url to the current tab
+ * Add german, italian, serbe and bresilian locales
+ * Place the cursor at the end of url when it's modified
+ * Add firefox 4.0b4pre support
+ * Fix url computation bug with IPv4
+
+==== Version 4.0.0: ====
+ * Add keyboard control: 
+    * Pressing "alt" key when urlbar is focused opens a panel of urls
+    * Pressing "enter" key goes to the selected url. You can still edit your current url.
+ * Add preferences
+ * Package javascript source
+ * Add internationalization (other translations comming soon)
+
+==== Version 3.0.0: ====
+ * Add new feature: can go back deeper in urls after changing page (user request)
+ * Add new feature : multilanguage support (en and fr traductions for the moment)
+ * Improve url management: working independently for each tab (each tabs remember his own urls)
+ * Update Firefox 3.5.x compatibility
+ * Add validation of URI format
+ * Add preferences
+ * Review of original code
