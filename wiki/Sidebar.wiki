@@ -9,6 +9,6 @@
 <br/>
 <br/>
 
-== Vote ==
+== Review ==
 <br/>
 I spent many hours to develop and improve this add-on. So if you like it, [https://addons.mozilla.org/firefox/addon/scroll-up-folder/reviews/add take some minute to rate it]. Thanks you a lot!
