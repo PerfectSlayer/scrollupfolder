@@ -13,4 +13,4 @@
 <br/>
 I spent many hours to develop and improve this add-on. So if you like it, [https://addons.mozilla.org/firefox/addon/scroll-up-folder/reviews/add take some minute to rate it]. Thanks you a lot!
 
-[https://scrollupfolder.googlecode.com/svn/wiki/rate_it.png]
+[https://addons.mozilla.org/firefox/addon/scroll-up-folder/reviews/add https://scrollupfolder.googlecode.com/svn/wiki/rate_it.png]
