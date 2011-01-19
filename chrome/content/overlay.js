@@ -48,14 +48,35 @@ fr.hardcoding.scrollupfolder = {
 	},
 	
 	/**
-	 * Check the update or the first run of the extension.
+	 * Get the add-on version then apply update.
+	 * Firefox 3.x and Firefox 4 addon manager used.
+	 * @see https://developer.mozilla.org/en/Code_snippets/Miscellaneous#Retrieving_the_version_of_an_extension_as_specified_in_the_extension's_install.rdf
 	 */
 	checkUpdate: function() {
 		sendLog("checkUpdate");
-		// Get the extension manager
-		var extensionManager = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager);
-		// Get the current version of the extension
-		var currentVersion = extensionManager.getItemForID("scrollupfolder@omni.n0ne.org").version;
+		// Try to use Firefox 3 addon manager
+		if (typeof(Components.classes["@mozilla.org/extensions/manager;1"]) != 'undefined') {
+			// Get the extension manager
+			var extensionManager = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager);
+			// Get the current version of the extension
+			var currentVersion = extensionManager.getItemForID("scrollupfolder@omni.n0ne.org").version;
+			// Apply update
+			fr.hardcoding.scrollupfolder.applyUpdate(currentVersion);
+		} else
+		// Try to use Firefox 4 addon manager
+		if (typeof(Components.utils) != 'undefined' && typeof(Components.utils.import) != 'undefined') {
+			Components.utils.import("resource://gre/modules/AddonManager.jsm");
+			AddonManager.getAddonByID("scrollupfolder@omni.n0ne.org", function(addon) {
+				fr.hardcoding.scrollupfolder.applyUpdate(addon.version);
+			});
+		}
+	},
+	
+	/**
+	 * Check the update or the first run of the extension.
+	 */
+	applyUpdate: function(currentVersion) {
+		sendLog("applyUpdate");
 		sendLog("lastRunVersion: "+fr.hardcoding.scrollupfolder.prefs.version.value);
 		sendLog("currentVersion: "+currentVersion);
 		// Check the version registered in preferences
@@ -70,7 +91,7 @@ fr.hardcoding.scrollupfolder = {
 				}
 			};
 			// Initialize the tab timer
-			fr.hardcoding.scrollupfolder.tabTimer.initWithCallback(timerCallbak, 1500, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+			fr.hardcoding.scrollupfolder.tabTimer.initWithCallback(timerCallbak, 500, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 		} else if (fr.hardcoding.scrollupfolder.prefs.version.value != currentVersion) {
 			// Save the current version in preferences
 			fr.hardcoding.scrollupfolder.prefs.version.value = currentVersion;
@@ -82,7 +103,7 @@ fr.hardcoding.scrollupfolder = {
 				}
 			};
 			// Initialize the tab timer
-			fr.hardcoding.scrollupfolder.tabTimer.initWithCallback(timerCallbak, 1500, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+			fr.hardcoding.scrollupfolder.tabTimer.initWithCallback(timerCallbak, 500, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 		}
 	},
 	
