@@ -8,19 +8,19 @@ listbox#scrollupfolderUrlsListbox {
 }
 
 /* urlbar button */
-#suf-button {
+#fr_hardcoding_scrollupfolder_urlbar_button {
     list-style-image: url("chrome://scrollupfolder/skin/folder.png");
     -moz-image-region: rect(0px 16px 16px 0px);
 }
 
-#suf-button:hover {
+#fr_hardcoding_scrollupfolder_urlbar_button:hover {
     -moz-image-region: rect(0px 32px 16px 16px);
 }
 
-#suf-button:hover:active {
+#fr_hardcoding_scrollupfolder_urlbar_button:hover:active {
     -moz-image-region: rect(0px 48px 16px 32px);
 }
 
-#suf-button[open="true"] {
+#fr_hardcoding_scrollupfolder_urlbar_button[open="true"] {
     -moz-image-region: rect(0px 64px 16px 48px);
 }
