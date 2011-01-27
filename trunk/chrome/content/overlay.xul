@@ -10,6 +10,6 @@
     </panel>
     </window>
     <hbox id="urlbar-icons">
-        <image id="suf-button" class="urlbar-icon" insertbefore="go-button" open="false" tooltiptext="&button.tooltip;"/>
+        <image id="fr_hardcoding_scrollupfolder_urlbar_button" class="urlbar-icon" insertbefore="go-button" open="false" tooltiptext="&button.tooltip;"/>
     </hbox>
 </overlay>

@@ -36,10 +36,6 @@ fr.hardcoding.scrollupfolder = {
 		fr.hardcoding.scrollupfolder.tabProgressListener.init();
 		// Initialize prefObserver event
 		fr.hardcoding.scrollupfolder.prefObserver.init();
-				// Add key pressing down event on scrollupfolderUrlsPanel
-				// listbox.addEventListener('keydown', fr.hardcoding.scrollupfolder.urlbar.onKeyDown, true);
-				// Add key pressing up event on scrollupfolderUrlsPanel
-				// listbox.addEventListener('keyup', fr.hardcoding.scrollupfolder.urlbar.onKeyUp, true);
 		// Check update
 		fr.hardcoding.scrollupfolder.checkUpdate();
 		// Remove event onLoad
@@ -62,9 +58,9 @@ fr.hardcoding.scrollupfolder = {
 			var currentVersion = extensionManager.getItemForID("scrollupfolder@omni.n0ne.org").version;
 			// Apply update
 			fr.hardcoding.scrollupfolder.applyUpdate(currentVersion);
-		} else
-		// Try to use Firefox 4 addon manager
-		if (typeof(Components.utils) != 'undefined' && typeof(Components.utils.import) != 'undefined') {
+		}
+		// Otherwise, try to use Firefox 4 addon manager
+		else if (typeof(Components.utils) != 'undefined' && typeof(Components.utils.import) != 'undefined') {
 			Components.utils.import("resource://gre/modules/AddonManager.jsm");
 			AddonManager.getAddonByID("scrollupfolder@omni.n0ne.org", function(addon) {
 				fr.hardcoding.scrollupfolder.applyUpdate(addon.version);
@@ -357,7 +353,7 @@ fr.hardcoding.scrollupfolder = {
 			var positionCursor = urlbar.value.length;
 			urlbar.setSelectionRange(positionCursor, positionCursor);
 			// Get the suf-button element
-			var suf_button = document.getElementById('suf-button');
+			var suf_button = document.getElementById('fr_hardcoding_scrollupfolder_urlbar_button');
 			// Mark the button as open
 			suf_button.setAttribute("open", "true");
 			return true;
@@ -374,7 +370,7 @@ fr.hardcoding.scrollupfolder = {
 				listbox.removeItemAt(0);
 			}
 			// Get the suf-button element
-			var suf_button = document.getElementById('suf-button');
+			var suf_button = document.getElementById('fr_hardcoding_scrollupfolder_urlbar_button');
 			// Mark the button as closed
 			suf_button.setAttribute("open", "false");
 			return true;
@@ -445,7 +441,7 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		init: function() {
 			// Get suf-button element
-			var suf_button = document.getElementById('suf-button');
+			var suf_button = document.getElementById('fr_hardcoding_scrollupfolder_urlbar_button');
 			// Add clicking event on suf_button
 			suf_button.addEventListener('click', fr.hardcoding.scrollupfolder.button.onClick, true);
 			// Update suf_button display
@@ -476,7 +472,7 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		updateDisplay: function() {
 			// Get suf-button element
-			var suf_button = document.getElementById('suf-button');
+			var suf_button = document.getElementById('fr_hardcoding_scrollupfolder_urlbar_button');
 			// Set the display mode
 			suf_button.setAttribute("hidden", !fr.hardcoding.scrollupfolder.prefs.showButton.value);
 		}
