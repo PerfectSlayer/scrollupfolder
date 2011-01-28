@@ -31,7 +31,7 @@ When your url bar is selected, press ALT key to open panel below url bar with al
 Press UP or DOWN keys to browse folders and change url bar address.<br/>
 You may type the end of your address or press ENTER key to load the address.
 
-_Tip:_ You may select your url bar by using the F6 or CTRL+L shortcut if you don't want use your mouse at all.
+_Tip:_ You may select your url bar by using the CTRL+L shortcut if you don't want use your mouse at all.
 
 
 == <img align="top" src="https://scrollupfolder.googlecode.com/svn/wiki/preferencesicon.png"/> Preferences ==
