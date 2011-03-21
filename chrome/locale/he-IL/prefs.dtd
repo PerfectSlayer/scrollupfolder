@@ -1,0 +1,12 @@
+<!ENTITY title "Scroll Up Folder הגדרות">
+<!ENTITY description "עיין בתיקיות של האתר">
+<!ENTITY showbutton "הצג לחצן בשורת הכתובת">
+<!ENTITY controlmode.title ":בקרת מצב">
+<!ENTITY controlmode.mouseonly "עכבר בלבד">
+<!ENTITY controlmode.keyboardonly "מקלדת בלבד">
+<!ENTITY controlmode.both "(שניהם (עכבר ומקלדת">
+<!ENTITY parsegetvars "גם בכתובת האתר GET פצל משתני">
+<!ENTITY actionbadurl.title "פעולה לביצוע בעת טעינת כתובת אתר שגויה שנוצרה">
+<!ENTITY actionbadurl.donothing "אל תעשה כלום">
+<!ENTITY actionbadurl.replacewithcurrenturl "החלף בכתובת אתר נוכחית">
+<!ENTITY actionbadurl.forcetoload "כפה טעינה">
