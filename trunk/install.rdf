@@ -3,7 +3,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>scrollupfolder@omni.n0ne.org</em:id>
     <em:type>2</em:type>
-    <em:version>4.2.0</em:version>
+    <em:version>4.2.1</em:version>
     <em:name>Scroll Up Folder</em:name>
     <em:description>Browse for folders of a website.</em:description>
     <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
@@ -59,6 +59,15 @@
         <em:locale>fr</em:locale>
         <em:name>Scroll Up Folder</em:name>
         <em:description>Naviguez dans les répertoires d'un site.</em:description>
+         <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+         <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+      </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
+        <em:locale>he-IL</em:locale>
+        <em:name>Scroll Up Folder</em:name>
+        <em:description>עיין בתיקיות של האתר</em:description>
          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
       </Description>
