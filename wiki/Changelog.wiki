@@ -3,14 +3,17 @@
 
 = Changelog =
 
-==== Version 4.2.0 (dev): ====
+==== Version 4.2.1 (lastest): ====
+ * Add hebrew translation
+
+==== Version 4.2.0: ====
  * Add url bar icon
  * Display First run experience wiki page on first start up
  * Display Changelog wiki page on update
  * Add Firefox 4.0.`*` support
  * Update Manifest (install.rdf) fix for compatibility and adding translators
 
-==== Version 4.1.5 (lastest): ====
+==== Version 4.1.5: ====
  * Fix a bug which skip some URL (thanks to HFT.Man)
  * Now compatible Firefox 4b9pre 
 
