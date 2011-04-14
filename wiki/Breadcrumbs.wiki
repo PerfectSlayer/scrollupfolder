@@ -1,4 +1,5 @@
 #summary Research about breadcrumbs.
+#sidebar Sidebar
 
 = Introduction =
 
