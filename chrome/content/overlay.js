@@ -151,6 +151,12 @@ fr.hardcoding.scrollupfolder = {
 			}
 			// Stop event propagation (for X server/linux)
 			event.stopPropagation();
+			// Add default http protocol if missing
+			var indexScheme = url.indexOf('://');
+			var indexQuery = url.indexOf('?');
+			if ((indexScheme == -1 && url.substr(0, 6) != 'about:') || (indexQuery !=- 1 && indexQuery < indexScheme)) {
+				url = "http://"+url;
+			}
 			// Load url in current tab
 			fr.hardcoding.scrollupfolder.loadURI(url);
 		},
@@ -167,7 +173,7 @@ fr.hardcoding.scrollupfolder = {
 			var currentTab = getBrowser().selectedBrowser;
 			// Check if paths were generated
 			if (!currentTab.SUFPaths) {
-				return;
+				fr.hardcoding.scrollupfolder.processPaths(currentTab);
 			}
 			// Check if event was already proceed
 			if (event.timeStamp == fr.hardcoding.scrollupfolder.urlbar.lastEventTimeStamp) {
@@ -315,9 +321,13 @@ fr.hardcoding.scrollupfolder = {
 			// Get current tab
 			var currentTab = getBrowser().selectedBrowser;
 			// Check if paths were generated
-			if (currentTab.SUFPaths === undefined || currentTab.SUFPaths.count == 0)
-				// Prevent panel showing if these is no path
+			if (currentTab.SUFPaths === undefined) {
+				fr.hardcoding.scrollupfolder.processPaths(currentTab);
+			}
+			// Prevent panel showing if these is no path
+			if (currentTab.SUFPaths.length == 0) {
 				return false;
+			}
 			// Create listitem
 			var index, listitem;
 			for (index in currentTab.SUFPaths)
@@ -335,14 +345,6 @@ fr.hardcoding.scrollupfolder = {
 		onShown: function() {
 			// Get listbox element
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
-			// Fix listbox size
-			var listbox_rows = listbox.getRowCount();
-			if (listbox_rows != 0) {
-				sendLog('taille définie: '+listbox_rows);
-				listbox.setAttribute('rows', listbox_rows);
-			} else
-				sendLog('taille 0..');
-			sendLog({'getRowCount': listbox.getRowCount(), 'childNodes:': listbox.childNodes.length, 'rows': listbox.getAttribute('rows')});
 			// Get current tab
 			var currentTab = getBrowser().selectedBrowser;
 			// Select current url
@@ -489,7 +491,7 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		init: function() {
 			// Adding page loading event
-			gBrowser.addProgressListener(fr.hardcoding.scrollupfolder.browserProgressListener, Components.interfaces.nsIWebProgress.NOTIFY_STATUS);
+			gBrowser.addProgressListener(fr.hardcoding.scrollupfolder.browserProgressListener);
 		},
 		
 		/**
@@ -727,11 +729,11 @@ fr.hardcoding.scrollupfolder = {
 		}
 		// Catching if it is a badly formed URI
 		catch(e) {
-			sendLog('failed new URI');
+			sendLog('failed to load clean URI');
 			switch (fr.hardcoding.scrollupfolder.prefs.badUriAction.value) {
 			case 2:
 				// Force to load URI
-				getBrowser().selectedBrowser.loadURI(url);
+				getBrowser().selectedBrowser.loadURI(uri);
 			break;
 			case 1:
 				// Replace with current URI
