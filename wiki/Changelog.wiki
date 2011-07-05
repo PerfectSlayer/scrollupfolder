@@ -3,13 +3,13 @@
 
 = Changelog =
 
-==== Version 4.2.2 (development): ====
+==== Version 4.2.2 (lastest): ====
  * Fix hebrew translation
  * Fix url panel size on first display
  * Fix url loading while url is baddly formed
  * Update Firefox 7a1 compatibility (thanks to KAAMOS2)
 
-==== Version 4.2.1 (lastest): ====
+==== Version 4.2.1: ====
  * Add hebrew translation
 
 ==== Version 4.2.0: ====
