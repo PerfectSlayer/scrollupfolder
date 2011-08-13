@@ -14,3 +14,8 @@ This page contains research and progress about breadcrumbs in Scroll Up Folder.
 
 *History research*
  * https://developer.mozilla.org/en/Querying_Places
+
+
+= Source code references =
+ * chrome://browser/content/browser.xul
+ * chrome://navigator/content/urlbarBindings.xml
