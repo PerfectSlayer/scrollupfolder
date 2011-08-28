@@ -1,0 +1,12 @@
+<!ENTITY title "Klasör Tercihleri">
+<!ENTITY description "Bir web sitesinin klasörleri için göz at.">
+<!ENTITY showbutton "Adres çubuğunda göster">
+<!ENTITY controlmode.title "Kontrol modu:">
+<!ENTITY controlmode.mouseonly "Sadece Fare">
+<!ENTITY controlmode.keyboardonly "Sadece Klavye">
+<!ENTITY controlmode.both "Her ikisi de (fare ve klavye)">
+<!ENTITY parsegetvars "URL deki değişkenleri çözümle">
+<!ENTITY actionbadurl.title "Biçimlenmemiş bir url yüklemeye çalışırken eylemi gerçekleştir">
+<!ENTITY actionbadurl.donothing "Hiçbir şey yapma">
+<!ENTITY actionbadurl.replacewithcurrenturl "Geçerli URL ile değiştir">
+<!ENTITY actionbadurl.forcetoload "Yüklemeye zorla">

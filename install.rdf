@@ -3,7 +3,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>scrollupfolder@omni.n0ne.org</em:id>
     <em:type>2</em:type>
-    <em:version>4.2.2</em:version>
+    <em:version>4.2.3</em:version>
     <em:name>Scroll Up Folder</em:name>
     <em:description>Browse for folders of a website.</em:description>
     <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
@@ -11,13 +11,14 @@
     <em:translator>erglo</em:translator>
     <em:translator>markh</em:translator>
     <em:translator>RigoNet</em:translator>
+    <em:translator>barryoni</em:translator>
     <em:translator>l0stintranslation</em:translator>
     <em:translator>Luana Di Muzio</em:translator>
     <em:translator>Marcelo Ghelman</em:translator>
     <em:translator>ДакСРБИЈА</em:translator>
     <em:translator>Mikael Hiort af Ornäs</em:translator>
+    <em:translator>omrakin</em:translator>
     <em:translator>yfdyh000</em:translator>
-    <em:translator>barryoni</em:translator>
     <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
     <em:iconURL>chrome://scrollupfolder/skin/icon.png</em:iconURL>
     <em:targetApplication>
@@ -114,6 +115,15 @@
         <em:locale>sv-SE</em:locale>
           <em:name>Scroll Up Folder</em:name>
           <em:description>Bläddra efter en webbsidas mappar.</em:description>
+          <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
+          <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
+        </Description>
+    </em:localized>
+    <em:localized>
+      <Description>
+        <em:locale>tr-TR</em:locale>
+          <em:name>Scroll Up Folder</em:name>
+          <em:description>Bir web sitesinin klasörleri için göz at.</em:description>
           <em:creator>Bruce Bujon (Perfect Slayer)</em:creator>
           <em:homepageURL>http://scrollupfolder.googlecode.com</em:homepageURL>
         </Description>
