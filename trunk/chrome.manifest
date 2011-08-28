@@ -10,6 +10,7 @@ locale	scrollupfolder	nl		chrome/locale/nl/
 locale	scrollupfolder	pt-BR	chrome/locale/pt-BR/
 locale	scrollupfolder	sr		chrome/locale/sr/
 locale	scrollupfolder	sv-SE	chrome/locale/sv-SE/
+locale	scrollupfolder	tr-TR	chrome/locale/tr-TR/
 locale	scrollupfolder	zh-CN	chrome/locale/zh-CN/
 
 overlay	chrome://browser/content/browser.xul	chrome://scrollupfolder/content/overlay.xul
