@@ -3,7 +3,10 @@
 
 = Changelog =
 
-==== Version 4.2.2 (lastest): ====
+==== Version 4.2.3 (lastest): ====
+ * Add turkish translation
+
+==== Version 4.2.2: ====
  * Fix hebrew translation
  * Fix url panel size on first display
  * Fix url loading while url is baddly formed
