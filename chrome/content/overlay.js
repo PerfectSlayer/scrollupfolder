@@ -484,6 +484,92 @@ fr.hardcoding.scrollupfolder = {
 	},
 	
 	/**
+	 * Behavior of breadcrumb.
+	 */
+	breadcrumb: {
+		/**
+		 * History service.
+		 */
+		historyService: Components.classes["@mozilla.org/browser/nav-history-service;1"].getService(Components.interfaces.nsINavHistoryService),
+	
+		/**
+		 * Open the breadcrumb panel.
+		 * @param	breadcrumbPopup	The breadcrumb popup opened.
+		 * @param	pathBoxId		The level in the url path.
+		 */
+		onShowing: function(breadcrumbPopup, level) {
+			// Get path box
+			var pathBox = document.getElementById("suf-path-box"+level);
+			if (pathBox==null)
+				return;
+			// Update path box style as opened
+			pathBox.classList.add("opened");
+			// Get current tab paths
+			var currentTab = getBrowser().selectedBrowser;
+			// Check if paths were generated
+			if (!currentTab.SUFPaths) {
+				fr.hardcoding.scrollupfolder.processPaths(currentTab);
+			}
+			// Get url of level
+			var url = currentTab.SUFPaths[currentTab.SUFPaths.length-1-level];
+			sendLog("URL "+url);
+			var query = fr.hardcoding.scrollupfolder.breadcrumb.historyService.getNewQuery();
+			query.searchTerms = url;
+			query.beginTimeReference = query.TIME_RELATIVE_NOW;
+			query.beginTime = -30 * 24 * 60 * 60 * 1000000;
+			// sendLog("query created");
+			var options = fr.hardcoding.scrollupfolder.breadcrumb.historyService.getNewQueryOptions();
+			options.queryType = options.QUERY_TYPE_HISTORY;
+			options.resultType = options.RESULTS_AS_URI;
+			// sendLog("query options created");
+			var result = fr.hardcoding.scrollupfolder.breadcrumb.historyService.executeQuery(query, options);
+			var container = result.root;
+			container.containerOpen = true;
+			// sendLog("query done");
+			var pathTree = {};
+			// sendLog("path tree generated");
+			sendLog("result count: "+container.childCount);
+			
+			for (var i = 0; i < container.childCount; i ++) {
+				var node = container.getChild(i);
+				sendLog("Node uri: "+node.uri);
+				var parts = node.uri.split("/");
+				sendLog(parts);
+				var pathSubTree = pathTree;
+				for (var partIndex = 3; partIndex<=parts.length; partIndex++) {
+					var part = parts[partIndex];
+					sendLog(typeof(pathTree[part]));
+					if (typeof(pathTree[part]) == 'undefined') {
+						//sendLog("definition de "+part);
+						console.log("definition de "+part);
+						pathSubTree[part] = {};
+					}
+					pathSubTree = pathSubTree[part];
+					//sendLog(pathTree[part]);
+				}
+				//break;
+			}
+			
+			console.log("pathTree:");
+			console.log(pathTree);
+			container.containerOpen = false;
+			
+			
+		},
+		
+		/**
+		 * Close the breadcrumb panel.
+		 * @param	pathBoxId		The id of the pathBox closed.
+		 */
+		onHiding: function(level) {
+			var pathBox = document.getElementById("suf-path-box"+level);
+			if (pathBox==null)
+				return;
+			pathBox.classList.remove("opened");
+		}
+	},
+	
+	/**
 	 * Browser progress listener.
 	 * @see https://developer.mozilla.org/en/Code_snippets/Progress_Listeners
 	 * @see https://developer.mozilla.org/en/nsIWebProgressListener
