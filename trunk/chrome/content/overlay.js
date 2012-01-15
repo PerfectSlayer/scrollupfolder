@@ -11,6 +11,7 @@ fr.hardcoding.scrollupfolder = {
 	prefs: {
 		showButton: Application.prefs.get('extensions.scrollupfolder.showButton'),
 		controlMode: Application.prefs.get('extensions.scrollupfolder.controlMode'),
+		invertScroll: Application.prefs.get('extensions.scrollupfolder.invertScroll'),
 		parseGetVars: Application.prefs.get('extensions.scrollupfolder.parseGetVars'),
 		badUriAction: Application.prefs.get('extensions.scrollupfolder.badUriAction'),
 		version: Application.prefs.get('extensions.scrollupfolder.version')
@@ -183,10 +184,12 @@ fr.hardcoding.scrollupfolder = {
 				fr.hardcoding.scrollupfolder.urlbar.lastEventTimeStamp = event.timeStamp;
 			}
 			// Go up in paths list
-			if (event.detail < 0 && currentTab.SUFPointer < currentTab.SUFPaths.length-1) {
+			var goUp = (event.detail < 0 && !fr.hardcoding.scrollupfolder.prefs.invertScroll.value) ||  
+				(event.detail > 0 && fr.hardcoding.scrollupfolder.prefs.invertScroll.value);
+			if (goUp && currentTab.SUFPointer < currentTab.SUFPaths.length-1) {
 				currentTab.SUFPointer++;
 			// Go down in paths list
-			} else if (event.detail > 0 && currentTab.SUFPointer > 0) {
+			} else if (!goUp && currentTab.SUFPointer > 0) {
 				currentTab.SUFPointer--;
 			}
 			// Get the new path to display
@@ -321,7 +324,7 @@ fr.hardcoding.scrollupfolder = {
 			// Get current tab
 			var currentTab = getBrowser().selectedBrowser;
 			// Check if paths were generated
-			if (currentTab.SUFPaths === undefined) {
+			if (typeof(currentTab.SUFPaths) == 'undefined') {
 				fr.hardcoding.scrollupfolder.processPaths(currentTab);
 			}
 			// Prevent panel showing if these is no path
@@ -896,5 +899,3 @@ window.addEventListener(
 	},
 	false
 );
-
-//alert('chargement de SUF');

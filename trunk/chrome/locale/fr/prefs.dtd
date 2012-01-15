@@ -5,6 +5,7 @@
 <!ENTITY controlmode.mouseonly "Seulement à la souris">
 <!ENTITY controlmode.keyboardonly "Seulement au clavier">
 <!ENTITY controlmode.both "Les deux (à la souris et au clavier)">
+<!ENTITY invertScroll "Inverser l'axe de la molette">
 <!ENTITY parsegetvars "Analyser aussi les variables GET de l'URL">
 <!ENTITY actionbadurl.title "Action à effectuer lors du chargment d'une URL non valide :">
 <!ENTITY actionbadurl.donothing "Ne rien faire">
