@@ -19,7 +19,7 @@
                 <radio value="3" label="&controlmode.both;" />
             </radiogroup>
         </groupbox>
-        <checkbox label="&invertScroll;" preference="extensions.scrollupfolder.invertScroll" />
+        <checkbox label="&invertscroll;" preference="extensions.scrollupfolder.invertScroll" />
         <checkbox label="&parsegetvars;" preference="extensions.scrollupfolder.parseGetVars" />
         <groupbox>
             <caption label="&actionbadurl.title;" />
