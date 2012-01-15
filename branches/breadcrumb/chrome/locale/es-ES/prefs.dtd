@@ -1,0 +1,12 @@
+<!ENTITY title "Scroll Up Folder Preferencias">
+<!ENTITY description "Buscar carpetas en sitio web.">
+<!ENTITY showbutton "Mostrar botón en la barra de direcciones">
+<!ENTITY controlmode.title "Modo de control:">
+<!ENTITY controlmode.mouseonly "Sólo ratón">
+<!ENTITY controlmode.keyboardonly "Sólo teclado">
+<!ENTITY controlmode.both "Ambos (teclado y ratón)">
+<!ENTITY parsegetvars "Analizar también variables GET en la URL">
+<!ENTITY actionbadurl.title "Acción a realizar cuando intente cargar una URL erronea:">
+<!ENTITY actionbadurl.donothing "No hacer nada">
+<!ENTITY actionbadurl.replacewithcurrenturl "Reemplazar con la URL actual">
+<!ENTITY actionbadurl.forcetoload "Forzar carga.">
