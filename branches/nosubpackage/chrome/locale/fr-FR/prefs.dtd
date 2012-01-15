@@ -1,6 +1,0 @@
-<!ENTITY title "Préférences de Scrull Up Folder">
-<!ENTITY parsegetvars "Analyser les variables GET de l'URL :">
-<!ENTITY actionbadurl.title "Action à effectuer lorsqu'on essaie de charger une URL non valide :">
-<!ENTITY actionbadurl.donothing "Ne rien faire">
-<!ENTITY actionbadurl.replacewithcurrenturl "Remplacer pour l'URL de la page courante">
-<!ENTITY actionbadurl.forcetoload "Forcer le chargement">
