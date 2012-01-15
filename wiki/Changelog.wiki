@@ -3,7 +3,11 @@
 
 = Changelog =
 
-==== Version 4.2.3 (lastest): ====
+==== Version 4.2.4 (lastest): ====
+ * Add preference to invert scroll axis (thanks to CitizenhanceR)
+ * Add Firefox 12.0a1 support
+
+==== Version 4.2.3: ====
  * Add turkish translation
 
 ==== Version 4.2.2: ====
