@@ -46,6 +46,7 @@ This is the preferences window :<br/>
   <li>_Keyboard only_</li>
   <li>_Both (mouse & keyboard)_</li>
  </ul>
+ <li>_Invert scroll axis_: if checked, goes up when scrolled down,</li>
  <li>_Parse GET variables in URL also_: also propose the current address without GET variables as parent folder,</li>
  <li>_Action to perform when trying to load a no wellformed url_: what happens if you want load a non URL text in your url bar with the extension,</li>
  <ul>
