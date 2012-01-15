@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+
+		  <binding id="urlbar" extends="chrome://browser/content/urlbarBindings.xml#urlbar">
+			
+			<content sizetopopup="pref">
+				<xul:hbox anonid="textbox-container" class="autocomplete-textbox-container urlbar-textbox-container" flex="1" xbl:inherits="focused">
+					<children includes="image|deck|stack|box">
+						<xul:image class="autocomplete-icon" allowevents="true"/>
+					</children>
+					<xul:hbox anonid="textbox-input-box" class="textbox-input-box urlbar-input-box" flex="1" xbl:inherits="tooltiptext=inputtooltiptext">
+						<xul:hbox class="suf-breadcrumb">
+							<xul:popupset id="suf-breadcrumb-popups">
+								<xul:menupopup id="suf-breadcrumb-popup1" position="after_start"
+											onpopupshowing="fr.hardcoding.scrollupfolder.breadcrumb.onShowing(this, 1)"
+											onpopuphiding="fr.hardcoding.scrollupfolder.breadcrumb.onHiding(1)">
+									<xul:menu label="test 1">
+										<xul:menupopup label="test 1">
+											<xul:menuitem label="test a"/>
+											<xul:menuitem label="test b"/>
+											<xul:menuitem label="test c"/>
+											<xul:menuitem label="test d"/>
+											<xul:menuitem label="test e"/>
+										</xul:menupopup>
+									</xul:menu>
+									<xul:menuitem label="test 2"/>
+									<xul:menuitem label="test 3"/>
+								</xul:menupopup>
+							</xul:popupset>
+							<xul:hbox id="suf-path-box1" class="suf-path-box">
+								<xul:label value="google.com"/>
+								<xul:label value="/" class="suf-path-separator" popup="suf-breadcrumb-popup1"/>
+								<!-- <xul:panel id="suf-breadcrumb-panel1" position="after_start"
+											onpopupshowing="fr.hardcoding.scrollupfolder.breadcrumb.onShowing(this.parentNode,'http://www.google.com')"
+											onpopuphiding="fr.hardcoding.scrollupfolder.breadcrumb.onHiding(this.parentNode)">
+									<xul:label value="Panel 1"/>
+								</xul:panel> -->
+							</xul:hbox>
+							<xul:hbox class="suf-path-box">
+								<xul:label value="test"/>
+								<xul:label value="/" class="suf-path-separator"/>
+							</xul:hbox>
+							<xul:hbox class="suf-path-box">
+								<xul:label value="test2"/>
+								<xul:label value="/" class="suf-path-separator"/>
+							</xul:hbox>
+						</xul:hbox>
+						<children/>
+						<html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input uri-element-right-align" allowevents="true" xbl:inherits="tooltiptext=inputtooltiptext,onfocus,onblur,value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"/>
+					</xul:hbox>
+					<children includes="hbox"/>
+				</xul:hbox>
+				<xul:dropmarker anonid="historydropmarker" class="autocomplete-history-dropmarker urlbar-history-dropmarker" allowevents="true" xbl:inherits="open,enablehistory,parentfocused=focused"/>
+				<xul:popupset anonid="popupset" class="autocomplete-result-popupset"/>
+				<children includes="toolbarbutton"/>
+			</content>
+			
+			<!-- <handlers>
+				<handler event="keypress" keycode="VK_F4"><![CDATA[
+					var inputElement = document.getAnonymousElementByAttribute(this, "anonid", "input");
+					//sendLog(inputElement);
+					sendLog(this.editor.rootElement.childNodes);
+					//for (i=0; i<inputElement.childNodes.length; i++) {
+					//	sendLog(inputElement.childNodes[i]);
+					//}
+				]]></handler>
+			</handlers> -->
+		  
+		  </binding>
+		  
+</bindings>

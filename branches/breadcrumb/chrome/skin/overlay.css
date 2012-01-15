@@ -1,3 +1,56 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+/* urlbar behavior */
+#urlbar {
+  -moz-binding: url(chrome://scrollupfolder/content/test.xml#urlbar);
+}
+
+/* breadcrumb */
+hbox.suf-breadcrumb hbox.suf-path-box {
+	margin-top: 1px;
+	margin-right: 1px;
+	margin-bottom: 1px;
+	margin-left: 1px;
+}
+
+hbox.suf-breadcrumb hbox.suf-path-box:hover, hbox.suf-breadcrumb hbox.suf-path-box.opened {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: black;
+	
+	background-color: rgb(220, 230, 230);
+}
+
+hbox.suf-breadcrumb hbox.suf-path-box label {
+	margin-top: 0px;
+	margin-right: 1px;
+	margin-bottom: 0px;
+	margin-left: 1px;
+	border: none;
+}
+
+hbox.suf-breadcrumb hbox label.suf-path-separator {
+	margin-left: 1px;
+	margin-right: 0px;
+}
+
+hbox.suf-breadcrumb hbox label.suf-path-separator:hover {
+	margin-left: 0px;
+	border-left: 1px solid black;
+}
+
+hbox.suf-breadcrumb hbox.suf-path-box.opened label.suf-path-separator {
+	margin-left: 0px;
+	border-left: 1px solid black;
+	
+	background-color: rgb(100, 120, 120);
+}
+
 /* URL listbox */
 listbox#scrollupfolderUrlsListbox listitem[selected=true] {
     font-weight: bold;
