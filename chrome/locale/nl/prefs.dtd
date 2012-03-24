@@ -5,7 +5,7 @@
 <!ENTITY controlmode.mouseonly "Alleen muis">
 <!ENTITY controlmode.keyboardonly "Alleen toetsenbord">
 <!ENTITY controlmode.both "Beide (muis &amp; toetsenbord)">
-<!ENTITY invertScroll "Scrollas omkeren">
+<!ENTITY invertscroll "Scrollas omkeren">
 <!ENTITY parsegetvars "GET-variabelen ook in URL ontleden">
 <!ENTITY actionbadurl.title "Uit te voeren actie bij laden van een slecht gevormde URL:">
 <!ENTITY actionbadurl.donothing "Niets doen">
