@@ -1,0 +1,13 @@
+<!ENTITY title "Scroll Up Folder Preferences">
+<!ENTITY description "Browse for folders of a website.">
+<!ENTITY showbutton "Show button in address bar">
+<!ENTITY controlmode.title "Control mode:">
+<!ENTITY controlmode.mouseonly "Mouse only">
+<!ENTITY controlmode.keyboardonly "Keyboard only">
+<!ENTITY controlmode.both "Both (mouse &amp; keyboard)">
+<!ENTITY invertscroll "Invert scroll axis">
+<!ENTITY parsegetvars "Parse GET variables in URL also">
+<!ENTITY actionbadurl.title "Action to perform when trying to load a no well-formed url:">
+<!ENTITY actionbadurl.donothing "Do nothing">
+<!ENTITY actionbadurl.replacewithcurrenturl "Replace with current URL">
+<!ENTITY actionbadurl.forcetoload "Force to load">
