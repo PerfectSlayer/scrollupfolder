@@ -3,7 +3,14 @@
 
 = Changelog =
 
-==== Version 4.2.4 (lastest): ====
+==== Version 4.2.5 (lastest): ====
+ * Stop event propagation on mouse whell in url bar to increase addon compatibility (thanks to Peter Leugner, Xclear addon author)
+ * Add Firefox 13.0a1 support
+ * Update hebrew locale (thanks to barryoni)
+ * Update dutch locale (thanks to markh)
+ * Update turkish locale (thanks to alfapegasi)
+
+==== Version 4.2.4: ====
  * Add preference to invert scroll axis (thanks to CitizenhanceR)
  * Add Firefox 12.0a1 support
 
