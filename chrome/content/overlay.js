@@ -183,6 +183,8 @@ fr.hardcoding.scrollupfolder = {
 				// Save event timestamp
 				fr.hardcoding.scrollupfolder.urlbar.lastEventTimeStamp = event.timeStamp;
 			}
+			// Stop event propagation (for other addon compatibility as Xclear)
+			event.stopPropagation();
 			// Go up in paths list
 			var goUp = (event.detail < 0 && !fr.hardcoding.scrollupfolder.prefs.invertScroll.value) ||  
 				(event.detail > 0 && fr.hardcoding.scrollupfolder.prefs.invertScroll.value);
