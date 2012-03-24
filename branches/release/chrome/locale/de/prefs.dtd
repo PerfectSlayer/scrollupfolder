@@ -5,6 +5,7 @@
 <!ENTITY controlmode.mouseonly "Nur Maus">
 <!ENTITY controlmode.keyboardonly "Nur Tastatur">
 <!ENTITY controlmode.both "Beides (Maus &amp; Tastatur)">
+<!ENTITY invertscroll "Invert scroll axis">
 <!ENTITY parsegetvars "GET-Variablen einer URL-Adresse ebenfalls einlesen">
 <!ENTITY actionbadurl.title "Aktion, welche beim Laden einer fehlerhaften URL-Adresse durchgeführt werden soll:">
 <!ENTITY actionbadurl.donothing "Nichts tun">

@@ -5,6 +5,7 @@
 <!ENTITY controlmode.mouseonly "Endast mus">
 <!ENTITY controlmode.keyboardonly "Endast tangentbord">
 <!ENTITY controlmode.both "Bägge (mus &amp; tangentbord)">
+<!ENTITY invertscroll "Invert scroll axis">
 <!ENTITY parsegetvars "Parsa GET-variabler även i URL">
 <!ENTITY actionbadurl.title "Åtgärd att utföra när dåligt utformad URL försöker ladda:">
 <!ENTITY actionbadurl.donothing "Gör ingenting">
