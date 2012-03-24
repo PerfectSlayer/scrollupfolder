@@ -41,7 +41,6 @@ fr.hardcoding.scrollupfolder = {
 		fr.hardcoding.scrollupfolder.checkUpdate();
 		// Remove event onLoad
 		gBrowser.removeEventListener('load', fr.hardcoding.scrollupfolder.onLoad, true);
-		sendLog('chargement fini');
 	},
 	
 	/**
@@ -50,7 +49,6 @@ fr.hardcoding.scrollupfolder = {
 	 * @see https://developer.mozilla.org/en/Code_snippets/Miscellaneous#Retrieving_the_version_of_an_extension_as_specified_in_the_extension's_install.rdf
 	 */
 	checkUpdate: function() {
-		sendLog("checkUpdate");
 		// Try to use Firefox 3 addon manager
 		if (typeof(Components.classes["@mozilla.org/extensions/manager;1"]) != 'undefined') {
 			// Get the extension manager
@@ -73,9 +71,6 @@ fr.hardcoding.scrollupfolder = {
 	 * Check the update or the first run of the extension.
 	 */
 	applyUpdate: function(currentVersion) {
-		sendLog("applyUpdate");
-		sendLog("lastRunVersion: "+fr.hardcoding.scrollupfolder.prefs.version.value);
-		sendLog("currentVersion: "+currentVersion);
 		// Check the version registered in preferences
 		if (fr.hardcoding.scrollupfolder.prefs.version.value == "uninstalled") {
 			// Save the current version in preferences
@@ -228,9 +223,8 @@ fr.hardcoding.scrollupfolder = {
 				// Select the next item
 				var item = listbox.getItemAtIndex(selectedListItemIdex-1);
 				listbox.selectItem(item);
-				// Update url in urlbar						// TODO Should be optional
+				// Update url in urlbar
 				document.getElementById('urlbar').value = item.label;
-				sendLog({'index': selectedListItemIdex, 'action': 'up'});
 			} else 
 			// Select previous element in listbox
 			if (event.keyCode == event.DOM_VK_DOWN && panel.state == 'open') {
@@ -249,9 +243,8 @@ fr.hardcoding.scrollupfolder = {
 				// Select the next item
 				var item = listbox.getItemAtIndex(selectedListItemIdex+1);
 				listbox.selectItem(item);
-				// Update url in urlbar					// TODO Should be optional
+				// Update url in urlbar
 				document.getElementById('urlbar').value = item.label;
-				sendLog({'index': selectedListItemIdex, 'action': 'down'});
 			}
 		},
 		
@@ -734,7 +727,6 @@ fr.hardcoding.scrollupfolder = {
 		}
 		// Catching if it is a badly formed URI
 		catch(e) {
-			sendLog('failed to load clean URI');
 			switch (fr.hardcoding.scrollupfolder.prefs.badUriAction.value) {
 			case 2:
 				// Force to load URI
@@ -754,7 +746,6 @@ fr.hardcoding.scrollupfolder = {
 	 * @param	brower		The tab to generate paths.
 	 */
 	processPaths: function(browser) {
-		sendLog("focus");
 		// Get current URI (not from urlbar, but loaded URI from current tab)
 		var path = browser.currentURI.spec;
 		// Prevent path computation on about page
@@ -846,8 +837,6 @@ fr.hardcoding.scrollupfolder = {
 		/* lets see if can go up domain */
 		/* delete first . of domain */
 		var newDomain = domain.replace(/.*?\./,'');
-		// var currentURI = getBrowser().selectedBrowser.currentURI;
-		// sendLog({'old': content.document.domain, 'new': currentURI.host});
 		// Check upper domain calculated
 		if (newDomain == null || newDomain == content.document.domain || newDomain.indexOf('.') == -1) {
 			return null;
@@ -876,21 +865,6 @@ fr.hardcoding.scrollupfolder = {
 		var baseURI = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService).newURI(str, null, null);
 		return baseURI.QueryInterface(Components.interfaces.nsIURL);
 	}
-};
-
-//Send debug message to console (debug only)
-function sendLog(msg) {
-	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-	if (msg == null)
-		msg = "[valeure nulle]";
-	if (typeof msg == 'object') {
-		var newMsg = '';
-		for(item in msg) {
-			newMsg+= "'"+item+"' => '"+msg[item]+"', \n";
-		}
-		msg = newMsg.substring(0, newMsg.length-3);
-	}
-	consoleService.logStringMessage(msg);
 };
 
 // Add onLoad event
