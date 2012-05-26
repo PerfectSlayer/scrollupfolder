@@ -677,10 +677,18 @@ fr.hardcoding.scrollupfolder = {
 			var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
 			// Observer scrollupfolder and children preferences
 			this._branch = prefService.getBranch("extensions.scrollupfolder.");
-			// Queue the interface for observing preferences change
-			this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
-			// Add the observer
-			this._branch.addObserver("", this, false);
+			try {
+				// Queue the interface for observing preferences change
+				this._branch.QueryInterface(Components.interfaces.nsIPrefBranch);
+				// Add the observer
+				this._branch.addObserver("", this, false);
+			} catch (e) {
+				// Queue the interface before gecko 13 for observing preferences change
+				var deprecatedIPrefBranch = "nsIPrefBranch"+"2";
+				this._branch.QueryInterface(Components.interfaces[deprecatedIPrefBranch]);
+				// Add the observer
+				this._branch.addObserver("", this, false);
+			}
 		},
 
 		/**
