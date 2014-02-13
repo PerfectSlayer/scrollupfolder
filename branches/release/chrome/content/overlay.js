@@ -334,6 +334,12 @@ fr.hardcoding.scrollupfolder = {
 			var rows = listbox.getRowCount();
 			if (rows != 0)
 				listbox.setAttribute('rows', rows);
+			// Get the urlpanel element
+			var urlpanel = document.getElementById('scrollupfolderUrlsPanel');
+			// Get the urlbar element
+			var urlbar = document.getElementById('urlbar');
+			// Fix urlpanel width
+			urlpanel.width = urlbar.scrollWidth;
 			return true;
 		},
 		
@@ -856,7 +862,6 @@ fr.hardcoding.scrollupfolder = {
 		} else {
 			resolvedUrl = scheme+'://'+newDomain+'/';
 		}
-//		alert("other:\n"+baseUrl+" "+resolvedUrl);
 		if (resolvedUrl == baseUrl) {
 			return null;
 		}
