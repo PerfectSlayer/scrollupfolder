@@ -3,7 +3,11 @@
 
 = Changelog =
 
-==== Version 4.2.6 (lastest): ====
+
+==== Version 4.2.7 (lastest): ====
+ * Fix url panel 1px width on Firefox 29
+
+==== Version 4.2.6: ====
  * Fix use of nsIPrefBranch2 which becomes deprecated on Gecko 13
  * Update es locale (thanks to !RigoNet)
  * Add Firefox 15 nightly compatibility
