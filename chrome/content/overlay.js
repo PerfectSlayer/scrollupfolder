@@ -769,6 +769,8 @@ fr.hardcoding.scrollupfolder = {
 	 */
 	processPaths: function(browser) {
 		sendLog("focus");
+		// Get current URI (not from urlbar, but loaded URI from current tab)
+		var path = browser.currentURI.spec;
 		// Check if paths are already generated
 		if (browser.SUFPaths) {
 			// Check if they tally with current URI
@@ -782,8 +784,6 @@ fr.hardcoding.scrollupfolder = {
 		}
 		// Initialize paths
 		var paths = new Array();
-		// Get current URI (not from urlbar, but loaded URI from current tab)
-		var path = browser.currentURI.spec;
 		// Prevent path computation on about page
 		if (path.substr(0, 6) != 'about:') {
 			// Create paths
