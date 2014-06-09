@@ -4,7 +4,10 @@
 = Changelog =
 
 
-==== Version 4.2.7 (lastest): ====
+==== Version 4.2.8 (lastest): ====
+ * Fix path initialization on about: pages
+
+==== Version 4.2.7: ====
  * Fix url panel 1px width on Firefox 29
 
 ==== Version 4.2.6: ====
