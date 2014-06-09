@@ -762,10 +762,6 @@ fr.hardcoding.scrollupfolder = {
 	processPaths: function(browser) {
 		// Get current URI (not from urlbar, but loaded URI from current tab)
 		var path = browser.currentURI.spec;
-		// Prevent path computation on about page
-		if (path.substr(0, 6) == 'about:') {
-			return;
-		}
 		// Check if paths are already generated
 		if (browser.SUFPaths) {
 			// Check if they tally with current URI
@@ -779,10 +775,13 @@ fr.hardcoding.scrollupfolder = {
 		}
 		// Initialize paths
 		var paths = new Array();
-		// Create paths
-		while(path != null)	{
-			paths.push(path);
-			path = fr.hardcoding.scrollupfolder.canGoUp(path);
+		// Prevent path computation on about page
+		if (path.substr(0, 6) != 'about:') {
+			// Create paths
+			while(path != null)	{
+				paths.push(path);
+				path = fr.hardcoding.scrollupfolder.canGoUp(path);
+			}
 		}
 		// Set path to current tab
 		browser.SUFPaths = paths;
