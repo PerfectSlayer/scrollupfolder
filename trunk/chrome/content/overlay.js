@@ -159,7 +159,7 @@ fr.hardcoding.scrollupfolder = {
 				url = "http://"+url;
 			}
 			// Load url in current tab
-			fr.hardcoding.scrollupfolder.loadURI(url);
+			fr.hardcoding.scrollupfolder.loadURI(url, event);
 		},
 
 		/**
@@ -190,8 +190,9 @@ fr.hardcoding.scrollupfolder = {
 				(event.detail > 0 && fr.hardcoding.scrollupfolder.prefs.invertScroll.value);
 			if (goUp && currentTab.SUFPointer < currentTab.SUFPaths.length-1) {
 				currentTab.SUFPointer++;
+			}
 			// Go down in paths list
-			} else if (!goUp && currentTab.SUFPointer > 0) {
+			else if (!goUp && currentTab.SUFPointer > 0) {
 				currentTab.SUFPointer--;
 			}
 			// Get the new path to display
@@ -300,7 +301,7 @@ fr.hardcoding.scrollupfolder = {
 					// Update SUF pointer
 					currentTab.SUFPointer = listbox.getIndexOfItem(item);
 					// Load URI in current tab
-					fr.hardcoding.scrollupfolder.loadURI(item.label);
+					fr.hardcoding.scrollupfolder.loadURI(item.label, event);
 				}
 				// Hide panel
 				panel.hidePopup();
@@ -397,13 +398,20 @@ fr.hardcoding.scrollupfolder = {
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
 			// Get selected item
 			var item = listbox.getSelectedItem(0);
-			if (item != null) {
-				// Get current tab
-				var currentTab = getBrowser().selectedBrowser;
-				// Update SUF pointer
-				currentTab.SUFPointer = listbox.getIndexOfItem(item);
-				// Get the urlbar
-				var urlbar = document.getElementById('urlbar');
+			// Check selected item
+			if (item == null)
+				return;
+			// Get current tab
+			var currentTab = getBrowser().selectedBrowser;
+			// Update SUF pointer
+			currentTab.SUFPointer = listbox.getIndexOfItem(item);
+			// Get the urlbar
+			var urlbar = document.getElementById('urlbar');
+			// Check the mouse control mode
+			if (fr.hardcoding.scrollupfolder.prefs.controlMode.value == 1) {
+				// Load URI in current tab
+				fr.hardcoding.scrollupfolder.loadURI(item.label);
+			} else {
 				// Update urlbar localtion
 				urlbar.value = item.label;
 				// Set urlbar focus
@@ -412,7 +420,6 @@ fr.hardcoding.scrollupfolder = {
 				var positionCursor = item.label.length;
 				urlbar.setSelectionRange(positionCursor, positionCursor);
 			}
-			return true;
 		},
 		
 		/**
@@ -423,15 +430,15 @@ fr.hardcoding.scrollupfolder = {
 			var listbox = document.getElementById('scrollupfolderUrlsListbox');
 			// Get selected item
 			var item = listbox.getSelectedItem(0);
-			if (item != null) {
-				// Get current tab
-				var currentTab = getBrowser().selectedBrowser;
-				// Update SUF pointer
-				currentTab.SUFPointer = listbox.getIndexOfItem(item);
-				// Load URI in current tab
-				fr.hardcoding.scrollupfolder.loadURI(item.label);
-			}
-			return true;
+			// Check selected item
+			if (item == null)
+				return;
+			// Get current tab
+			var currentTab = getBrowser().selectedBrowser;
+			// Update SUF pointer
+			currentTab.SUFPointer = listbox.getIndexOfItem(item);
+			// Load URI in current tab
+			fr.hardcoding.scrollupfolder.loadURI(item.label);
 		}
 	
 	
@@ -477,7 +484,6 @@ fr.hardcoding.scrollupfolder = {
 			urlbar.focus();
 			// Open popup
 			urlpanel.openPopup(urlbar, 'after_start', 0, 0, false, false);
-			return true;
 		},
 		
 		/**
@@ -734,17 +740,18 @@ fr.hardcoding.scrollupfolder = {
 			}
 		}
 	},
-	
+
 	/**
-	 * Load an URI in current tab.
+	 * Load an URI.
 	 * @param	uri			The URI to load.
+	 * @param	event		The triggering event.
 	 */
-	loadURI : function(uri) {
+	loadURI: function(uri, event) {
 		try {
 			// Create valid URI from chosen url
 			var urlClean = fr.hardcoding.scrollupfolder.returnURL(uri);
-			// Load URI in current tab
-			getBrowser().selectedBrowser.loadURI(urlClean.spec);
+			// Load valid URI
+			fr.hardcoding.scrollupfolder.loadValidURI(urlClean.spec, event);
 		}
 		// Catching if it is a badly formed URI
 		catch(e) {
@@ -752,7 +759,7 @@ fr.hardcoding.scrollupfolder = {
 			switch (fr.hardcoding.scrollupfolder.prefs.badUriAction.value) {
 			case 2:
 				// Force to load URI
-				getBrowser().selectedBrowser.loadURI(uri);
+				fr.hardcoding.scrollupfolder.loadValidURI(uri, event);
 			break;
 			case 1:
 				// Replace with current URI
@@ -760,6 +767,28 @@ fr.hardcoding.scrollupfolder = {
 			break;
 			// Otherwise, do noting
 			}
+		}
+	},
+
+	/**
+	 * Load a valid URI.
+	 * @param	uri			The URI to load.
+	 * @param	event		The triggering event.
+	 */
+	loadValidURI: function(uri, event) {
+		// Check shift modifier
+		if (event && event.shiftKey) {
+			// Load URI in a new browser
+			openUILinkIn(uri, "window", false);
+		}
+		// Check control modifier
+		else if (event && event.ctrlKey) {
+			// Load URI in a new tab
+			getBrowser().addTab(uri);
+		}
+		// Otherwise, load URI in current tab
+		else {
+			getBrowser().selectedBrowser.loadURI(uri);
 		}
 	},
 	
@@ -893,9 +922,9 @@ fr.hardcoding.scrollupfolder = {
 //Send debug message to console (debug only)
 function sendLog(msg) {
 	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-	if (msg == null)
-		msg = "[valeure nulle]";
-	if (typeof msg == 'object') {
+	if (msg == null) { 
+		msg = "[null value]";
+	} else if (typeof msg == 'object') {
 		var newMsg = '';
 		for(item in msg) {
 			newMsg+= "'"+item+"' => '"+msg[item]+"', \n";
