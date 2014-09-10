@@ -4,7 +4,11 @@
 = Changelog =
 
 
-==== Version 4.2.8 (lastest): ====
+==== Version 4.2.9 (lastest): ====
+ * Add page loading on list item selection for mouse only control mode (thanks to Sam Bo)
+ * Add loading URI location according modifier (control for new tab, shift for new window, thanks to atomizer)
+
+==== Version 4.2.8: ====
  * Fix path initialization on about: pages
 
 ==== Version 4.2.7: ====
