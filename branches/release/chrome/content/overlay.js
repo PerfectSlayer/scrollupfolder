@@ -270,6 +270,8 @@ fr.hardcoding.scrollupfolder = {
 				}
 				// Stop event propagation
 				event.stopPropagation();
+				// Cancel event to prevent menu to be displayed
+				event.preventDefault();
 				// Get urlbar element
 				var urlbar = document.getElementById('urlbar');
 				// Check if awesomebar popup is opened
@@ -284,6 +286,8 @@ fr.hardcoding.scrollupfolder = {
 			if (event.keyCode == event.DOM_VK_ALT && panel.state == 'open') {
 				// Stop event propagation
 				event.stopPropagation();
+				// Cancel event to prevent menu to be displayed
+				event.preventDefault();
 				// Get listbox element
 				var listbox = document.getElementById('scrollupfolderUrlsListbox');
 				// Get selected item
@@ -880,7 +884,7 @@ fr.hardcoding.scrollupfolder = {
 		/* delete first . of domain */
 		var newDomain = domain.replace(/.*?\./,'');
 		// Check upper domain calculated
-		if (newDomain == null || newDomain == content.document.domain || newDomain.indexOf('.') == -1) {
+		if (newDomain == null || newDomain == domain || newDomain.indexOf('.') == -1) {
 			return null;
 		}
 		/* if one period add www */
