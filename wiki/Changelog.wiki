@@ -3,8 +3,13 @@
 
 = Changelog =
 
+==== Version 4.2.10 (lastest): ====
+ * Add electrolysis compatibility
+ * Update sv-SE translation (thanks to hiroshi)
+ * Update compatibility to Firefox 37
+ * Fix menu showing on panel ALT key binding
 
-==== Version 4.2.9 (lastest): ====
+==== Version 4.2.9: ====
  * Add page loading on list item selection for mouse only control mode (thanks to Sam Bo)
  * Add loading URI location according modifier (control for new tab, shift for new window, thanks to atomizer)
 
