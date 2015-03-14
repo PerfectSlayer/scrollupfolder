@@ -1,4 +1,4 @@
-# scrollupfolder
+# Scroll Up Folder
 A firefox addon wich goes up a folder of a website.
 ## Description: ##
 A firefox addon wich goes up a folder of a website.
