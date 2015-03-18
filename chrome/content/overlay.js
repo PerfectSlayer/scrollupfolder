@@ -79,7 +79,7 @@ fr.hardcoding.scrollupfolder = {
 			var timerCallbak = {
 				notify: function(timer) {
 					// Open the first run page
-					gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/FirstRun");
+					gBrowser.selectedTab = gBrowser.addTab("https://github.com/PerfectSlayer/scrollupfolder/wiki/FirstRun");
 				}
 			};
 			// Initialize the tab timer
@@ -91,7 +91,7 @@ fr.hardcoding.scrollupfolder = {
 			var timerCallbak = {
 				notify: function(timer) {
 					// Open the changelog page
-					gBrowser.selectedTab = gBrowser.addTab("http://code.google.com/p/scrollupfolder/wiki/Changelog");
+					gBrowser.selectedTab = gBrowser.addTab("https://github.com/PerfectSlayer/scrollupfolder/wiki/Changelog");
 				}
 			};
 			// Initialize the tab timer
