@@ -46,27 +46,17 @@ fr.hardcoding.scrollupfolder = {
 	
 	/**
 	 * Get the add-on version then apply update.
-	 * Firefox 3.x and Firefox 4 addon manager used.
 	 * @see https://developer.mozilla.org/en/Code_snippets/Miscellaneous#Retrieving_the_version_of_an_extension_as_specified_in_the_extension's_install.rdf
 	 */
 	checkUpdate: function() {
 		sendLog("checkUpdate");
-		// Try to use Firefox 3 addon manager
-		if (typeof(Components.classes["@mozilla.org/extensions/manager;1"]) != 'undefined') {
-			// Get the extension manager
-			var extensionManager = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager);
-			// Get the current version of the extension
-			var currentVersion = extensionManager.getItemForID("scrollupfolder@omni.n0ne.org").version;
-			// Apply update
-			fr.hardcoding.scrollupfolder.applyUpdate(currentVersion);
-		}
-		// Otherwise, try to use Firefox 4 addon manager
-		else if (typeof(Components.utils) != 'undefined' && typeof(Components.utils.import) != 'undefined') {
-			Components.utils.import("resource://gre/modules/AddonManager.jsm");
-			AddonManager.getAddonByID("scrollupfolder@omni.n0ne.org", function(addon) {
-				fr.hardcoding.scrollupfolder.applyUpdate(addon.version);
-			});
-		}
+		// Import addon manager
+		Components.utils.import("resource://gre/modules/AddonManager.jsm");
+		// Look for addon
+		AddonManager.getAddonByID("scrollupfolder@omni.n0ne.org", function(addon) {
+			// Apply check update with addon version
+			fr.hardcoding.scrollupfolder.applyUpdate(addon.version);
+		});
 	},
 	
 	/**
@@ -706,7 +696,7 @@ fr.hardcoding.scrollupfolder = {
 				// Add the observer
 				this._branch.addObserver("", this, false);
 			} catch (e) {
-				// Queue the interface before gecko 13 for observing preferences change
+				// Queue the interface before gecko 13 (ie Firefox 13) for observing preferences change
 				var deprecatedIPrefBranch = "nsIPrefBranch"+"2";
 				this._branch.QueryInterface(Components.interfaces[deprecatedIPrefBranch]);
 				// Add the observer
