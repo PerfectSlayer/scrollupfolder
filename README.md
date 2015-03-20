@@ -30,3 +30,6 @@ You can compare each version with the [changelog page](https://github.com/Perfec
 
 ### Review:
 I spent many hours to develop and improve this add-on. So if you like it, [take some minutes to rate it](https://addons.mozilla.org/firefox/addon/scroll-up-folder/reviews/add). Thanks you a lot! :+1: 
+
+
+[![Analytics](https://ga-beacon.appspot.com/UA-9910596-2/readme)](https://github.com/igrigorik/ga-beacon)
