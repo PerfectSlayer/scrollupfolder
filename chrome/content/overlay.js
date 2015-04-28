@@ -13,6 +13,7 @@ fr.hardcoding.scrollupfolder = {
 		controlMode: Application.prefs.get('extensions.scrollupfolder.controlMode'),
 		invertScroll: Application.prefs.get('extensions.scrollupfolder.invertScroll'),
 		parseGetVars: Application.prefs.get('extensions.scrollupfolder.parseGetVars'),
+		parseAnchor: Application.prefs.get('extensions.scrollupfolder.parseAnchor'),
 		badUriAction: Application.prefs.get('extensions.scrollupfolder.badUriAction'),
 		version: Application.prefs.get('extensions.scrollupfolder.version')
 	},
@@ -829,6 +830,11 @@ fr.hardcoding.scrollupfolder = {
 		}
 		/*-- end of block --*/
 		var resolvedUrl = null;
+		var indexAnchor = baseUrl.indexOf('#');
+		// Try to espace anchor
+		if (indexAnchor != -1 && fr.hardcoding.scrollupfolder.prefs.parseAnchor.value) {
+			return baseUrl.substring(0, indexAnchor);
+		}
 		var indexGetParam = baseUrl.indexOf('?');
 		// Try to escape GET variables
 		if (indexGetParam != -1 && fr.hardcoding.scrollupfolder.prefs.parseGetVars.value) {
