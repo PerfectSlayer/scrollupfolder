@@ -6,6 +6,7 @@
 <!ENTITY controlmode.keyboardonly "Seulement au clavier">
 <!ENTITY controlmode.both "Les deux (à la souris et au clavier)">
 <!ENTITY invertscroll "Inverser l'axe de la molette">
+<!ENTITY parseanchor "Analyser aussi l'ancre de l'URL">
 <!ENTITY parsegetvars "Analyser aussi les variables GET de l'URL">
 <!ENTITY actionbadurl.title "Action à effectuer lors du chargment d'une URL non valide :">
 <!ENTITY actionbadurl.donothing "Ne rien faire">
