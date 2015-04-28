@@ -6,6 +6,7 @@
 <!ENTITY controlmode.keyboardonly "Yalnızca klavyeyle">
 <!ENTITY controlmode.both "Her ikisi de (fare ve klavye)">
 <!ENTITY invertscroll "Fare yönünü ters çevir">
+<!ENTITY parseanchor "Parse anchor in URL also">
 <!ENTITY parsegetvars "URL'deki GET değişkenlerini de tara">
 <!ENTITY actionbadurl.title "İyi yapılanmamış URL yüklerken ne yapılsın:">
 <!ENTITY actionbadurl.donothing "Hiçbirşey">

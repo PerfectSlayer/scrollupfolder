@@ -7,6 +7,7 @@
 <!ENTITY controlmode.both "(שניהם (עכבר ומקלדת">
 <!ENTITY invertscroll "הפוך ציר גלילה">
 <!ENTITY parsegetvars "גם בכתובת האתר GET פצל משתני">
+<!ENTITY parseanchor "Parse anchor in URL also">
 <!ENTITY actionbadurl.title "פעולה לביצוע בעת טעינת כתובת אתר שגויה שנוצרה">
 <!ENTITY actionbadurl.donothing "אל תעשה כלום">
 <!ENTITY actionbadurl.replacewithcurrenturl "החלף בכתובת אתר נוכחית">

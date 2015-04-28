@@ -6,6 +6,7 @@
 <!ENTITY controlmode.keyboardonly "仅键盘">
 <!ENTITY controlmode.both "两者（鼠标和键盘）">
 <!ENTITY invertscroll "Invert scroll axis">
+<!ENTITY parseanchor "Parse anchor in URL also">
 <!ENTITY parsegetvars "此外解析在网址的 GET 变量">
 <!ENTITY actionbadurl.title "当尝试载入一个格式错误的网址时的动作：">
 <!ENTITY actionbadurl.donothing "无动作">

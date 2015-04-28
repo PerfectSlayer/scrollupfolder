@@ -6,6 +6,7 @@
 <!ENTITY controlmode.keyboardonly "Sólo teclado">
 <!ENTITY controlmode.both "Ambos (teclado y ratón)">
 <!ENTITY invertscroll "Invertir eje de scroll">
+<!ENTITY parseanchor "Parse anchor in URL also">
 <!ENTITY parsegetvars "Analizar también variables GET en la URL">
 <!ENTITY actionbadurl.title "Acción a realizar cuando intente cargar una URL erronea:">
 <!ENTITY actionbadurl.donothing "No hacer nada">
