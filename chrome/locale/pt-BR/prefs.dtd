@@ -5,8 +5,10 @@
 <!ENTITY controlmode.mouseonly "Apenas mouse">
 <!ENTITY controlmode.keyboardonly "Apenas teclado">
 <!ENTITY controlmode.both "Ambos (mouse e teclado)">
-<!ENTITY parsegetvars "Também analisar variáveis GET na URL">
-<!ENTITY actionbadurl.title "Ação a ser executada ao tentar carregar uma URL mal formada">
+<!ENTITY invertscroll "Inverter eixo de deslocamento">
+<!ENTITY parseanchor "Analisar âncora na URL também">
+<!ENTITY parsegetvars "Analisar variáveis GET na URL também">
+<!ENTITY actionbadurl.title "Ação a ser executada ao tentar carregar uma URL mal formada:">
 <!ENTITY actionbadurl.donothing "Não fazer nada">
 <!ENTITY actionbadurl.replacewithcurrenturl "Substituir pela URL atual">
 <!ENTITY actionbadurl.forcetoload "Forçar carregar">
