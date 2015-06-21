@@ -5,6 +5,8 @@
 <!ENTITY controlmode.mouseonly "само мишем">
 <!ENTITY controlmode.keyboardonly "само тастатуром">
 <!ENTITY controlmode.both "обоје (мишем и тастатуром)">
+<!ENTITY invertscroll "Invert scroll axis">
+<!ENTITY parseanchor "Рашчлани anchor и у URL-у">
 <!ENTITY parsegetvars "Рашчлани променљиве за GET и у адреси">
 <!ENTITY actionbadurl.title "Када покушам учитавање погрешно обликоване адресе:">
 <!ENTITY actionbadurl.donothing "не ради ништа">
