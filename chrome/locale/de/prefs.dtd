@@ -1,14 +1,14 @@
 <!ENTITY title "Scroll Up Folder - Einstellungen">
-<!ENTITY description "Navigieren Sie durch die übergeordneten Ordner einer URL mit dem Mausrad oder der Tastatur.">
+<!ENTITY description "Navigieren Sie durch die übergeordneten Ordner einer URL-Adresse.">
 <!ENTITY showbutton "Schaltfläche in der Adressleiste anzeigen">
 <!ENTITY controlmode.title "Steuerung:">
-<!ENTITY controlmode.mouseonly "Nur Maus">
-<!ENTITY controlmode.keyboardonly "Nur Tastatur">
-<!ENTITY controlmode.both "Beides (Maus &amp; Tastatur)">
-<!ENTITY invertscroll "Invert scroll axis">
-<!ENTITY parseanchor "Parse anchor in URL also">
+<!ENTITY controlmode.mouseonly "Nur mit der Maus">
+<!ENTITY controlmode.keyboardonly "Nur mit der Tastatur">
+<!ENTITY controlmode.both "Mit beiden (Maus &amp; Tastatur)">
+<!ENTITY invertscroll "Scrollrichtung umkehren">
+<!ENTITY parseanchor "URL-Anker ebenfalls einlesen">
 <!ENTITY parsegetvars "GET-Variablen einer URL-Adresse ebenfalls einlesen">
-<!ENTITY actionbadurl.title "Aktion, welche beim Laden einer fehlerhaften URL-Adresse durchgeführt werden soll:">
+<!ENTITY actionbadurl.title "Aktion beim Laden einer fehlerhaften URL-Adresse:">
 <!ENTITY actionbadurl.donothing "Nichts tun">
 <!ENTITY actionbadurl.replacewithcurrenturl "Mit aktueller URL-Adresse ersetzen">
-<!ENTITY actionbadurl.forcetoload "Trotzdem laden">
+<!ENTITY actionbadurl.forcetoload "Laden erzwingen">
