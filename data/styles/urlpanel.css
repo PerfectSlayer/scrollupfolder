@@ -1,0 +1,8 @@
+/* urlbar panel */
+listbox#scrollupfolderUrlsListbox listitem[selected=true] {
+    font-weight: bold;
+}
+
+listbox#scrollupfolderUrlsListbox {
+    -mox-box-flex: 1;
+}
