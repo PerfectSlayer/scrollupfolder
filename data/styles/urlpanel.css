@@ -1,8 +1,13 @@
 /* urlbar panel */
-listbox#scrollupfolderUrlsListbox listitem[selected=true] {
-    font-weight: bold;
+panel#scrollupfolderUrlsPanel {
+    border: none;
 }
 
 listbox#scrollupfolderUrlsListbox {
     -mox-box-flex: 1;
+    margin: 0px;
+}
+
+listbox#scrollupfolderUrlsListbox listitem[selected=true] {
+    font-weight: bold;
 }
