@@ -88,13 +88,6 @@
   				"value": "2"
   			}
   		]
-  	},
-  	{
-  		"name": "version",
-  		"title": "The last installed version",
-  		"type": "string",
-  		"value": "uninstalled",
-  		"hidden": true
   	}
   ]
 }
