@@ -71,7 +71,7 @@
 		},
 		{
 			"name": "badUriAction",
-			"title": "Action to perform when trying to load a no well-formed url",
+			"title": "Action to perform when trying to load a not well-formed url",
 			"type": "radio",
 			"value": "0",
 			"options": [
