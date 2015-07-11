@@ -88,6 +88,13 @@
 					"value": "2"
 				}
 			]
+		},
+		{
+			"name": "lastWizard",
+			"title": "The last displayed wizard",
+			"type": "string",
+			"value": "none",
+			"hidden": true
 		}
 	],
 	"permissions": {
