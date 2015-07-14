@@ -1,0 +1,103 @@
+{
+	"name": "scrollupfolder",
+	"title": "Scroll Up Folder",
+	"id": "scrollupfolder@omni.n0ne.org",
+	"description": "Browse for folders of a website.",
+	"author": "Bruce Bujon (Perfect Slayer)",
+	"contributor": "Omar Khan",
+	"translator": [
+		"erglo",
+		"markh",
+		"RigoNet",
+		"barryoni",
+		"l0stintranslation",
+		"Luana Di Muzio",
+		"Marcelo Ghelman",
+		"ДакСРБИЈА",
+		"Mikael Hiort af Ornäs",
+		"omrakin",
+		"yfdyh000",
+		"alfapegasi",
+		"hiroshi",
+		"DakSrbija"],
+	"homepage": "https://github.com/PerfectSlayer/scrollupfolder",
+	"icon": "data/images/icon.png",
+	"license": "MPL 1.1",
+	"version": "5.0.0",
+	"preferences": [
+		{
+			"name": "showButton",
+			"title": "Show button in address bar",
+			"type": "bool",
+			"value": true
+		},
+		{
+			"name": "controlMode",
+			"title": "Control mode",
+			"type": "radio",
+			"value": "3",
+			"options": [
+				{
+					"label": "Mouse only",
+					"value": "1"
+				},
+				{
+					"label": "Keyboard only",
+					"value": "2"
+				},
+				{
+					"label": "Both (mouse and keyboard)",
+					"value": "3"
+				}
+			]
+		},
+		{
+			"name": "invertScroll",
+			"title": "Invert scroll axis",
+			"type": "bool",
+			"value": false
+		},
+		{
+			"name": "parseAnchor",
+			"title": "Parse anchor in URL too",
+			"type": "bool",
+			"value": false
+		},
+		{
+			"name": "parseGetVars",
+			"title": "Parse GET variables in URL too",
+			"type": "bool",
+			"value": true
+		},
+		{
+			"name": "badUriAction",
+			"title": "Action to perform when trying to load a not well-formed url",
+			"type": "radio",
+			"value": "0",
+			"options": [
+				{
+					"label": "Do nothing",
+					"value": "0"
+				},
+				{
+					"label": "Replace with current URL",
+					"value": "1"
+				},
+				{
+					"label": "Force to load",
+					"value": "2"
+				}
+			]
+		},
+		{
+			"name": "lastWizard",
+			"title": "The last displayed wizard",
+			"type": "string",
+			"value": "none",
+			"hidden": true
+		}
+	],
+	"permissions": {
+		"private-browsing": true
+	 }
+}
