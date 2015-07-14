@@ -35,7 +35,7 @@
 			"name": "controlMode",
 			"title": "Control mode",
 			"type": "radio",
-			"value": "3",
+			"value": 3,
 			"options": [
 				{
 					"label": "Mouse only",
