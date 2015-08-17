@@ -23,7 +23,7 @@
 	"homepage": "https://github.com/PerfectSlayer/scrollupfolder",
 	"icon": "data/images/icon.png",
 	"license": "MPL 1.1",
-	"version": "5.0.0",
+	"version": "5.0.1",
 	"preferences": [
 		{
 			"name": "showButton",
