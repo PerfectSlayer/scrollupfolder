@@ -1,6 +1,6 @@
 /* urlbar button */
 #fr_hardcoding_scrollupfolder_urlbar_button {
-    list-style-image: url("resource://scrollupfolder-at-omni-dot-n0ne-dot-org/scrollupfolder/data/images/folder.png");
+    list-style-image: url("../images/folder.png");
     -moz-image-region: rect(0px 16px 16px 0px);
 }
 
