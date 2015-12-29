@@ -5,11 +5,11 @@ const Tabs = require('sdk/tabs');
 const Timers = require('sdk/timers');
 const Url = require('sdk/url');
 // Include urlbar module
-const Urlbar = require('urlbar');
+const Urlbar = require('lib/urlbar');
 // Include URL button module
-const UrlButton = require('urlbutton');
+const UrlButton = require('lib/urlbutton');
 // Include URL panel module
-const UrlPanel = require('urlpanel');
+const UrlPanel = require('lib/urlpanel');
 
 // Define Scroll Up Folder package
 let fr = {};
