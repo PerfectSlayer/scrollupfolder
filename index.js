@@ -5,18 +5,15 @@ const Tabs = require('sdk/tabs');
 const Timers = require('sdk/timers');
 const Url = require('sdk/url');
 // Include urlbar module
-const Urlbar = require('urlbar');
+const Urlbar = require('lib/urlbar');
 // Include URL button module
-const UrlButton = require('urlbutton');
+const UrlButton = require('lib/urlbutton');
 // Include URL panel module
-const UrlPanel = require('urlpanel');
-
-// Create packaging
-if (!fr) var fr = {};
-if (!fr.hardcoding) fr.hardcoding = {};
-if (!fr.hardcoding.scrollupfolder) fr.hardcoding.scrollupfolder = {};
+const UrlPanel = require('lib/urlpanel');
 
 // Define Scroll Up Folder package
+let fr = {};
+fr.hardcoding = {};
 fr.hardcoding.scrollupfolder = {
 	/**
 	 * The wizard to display.
@@ -38,6 +35,8 @@ fr.hardcoding.scrollupfolder = {
 		fr.hardcoding.scrollupfolder.button.init();
 		// Check update
 		fr.hardcoding.scrollupfolder.checkUpdate();
+		// Listen preferences
+		fr.hardcoding.scrollupfolder.listenPrefs();
 	},
 
 	/**
@@ -51,22 +50,26 @@ fr.hardcoding.scrollupfolder = {
 		if (Self.loadReason === 'install') {
 			// Open the first run page
 			Tabs.open('https://github.com/PerfectSlayer/scrollupfolder/wiki/FirstRun');
-		} else
+			// Do not open any other popup
+			return;
+		}
 		// Check upgrade
-		if (Self.loadReason === 'upgrade') {
+		else if (Self.loadReason === 'upgrade') {
 			// Open the changelog page
 			Tabs.open('https://github.com/PerfectSlayer/scrollupfolder/wiki/Changelog');
+			// Do not open any other popup
+			return;
 		}
 		/*
 		 * Check wizard to display.
 		 */
 		// Get last displayed wizard
-		var lastWizard = SimplePrefs.prefs.lastWizard;
+		let lastWizard = SimplePrefs.prefs.lastWizard;
 		// Delare next wizard to display
-		var nextWizard = null;
-		var wizard;
+		let nextWizard = null;
+		let wizard;
 		// Check each wizard
-		for (var index = fr.hardcoding.scrollupfolder.wizards.length - 1; index >= 0; index--) {
+		for (let index = fr.hardcoding.scrollupfolder.wizards.length - 1; index >= 0; index--) {
 			// Get wizard
 			wizard = fr.hardcoding.scrollupfolder.wizards[index];
 			// Check last wizard
@@ -122,19 +125,13 @@ fr.hardcoding.scrollupfolder = {
 				return;
 			}
 			// Getting chosen URL
-			var url = Urlbar.getUrl(Tabs.activeTab.window);
+			let url = Urlbar.getUrl(Tabs.activeTab.window);
 			// Check event (only middle-click) and URL
 			if (event.button != 1 || url == null || url.length <= 0) {
 				return;
 			}
 			// Stop event propagation (for X server/linux)
 			event.stopPropagation();
-			// Add default HTTP protocol if missing
-			var indexScheme = url.indexOf('://');
-			var indexQuery = url.indexOf('?');
-			if ((indexScheme === -1 && url.substr(0, 6) !== 'about:') || (indexQuery !== -1 && indexQuery < indexScheme)) {
-				url = 'http://' + url;
-			}
 			// Load URL
 			fr.hardcoding.scrollupfolder.loadUrl(url, event);
 		},
@@ -158,25 +155,31 @@ fr.hardcoding.scrollupfolder = {
 			// Stop event propagation (for other addon compatibility as Xclear)
 			event.stopPropagation();
 			// Get current tab
-			var currentTab = Tabs.activeTab;
-			// Check if paths should be updated
-			if (typeof(currentTab.SUFPaths) === 'undefined' || currentTab.SUFPaths.indexOf(currentTab.url) === -1) {
-				// Compute paths
-				fr.hardcoding.scrollupfolder.processPaths(currentTab);
-			}
+			let currentTab = Tabs.activeTab;
+			// Compute paths
+			fr.hardcoding.scrollupfolder.processPaths(currentTab);
 			// Go up in paths list
-			var goUp = (event.detail < 0 && !SimplePrefs.prefs.invertScroll) || (event.detail > 0 && SimplePrefs.prefs.invertScroll);
+			let goUp = (event.detail < 0 && !SimplePrefs.prefs.invertScroll) || (event.detail > 0 && SimplePrefs.prefs.invertScroll);
 			if (goUp && currentTab.SUFPointer < currentTab.SUFPaths.length - 1) {
+				// Update curent pointer
 				currentTab.SUFPointer++;
 			}
 			// Go down in paths list
 			else if (!goUp && currentTab.SUFPointer > 0) {
+				// Update curent pointer
 				currentTab.SUFPointer--;
 			}
 			// Get the new path to display
-			var url = currentTab.SUFPaths[currentTab.SUFPointer];
+			let url = currentTab.SUFPaths[currentTab.SUFPointer];
+			// Get active window
+			let window = currentTab.window;
 			// Display the path to the urlbar URL
-			Urlbar.setUrl(currentTab.window, url);
+			Urlbar.setUrl(window, url);
+			// Check if panel is opened
+			if (UrlPanel.isOpened(window)) {
+				// Update selected index
+				UrlPanel.setSelectedIndex(window, currentTab.SUFPointer);
+			}
 		},
 
 		/**
@@ -185,22 +188,31 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		onKeyDown: function(event) {
 			// Get active window
-			var window = Tabs.activeTab.window;
+			let window = Tabs.activeTab.window;
 			// Check if URL panel is opened
 			if (!UrlPanel.isOpened(window)) {
 				return;
 			}
+			// Declare url
+			let url = null;
 			// Select next element in listbox
 			if (event.keyCode == event.DOM_VK_UP) {
 				// Select upper item in URL panel
-				var url = UrlPanel.selectUpperItem(window);
-				// Update URL in urlbar
-				Urlbar.setUrl(window, url);
-			} else
+				url = UrlPanel.selectUpperItem(window);
+			}
 			// Select previous element in listbox
-			if (event.keyCode == event.DOM_VK_DOWN) {
+			else if (event.keyCode == event.DOM_VK_DOWN) {
 				// Select down item in URL panel
-				var url = UrlPanel.selectDownItem(window);
+				url = UrlPanel.selectDownItem(window);
+			}
+			// Check if URL is defined
+			if (url !== null) {
+				// Get selected index
+				let selectedIndex = UrlPanel.getSelectedIndex(window);
+				if (selectedIndex !== -1) {
+					// Update current pointer
+					Tabs.activeTab.SUFPointer = selectedIndex;
+				}
 				// Update URL in urlbar
 				Urlbar.setUrl(window, url);
 			}
@@ -216,9 +228,9 @@ fr.hardcoding.scrollupfolder = {
 				return;
 			}
 			// Get active window
-			var window = Tabs.activeTab.window;
+			let window = Tabs.activeTab.window;
 			// Check if URL panel is opened
-			var urlPanelOpened = UrlPanel.isOpened(window);
+			let urlPanelOpened = UrlPanel.isOpened(window);
 			// Open the panel
 			if (event.keyCode == event.DOM_VK_ALT && !urlPanelOpened) {
 				// Prevent panel opening if key up event were for another key binding
@@ -241,11 +253,11 @@ fr.hardcoding.scrollupfolder = {
 				// Cancel event to prevent menu to be displayed
 				event.preventDefault();
 				// Get current tab
-				var currentTab = Tabs.activeTab;
+				let currentTab = Tabs.activeTab;
 				// Get selected item
-				var url = UrlPanel.getSelectedItem(window);
+				let url = UrlPanel.getSelectedItem(window);
 				// Get selected item index
-				var index = UrlPanel.getSelectedIndex(window);
+				let index = UrlPanel.getSelectedIndex(window);
 				if (url && index >= 0 && index < currentTab.SUFPaths.length) {
 					// Update SUF pointer
 					currentTab.SUFPointer = index;
@@ -284,12 +296,12 @@ fr.hardcoding.scrollupfolder = {
 			// Ensure the URL panel is closed when active tab changed
 			Tabs.on('activate', fr.hardcoding.scrollupfolder.urlpanel.ensureClose);
 			// Declare ensure panel closed method
-			var ensurePanelClosed = function(tab) {
+			let ensurePanelClosed = function(tab) {
 				// Close the panel
 				UrlPanel.close(tab.window);
 			};
 			// Declare attach handler method
-			var attachHandlers = function(tab) {
+			let attachHandlers = function(tab) {
 				// Ensure the URL panel is closed when tab is ready or page shown
 				tab.on('ready', fr.hardcoding.scrollupfolder.urlpanel.ensureClose);
 				tab.on('pageshow', fr.hardcoding.scrollupfolder.urlpanel.ensureClose);
@@ -317,19 +329,11 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		onShowing: function(event) {
 			// Get listbox element
-			var listbox = event.listbox;
+			let listbox = event.listbox;
 			// Get current tab
-			var currentTab = Tabs.activeTab;
-			// Declare current pointer
-			var pointer;
-			// Check if paths should be updated
-			if (typeof(currentTab.SUFPaths) === 'undefined' || (pointer = currentTab.SUFPaths.indexOf(currentTab.url)) === -1) {
-				// Compute paths
-				fr.hardcoding.scrollupfolder.processPaths(currentTab);
-			} else {
-				// Update pointer
-				currentTab.SUFPointer = pointer;
-			}
+			let currentTab = Tabs.activeTab;
+			// Compute paths
+			fr.hardcoding.scrollupfolder.processPaths(currentTab);
 			// Prevent panel showing if these is no path
 			if (currentTab.SUFPaths.length === 0) {
 				// Cancel event to prevent popup to be displayed
@@ -346,7 +350,7 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		onShown: function(event) {
 			// Get current tab
-			var currentTab = Tabs.activeTab;
+			let currentTab = Tabs.activeTab;
 			// Select current URL
 			UrlPanel.setSelectedIndex(currentTab.window, currentTab.SUFPointer);
 			// Start input in urlbar
@@ -361,7 +365,7 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		onHidden: function(event) {
 			// Get current window
-			var window = Tabs.activeTab.window;
+			let window = Tabs.activeTab.window;
 			// Mark URL button as closed
 			UrlButton.markClosed(window);
 		},
@@ -372,23 +376,23 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		onClick: function(event) {
 			// Get current tab
-			var currentTab = Tabs.activeTab;
+			let currentTab = Tabs.activeTab;
+			// Get selected item index
+			let selectedIndex = UrlPanel.getSelectedIndex(currentTab.window);
+			// Check selected index
+			if (selectedIndex === -1) {
+				return;
+			}
 			// Get selected item
-			var selectedItem = UrlPanel.getSelectedItem(currentTab.window);
+			let selectedItem = UrlPanel.getSelectedItem(currentTab.window);
 			// Check selected item
 			if (selectedItem == null) {
 				return;
 			}
+			// Update SUF pointer
+			currentTab.SUFPointer = selectedIndex;
 			// Check the mouse control mode
 			if (SimplePrefs.prefs.controlMode === 1) {
-				// Get selected item index
-				var selectedIndex = UrlPanel.getSelectedIndex(currentTab.window);
-				// Check selected index
-				if (selectedIndex !== -1) {
-					return;
-				}
-				// Update SUF pointer
-				currentTab.SUFPointer = selectedIndex;
 				// Load URL
 				fr.hardcoding.scrollupfolder.loadUrl(selectedItem, event);
 			} else {
@@ -403,11 +407,11 @@ fr.hardcoding.scrollupfolder = {
 		 */
 		onDblClick: function(event) {
 			// Get current tab
-			var currentTab = Tabs.activeTab;
+			let currentTab = Tabs.activeTab;
 			// Get selected item
-			var selectedItem = UrlPanel.getSelectedItem(currentTab.window);
+			let selectedItem = UrlPanel.getSelectedItem(currentTab.window);
 			// Get selected index
-			var selectedIndex = UrlPanel.getSelectedIndex(currentTab.window);
+			let selectedIndex = UrlPanel.getSelectedIndex(currentTab.window);
 			// Check selected item and index
 			if (selectedItem == null || selectedIndex === -1) {
 				return;
@@ -452,7 +456,7 @@ fr.hardcoding.scrollupfolder = {
 	loadUrl: function(url, event) {
 		try {
 			// Create valid URL from given URL
-			var cleanedUrl = Url.URL(url);
+			let cleanedUrl = Url.URL(url);
 			// Load valid URL
 			fr.hardcoding.scrollupfolder.loadValidUrl(cleanedUrl.toString(), event);
 		}
@@ -465,7 +469,7 @@ fr.hardcoding.scrollupfolder = {
 					break;
 				case 1:
 					// Get current tab
-					var currentTab = Tabs.activeTab;
+					let currentTab = Tabs.activeTab;
 					// Replace with current URL
 					Urlbar.setUrl(currentTab.window, currentTab.url);
 					break;
@@ -505,20 +509,63 @@ fr.hardcoding.scrollupfolder = {
 	 */
 	processPaths: function(tab) {
 		// Get current URL (not from urlbar, but loaded URL from current tab)
-		var path = tab.url;
-		// Check if paths are already generated
-		if (tab.SUFPaths) {
-			// Check if they tally with current URL
-			var index = tab.SUFPaths.indexOf(path);
-			if (index != -1) {
-				// Update pointer position
-				tab.SUFPointer = index;
-				// End path computation
-				return;
+		let currentUrl = tab.url;
+		// Declare current URL index
+		let currentIndex;
+		// Check if paths was not already generated or if they are not matching the current URL
+		if (typeof(tab.SUFPaths) === 'undefined' || (currentIndex = tab.SUFPaths.indexOf(currentUrl)) === -1) {
+			// Set path to current tab
+			tab.SUFPaths = fr.hardcoding.scrollupfolder.computePaths(currentUrl);
+			// Set initial pointer position
+			tab.SUFPointer = 0;
+			// Stop path processing
+			return;
+		}
+		// Define pointer set status
+		let pointerSet = false;
+		// Get URL in urlbar
+		let urlbarUrl = Urlbar.getUrl(tab.window);
+		// Check urlbar URL
+		if (urlbarUrl !== null) {
+			// Check if urlbar URL maches one of path
+			let urlbarIndex = tab.SUFPaths.indexOf(urlbarUrl);
+			if (urlbarIndex !== -1) {
+				// Set pointer to urlbar URL index
+				tab.SUFPointer = urlbarIndex;
+				// Mark pointer as set
+				pointerSet = true;
+			} else {
+				// Compute paths for urlbar URL
+				let urlbarPaths = fr.hardcoding.scrollupfolder.computePaths(urlbarUrl);
+				// Check each computed paths from urlbar URL
+				for (let urlbarPathsIndex = 1, urlbarPathsCount = urlbarPaths.length; urlbarPathsIndex<urlbarPathsCount; urlbarPathsIndex++) {
+					// Check if urlbar URL path matches one of computed paths
+					urlbarIndex = tab.SUFPaths.indexOf(urlbarPaths[urlbarPathsIndex]);
+					if (urlbarIndex !== -1) {
+						// Set pointer to urlbar URL index
+						tab.SUFPointer = urlbarIndex;
+						// Mark pointer as set
+						pointerSet = true;
+						break;
+					}
+				}
 			}
 		}
+		// Check if pointer was set
+		if (!pointerSet) {
+			// Set pointer to current URL index
+			tab.SUFPointer = currentIndex;
+		}
+	},
+
+	/**
+	 * Compute paths from an URL.
+	 * @param	path	The base URL to compute paths.
+	 * @return			An array of the computed paths.
+	 */
+	computePaths: function(path) {
 		// Initialize paths
-		var paths = new Array();
+		let paths = new Array();
 		// Prevent path computation on about page
 		if (path.substr(0, 6) !== 'about:') {
 			// Create paths
@@ -527,10 +574,8 @@ fr.hardcoding.scrollupfolder = {
 				path = fr.hardcoding.scrollupfolder.computeUpperUrl(path);
 			}
 		}
-		// Set path to current tab
-		tab.SUFPaths = paths;
-		// Set pointer position
-		tab.SUFPointer = 0;
+		// Return computed paths
+		return paths;
 	},
 
 	/**
@@ -540,7 +585,7 @@ fr.hardcoding.scrollupfolder = {
 	 */
 	computeUpperUrl: function(baseUrl) {
 		// Valid baseUrl making an URL
-		var url = null;
+		let url = null;
 		try {
 			url = Url.URL(baseUrl);
 		} catch (exception) {
@@ -549,7 +594,7 @@ fr.hardcoding.scrollupfolder = {
 		// Try to escape anchor
 		if (SimplePrefs.prefs.parseAnchor) {
 			// Get anchor index
-			var indexAnchor = baseUrl.lastIndexOf('#');
+			let indexAnchor = baseUrl.lastIndexOf('#');
 			if (indexAnchor !== -1) {
 				// Return URL without anchor
 				return baseUrl.substring(0, indexAnchor);
@@ -558,10 +603,10 @@ fr.hardcoding.scrollupfolder = {
 		// Try to escape GET variables
 		if (SimplePrefs.prefs.parseGetVars) {
 			// Get GET parameters index
-			var indexGetParams = baseUrl.indexOf('?');
+			let indexGetParams = baseUrl.indexOf('?');
 			if (indexGetParams !== -1) {
 				// Get GET parameters separator index
-				var indexGetSeparator = baseUrl.lastIndexOf('&');
+				let indexGetSeparator = baseUrl.lastIndexOf('&');
 				if (indexGetSeparator !== -1 && indexGetSeparator > indexGetParams) {
 					// Return URL without last GET parameter
 					return baseUrl.substring(0, indexGetSeparator);
@@ -573,7 +618,7 @@ fr.hardcoding.scrollupfolder = {
 		// Try to go one directory up
 		if (baseUrl.charAt(baseUrl.length - 1) === '/') {
 			// Get one directory up URL
-			var resolvedUrl = Url.URL('..', baseUrl).toString();
+			let resolvedUrl = Url.URL('..', baseUrl).toString();
 			// Check the URL resolution
 			if (baseUrl != resolvedUrl && resolvedUrl.substr(resolvedUrl.length - 2, 2) != '..' && resolvedUrl.substr(resolvedUrl.length - 3, 3) != '../') {
 				// Return one directory up URL
@@ -582,29 +627,29 @@ fr.hardcoding.scrollupfolder = {
 		}
 		// Try to resolve current place
 		else {
-			var resolvedUrl = Url.URL('.', baseUrl).toString();
+			let resolvedUrl = Url.URL('.', baseUrl).toString();
 			if (resolvedUrl !== baseUrl) {
 				return resolvedUrl;
 			}
 		}
 		// Get domain URI
-		var domain = url.host;
+		let domain = url.host;
 		// Check if domain is IPv4 URL
 		if (domain.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/)) {
 			return null;
 		}
 		// Compute upper domain
-		var upperDomain = domain.replace(/.*?\./, '');
+		let upperDomain = domain.replace(/.*?\./, '');
 		// Get dot matches
-		var dotMatches = upperDomain.match(/\./g);
+		let dotMatches = upperDomain.match(/\./g);
 		// Check computed upper domain
 		if (upperDomain == domain || dotMatches === null) {
 			return null;
 		}
 		// Get URL scheme
-		var scheme = url.scheme;
+		let scheme = url.scheme;
 		// Declare resolved URL
-		var resolvedUrl = null;
+		let resolvedUrl = null;
 		// Check top level domain name
 		if (dotMatches.length <= 1) {
 			// Add default www subdomain to TLD name
@@ -619,6 +664,29 @@ fr.hardcoding.scrollupfolder = {
 		}
 		// Return resolved URL
 		return resolvedUrl;
+	},
+
+	/**
+	 * Listen preferences changes.
+	 */
+	listenPrefs: function() {
+		// Listen path computation related preferences
+		SimplePrefs.on('parseAnchor', fr.hardcoding.scrollupfolder.onPrefChange);
+		SimplePrefs.on('parseGetVars', fr.hardcoding.scrollupfolder.onPrefChange);
+	},
+
+	/**
+	 * Apply the preference change.
+	 * @param	preferenceName			The name of the changing preference.
+	 */
+	onPrefChange: function(preferenceName) {
+		// For each tabs
+		for (let tab of Tabs) {
+			// Clear paths
+			delete tab.SUFPaths;
+			// Clear current pointer
+			delete tab.SUFPointer;
+		}
 	}
 };
 

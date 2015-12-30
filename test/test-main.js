@@ -1,5 +1,5 @@
 // Include add-on module
-const main = require("./main");
+const main = require("../index");
 // Include SDK modules
 const SimplePrefs = require('sdk/simple-prefs');
 const Test = require("sdk/test");

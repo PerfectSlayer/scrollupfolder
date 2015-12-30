@@ -1,17 +1,15 @@
 /* urlbar button */
+
 #fr_hardcoding_scrollupfolder_urlbar_button {
-    list-style-image: url("resource://scrollupfolder-at-omni-dot-n0ne-dot-org/scrollupfolder/data/images/folder.png");
+    list-style-image: url("../images/folder.png");
     -moz-image-region: rect(0px 16px 16px 0px);
 }
-
 #fr_hardcoding_scrollupfolder_urlbar_button:hover {
     -moz-image-region: rect(0px 32px 16px 16px);
 }
-
 #fr_hardcoding_scrollupfolder_urlbar_button:hover:active {
     -moz-image-region: rect(0px 48px 16px 32px);
 }
-
 #fr_hardcoding_scrollupfolder_urlbar_button[open="true"] {
     -moz-image-region: rect(0px 64px 16px 48px);
 }
