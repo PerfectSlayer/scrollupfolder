@@ -24,7 +24,7 @@
 	"homepage": "https://github.com/PerfectSlayer/scrollupfolder",
 	"icon": "data/images/icon.png",
 	"license": "MPL 1.1",
-	"version": "5.1.2",
+	"version": "5.2.0",
 	"preferences": [{
 		"name": "showButton",
 		"title": "Show button in address bar",
@@ -83,6 +83,7 @@
 		"hidden": true
 	}],
 	"permissions": {
-		"private-browsing": true
+		"private-browsing": true,
+		"multiprocess": true
 	}
 }
