@@ -24,7 +24,7 @@
     "homepage": "https://github.com/PerfectSlayer/scrollupfolder",
     "icon": "data/images/icon.png",
     "license": "MPL 1.1",
-    "version": "5.2.1",
+    "version": "5.3.0",
     "locales": {
         "de": {
             "description": "Navigieren Sie durch die übergeordneten Ordner einer URL mit dem Mausrad oder der Tastatur."
