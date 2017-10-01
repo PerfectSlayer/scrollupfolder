@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "scrollupfolder",
+    "version": "6.0.0",
+    "description": "Browse for folders of a website.",
+    "short_name": "SUF",
+    "icons": {
+        "32": "icons/icon-32.png"
+    },
+    "author": "Bruce Bujon (Perfect Slayer)",
+    "homepage_url": "https://github.com/PerfectSlayer/scrollupfolder",
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "page_action": {
+        "browser_style": true,
+        "default_icon": "icons/folder.png",
+        "default_popup": "popup/panel.html",
+        "default_title": "Browse for folders"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab"
+    ]
+}
