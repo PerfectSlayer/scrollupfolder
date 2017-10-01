@@ -22,6 +22,6 @@ function handleUrlError(error) {
 var panelElement = document.querySelector('div#panel');
 // Send message to get URLs
 var sending = browser.runtime.sendMessage({
-	message: "get-current-urls"
+	message: "get-urls"
 });
 sending.then(handleUrlResponse, handleUrlError);

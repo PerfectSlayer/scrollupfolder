@@ -2,6 +2,12 @@ function onError(error) {
 	console.error("An error occured:" + error);
 }
 
+/*
+ * Declare URL management.
+ */
+// Declare URLs cache (indexed by tab id)
+var urlCache = {};
+
 function computeUpperFolder(url) {
 	// Get URL protocal
 	var indexProtocol = url.indexOf('://');
@@ -18,7 +24,17 @@ function computeUpperFolder(url) {
 		return null;
 	}
 	// Return computed upper folder
-	return protocol + baseUrl.substring(0, index) + (hasLeadingSlash ? '/' : '');
+	return protocol + baseUrl.substring(0, index+1);
+}
+
+function computeFolders(url) {
+	console.log("Compute urls");
+	var urls = new Array();
+	while (url) {
+		urls.push(url);
+		url = computeUpperFolder(url);
+	}
+	return urls;
 }
 
 function getCurrentUrls(callback) {
@@ -26,31 +42,51 @@ function getCurrentUrls(callback) {
 		currentWindow: true,
 		active: true
 	});
-	querying.then(tabs => createUpFolders(tabs, callback), onError);
+	querying.then(tabs => getUrls(tabs[0], callback), onError);
 }
 
-function createUpFolders(tabs, callback) {
-	// Check tabs
-	if (tabs.length == 0) {
-		return;
-	}
-	// Get tab
-	var currentTab = tabs[0];
+/**
+ * Get URLs of a tab.
+ * @param tab The tab to compute URLs.
+ * @param callback The callback to send result.
+ */
+function getUrls(tab, callback) {
+	// Get current tab id
+	var tabId = tab.id;
 	// Get current URL
-	var url = currentTab.url;
-	console.log("Compute urls");
-	var urls = new Array();
-	while (url) {
-		urls.push(url);
-		url = computeUpperFolder(url);
+	var url = tab.url;
+	// Check cached URLs
+	if (!urlCache[tabId]) {
+		// Create cache
+		urlCache[tabId] = computeFolders(url);
 	}
+	// Compute selected index
+	var selected = urlCache[tabId].indexOf(url);
+	if (selected === -1) {
+		// Update invalid cache
+		urlCache[tabId] = computeFolders(url);
+		//cachedUrls =
+		selected = 0;
+	}
+	// Notify callback
 	callback({
-		"return": "get-current-urls",
-		"tabId": currentTab.id,
-		"urls": urls,
-		"selected": 0
+		"return": "get-urls",
+		"tabId": tabId,
+		"urls": urlCache[tabId],
+		"selected": selected
 	});
 }
+
+/**
+ * Delete URLs of a tab.
+ * @param tabId The tab identifier to remove cache.
+ */
+function deleteUrls(tabId) {
+	delete urlCache.tabId;
+}
+
+// Bind tab remove listener
+browser.tabs.onRemoved.addListener(deleteUrls);
 
 /*
  * Declare messaging between add-on parts.
@@ -67,7 +103,7 @@ function handleMessage(request, sender, sendResponse) {
 	console.log("Message received");
 	console.log(request);
 	switch (request.message) {
-		case 'get-current-urls':
+		case 'get-urls':
 			getCurrentUrls(sendResponse);
 			break;
 	}
@@ -79,7 +115,7 @@ browser.runtime.onMessage.addListener(handleMessage);
 /*
  * Declare page action behavior.
  */
- // Bind tab update listener
+// Bind tab update listener
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	console.log("Tab update " + tabId);
 	console.log(changeInfo);
