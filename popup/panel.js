@@ -1,13 +1,15 @@
-function createUpForder(url) {
+function createUpForder(url, selected) {
 	var urlDivElement = document.createElement('div');
 	urlDivElement.textContent = url;
+	if (selected) {
+		urlDivElement.style.fontWeight = "bold";
+	}
 	panelElement.appendChild(urlDivElement);
 }
 
 function handleUrlResponse(message) {
-    console.log(message);
-    message.urls.forEach(url => createUpForder(url));
-    // TODO message.selected
+	console.log(message);
+	message.urls.forEach((url, index) => createUpForder(url, message.selected === index));
 }
 
 function handleUrlError(error) {

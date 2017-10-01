@@ -27,7 +27,6 @@ function getCurrentUrls(callback) {
 		active: true
 	});
 	querying.then(tabs => createUpFolders(tabs, callback), onError);
-
 }
 
 function createUpFolders(tabs, callback) {
