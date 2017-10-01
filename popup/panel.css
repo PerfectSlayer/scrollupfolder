@@ -1,0 +1,12 @@
+div.panel div {
+    padding: 8px
+}
+
+div.panel div:hover {
+    background-color: #F0F0F0;
+}
+
+div.panel div.selected {
+    color: white;
+    background-color: #0078D7;
+}

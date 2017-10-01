@@ -2,7 +2,7 @@ function createUpForder(url, selected) {
 	var urlDivElement = document.createElement('div');
 	urlDivElement.textContent = url;
 	if (selected) {
-		urlDivElement.style.fontWeight = "bold";
+		urlDivElement.classList.add('selected');
 	}
 	panelElement.appendChild(urlDivElement);
 }
