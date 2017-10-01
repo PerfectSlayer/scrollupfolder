@@ -27,8 +27,18 @@ function computeUpperFolder(url) {
 	return protocol + baseUrl.substring(0, index+1);
 }
 
+/**
+ * Load an URL into a tab.
+ * @param tab The tab to load URL into.
+ * @param url The URL to load.
+ */
+function loadUrl(tab, url) {
+	console.log("Load URL: "+url);
+	browser.tabs.update(tab.id, {"url": url});
+}
+
 function computeFolders(url) {
-	console.log("Compute urls");
+	console.log("Compute urls: "+url);
 	var urls = new Array();
 	while (url) {
 		urls.push(url);
@@ -37,12 +47,12 @@ function computeFolders(url) {
 	return urls;
 }
 
-function getCurrentUrls(callback) {
+function findCurrentTab(onCurrentTabFound) {
 	var querying = browser.tabs.query({
 		currentWindow: true,
 		active: true
 	});
-	querying.then(tabs => getUrls(tabs[0], callback), onError);
+	querying.then(tabs => onCurrentTabFound(tabs[0]), onError);
 }
 
 /**
@@ -51,6 +61,7 @@ function getCurrentUrls(callback) {
  * @param callback The callback to send result.
  */
 function getUrls(tab, callback) {
+	console.log("getUrls");
 	// Get current tab id
 	var tabId = tab.id;
 	// Get current URL
@@ -97,17 +108,21 @@ browser.tabs.onRemoved.addListener(deleteUrls);
  * @param request The message request.
  * @param sender The message sender.
  * @param sendResponse The sender callback.
- * @return Always true to keep callback alive for async response.
+ * @return true to keep callback alive for async response, false otherwise.
  */
 function handleMessage(request, sender, sendResponse) {
 	console.log("Message received");
 	console.log(request);
 	switch (request.message) {
 		case 'get-urls':
-			getCurrentUrls(sendResponse);
-			break;
+			findCurrentTab(tab => getUrls(tab, sendResponse));
+			return true;
+		case 'set-url':
+			findCurrentTab(tab => loadUrl(tab, request.url));
+			return false;
+		default:
+			return false;
 	}
-	return true;
 }
 // Bind message listener
 browser.runtime.onMessage.addListener(handleMessage);

@@ -1,15 +1,41 @@
-function createUpForder(url, selected) {
-	var urlDivElement = document.createElement('div');
-	urlDivElement.textContent = url;
+/**
+ * The click event listener of panel item.
+ * @param url The clicked panel item URL.
+ */
+function onPanelItemClicked(url) {
+	// Close the panel
+	window.close();
+	// Send message to load URL
+	browser.runtime.sendMessage({
+		"message": "set-url",
+		"url": url
+	});
+}
+
+/**
+ * Create a panel element.
+ * @param url The element URL.
+ * @param selected The element selected status (true if selected, false otherwise).
+ */
+function createPanelElement(url, selected) {
+	// Create element
+	var element = document.createElement('div');
+	// Set content
+	element.textContent = url;
+	// Append selected style
 	if (selected) {
-		urlDivElement.classList.add('selected');
+		element.classList.add('selected');
 	}
-	panelElement.appendChild(urlDivElement);
+	// Bind element behavior
+	element.onclick = () => onPanelItemClicked(url);
+	// Append element to panel
+	panelElement.appendChild(element);
 }
 
 function handleUrlResponse(message) {
+	console.log("Reponse");
 	console.log(message);
-	message.urls.forEach((url, index) => createUpForder(url, message.selected === index));
+	message.urls.forEach((url, index) => createPanelElement(url, message.selected === index));
 }
 
 function handleUrlError(error) {
