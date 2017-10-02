@@ -142,3 +142,25 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 		browser.pageAction.hide(tabId);
 	}
 });
+
+/*
+ * Declare welcome behavior.
+ */
+// Bind runtine installation listener
+browser.runtime.onInstalled.addListener(details => {
+	// Declare the welcome URL
+	var welcomeUrl;
+	// Check installation reason
+	switch (details.reason) {
+		case 'install':
+			welcomeUrl = 'https://github.com/PerfectSlayer/scrollupfolder/wiki/FirstRun';
+			break;
+		case 'update':
+			welcomeUrl = 'https://github.com/PerfectSlayer/scrollupfolder/wiki/Changelog';
+			break;
+	}
+	// Open welcome URL in a new tab if defined
+	if (welcomeUrl) {
+		browser.tabs.create({'url': welcomeUrl});
+	}
+});
