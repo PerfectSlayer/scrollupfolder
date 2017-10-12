@@ -47,12 +47,16 @@ function computeFolders(url) {
 	return urls;
 }
 
-function findCurrentTab(onCurrentTabFound) {
+function findCurrentTab() {
+	// Query active tab of the active window
 	var querying = browser.tabs.query({
 		currentWindow: true,
 		active: true
 	});
-	querying.then(tabs => onCurrentTabFound(tabs[0]), onError);
+	// Extract the first tab of the tab array
+	var extractFirstTab = tabs => new Promise(resolve => { resolve(tabs[0]) });
+	// Return combine promise
+	return querying.then(extractFirstTab);
 }
 
 /**
@@ -60,7 +64,7 @@ function findCurrentTab(onCurrentTabFound) {
  * @param tab The tab to compute URLs.
  * @param callback The callback to send result.
  */
-function getUrls(tab, callback) {
+function getUrls(tab) {
 	console.log("getUrls");
 	// Get current tab id
 	var tabId = tab.id;
@@ -76,16 +80,15 @@ function getUrls(tab, callback) {
 	if (selected === -1) {
 		// Update invalid cache
 		urlCache[tabId] = computeFolders(url);
-		//cachedUrls =
 		selected = 0;
 	}
 	// Notify callback
-	callback({
+	return {
 		"return": "get-urls",
 		"tabId": tabId,
 		"urls": urlCache[tabId],
 		"selected": selected
-	});
+	};
 }
 
 /**
@@ -115,10 +118,10 @@ function handleMessage(request, sender, sendResponse) {
 	console.log(request);
 	switch (request.message) {
 		case 'get-urls':
-			findCurrentTab(tab => getUrls(tab, sendResponse));
+			findCurrentTab().then(getUrls).then(sendResponse);
 			return true;
 		case 'set-url':
-			findCurrentTab(tab => loadUrl(tab, request.url));
+			findCurrentTab().then(tab => loadUrl(tab, request.url));
 			return false;
 		default:
 			return false;
@@ -140,6 +143,43 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 		browser.pageAction.show(tabId);
 	} else {
 		browser.pageAction.hide(tabId);
+	}
+});
+
+/*
+ * Declare commands behavior.
+ */
+browser.commands.onCommand.addListener(command => {
+	// Declare function to compute URL to load from tab URLs.
+	var computeUrlFunction;
+	// Check the command
+	switch (command) {
+		case "browse-to-top":
+			console.log("Browse to top command");
+			computeUrlFunction = tab => tab.urls[0];
+			break;
+		case "browse-up":
+			console.log("Browse up command");
+			computeUrlFunction = tab => tab.urls[Math.max(tab.selected - 1, 0)];
+			break;
+		case "browse-down":
+			console.log("Browse down command");
+			computeUrlFunction = tab => tab.urls[Math.min(tab.selected + 1, tab.urls.length-1)];
+			break;
+		case "browse-to-bottom":
+			console.log("Browse to bottom command");
+			computeUrlFunction = tab => tab.urls[ tab.urls.length-1];
+			break;
+	}
+	// Check fuction
+	if (computeUrlFunction) {
+		// Load the computed URL
+		findCurrentTab().then(tab => {
+			// Compute URL to load
+			var url = computeUrlFunction(getUrls(tab));
+			// Load URL to current tab
+			loadUrl(tab, url);
+		});
 	}
 });
 
