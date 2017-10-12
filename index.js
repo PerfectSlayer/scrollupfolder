@@ -125,7 +125,7 @@ fr.hardcoding.scrollupfolder = {
 				return;
 			}
 			// Getting chosen URL
-			let url = Urlbar.getUrl(Tabs.activeTab.window);
+			let url = Urlbar.getUrl(Tabs.activeTab);
 			// Check event (only middle-click) and URL
 			if (event.button != 1 || url == null || url.length <= 0) {
 				return;
@@ -174,7 +174,7 @@ fr.hardcoding.scrollupfolder = {
 			// Get active window
 			let window = currentTab.window;
 			// Display the path to the urlbar URL
-			Urlbar.setUrl(window, url);
+			Urlbar.setUrl(currentTab, url);
 			// Check if panel is opened
 			if (UrlPanel.isOpened(window)) {
 				// Update selected index
@@ -214,7 +214,7 @@ fr.hardcoding.scrollupfolder = {
 					Tabs.activeTab.SUFPointer = selectedIndex;
 				}
 				// Update URL in urlbar
-				Urlbar.setUrl(window, url);
+				Urlbar.setUrl(Tabs.activeTab, url);
 			}
 		},
 
@@ -354,7 +354,7 @@ fr.hardcoding.scrollupfolder = {
 			// Select current URL
 			UrlPanel.setSelectedIndex(currentTab.window, currentTab.SUFPointer);
 			// Start input in urlbar
-			Urlbar.startInput(currentTab.window);
+			Urlbar.startInput(currentTab);
 			// Mark URL button as opened
 			UrlButton.markOpened(currentTab.window);
 		},
@@ -397,7 +397,9 @@ fr.hardcoding.scrollupfolder = {
 				fr.hardcoding.scrollupfolder.loadUrl(selectedItem, event);
 			} else {
 				// Update urlbar location
-				Urlbar.setUrl(currentTab.window, selectedItem, true);
+				Urlbar.setUrl(currentTab, selectedItem);
+				// Start input in urlbar
+				Urlbar.startInput(currentTab);
 			}
 		},
 
@@ -471,9 +473,11 @@ fr.hardcoding.scrollupfolder = {
 					// Get current tab
 					let currentTab = Tabs.activeTab;
 					// Replace with current URL
-					Urlbar.setUrl(currentTab.window, currentTab.url);
+					Urlbar.setUrl(currentTab, currentTab.url);
 					break;
+				default:
 					// Otherwise, do noting
+					break;
 			}
 		}
 	},
@@ -524,7 +528,7 @@ fr.hardcoding.scrollupfolder = {
 		// Define pointer set status
 		let pointerSet = false;
 		// Get URL in urlbar
-		let urlbarUrl = Urlbar.getUrl(tab.window);
+		let urlbarUrl = Urlbar.getUrl(tab);
 		// Check urlbar URL
 		if (urlbarUrl !== null) {
 			// Check if urlbar URL maches one of path
