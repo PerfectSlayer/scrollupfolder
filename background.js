@@ -1,7 +1,3 @@
-function onError(error) {
-	console.error("An error occured:" + error);
-}
-
 /*
  * Declare URL management.
  */
@@ -27,16 +23,6 @@ function computeUpperFolder(url) {
 	return protocol + baseUrl.substring(0, index+1);
 }
 
-/**
- * Load an URL into a tab.
- * @param tab The tab to load URL into.
- * @param url The URL to load.
- */
-function loadUrl(tab, url) {
-	console.log("Load URL: "+url);
-	browser.tabs.update(tab.id, {"url": url});
-}
-
 function computeFolders(url) {
 	console.log("Compute urls: "+url);
 	var urls = new Array();
@@ -47,16 +33,36 @@ function computeFolders(url) {
 	return urls;
 }
 
-function findCurrentTab() {
+/**
+ * Get the current tab of the current window.
+ * @return A premise that will return the current tab of the current window.
+ */
+function getCurrentTab() {
 	// Query active tab of the active window
 	var querying = browser.tabs.query({
 		currentWindow: true,
 		active: true
 	});
 	// Extract the first tab of the tab array
-	var extractFirstTab = tabs => new Promise(resolve => { resolve(tabs[0]) });
+	var extractFirstTab = tabs => new Promise((resolve, reject) => {
+		if (tabs.length < 1) {
+			reject('Current tab not found');
+		} else {
+			resolve(tabs[0]);
+		}
+	});
 	// Return combine promise
 	return querying.then(extractFirstTab);
+}
+
+/**
+ * Load an URL into a tab.
+ * @param tab The tab to load URL into.
+ * @param url The URL to load.
+ */
+function loadUrl(tab, url) {
+	console.log("Load URL: "+url);
+	browser.tabs.update(tab.id, {"url": url});
 }
 
 /**
@@ -118,10 +124,10 @@ function handleMessage(request, sender, sendResponse) {
 	console.log(request);
 	switch (request.message) {
 		case 'get-urls':
-			findCurrentTab().then(getUrls).then(sendResponse);
+			getCurrentTab().then(getUrls).then(sendResponse);
 			return true;
 		case 'set-url':
-			findCurrentTab().then(tab => loadUrl(tab, request.url));
+			getCurrentTab().then(tab => loadUrl(tab, request.url));
 			return false;
 		default:
 			return false;
@@ -174,7 +180,7 @@ browser.commands.onCommand.addListener(command => {
 	// Check fuction
 	if (computeUrlFunction) {
 		// Load the computed URL
-		findCurrentTab().then(tab => {
+		getCurrentTab().then(tab => {
 			// Compute URL to load
 			var url = computeUrlFunction(getUrls(tab));
 			// Load URL to current tab
