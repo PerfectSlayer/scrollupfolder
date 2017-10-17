@@ -1,36 +1,74 @@
+// TODO Add settings
+var PARSE_GET_VARS = true;
+var PARSE_ANCHOR = true;
+
 /*
  * Declare URL management.
  */
 // Declare URLs cache (indexed by tab id)
 var urlCache = {};
 
-function computeUpperFolder(url) {
+/**
+ * Compute folders from an URL.
+ * @return An array of URL representing the hierarchy of the given URL.
+ */
+function computeFolders(url) {
+	console.log("Compute urls: "+url);
+	// Declare folders
+	var folders = new Array();
+	// Check leading slash
+	var hasLeadingSlash = url.substring(url.length - 1, url.length) === "/";
 	// Get URL protocal
 	var indexProtocol = url.indexOf('://');
 	if (indexProtocol === -1) {
 		return;
 	}
 	var protocol = url.substring(0, indexProtocol + 3);
-	// Check leading slash
-	var hasLeadingSlash = url.substring(url.length - 1, url.length) === "/";
+	// Parse anchor
+	if (PARSE_ANCHOR) {
+		var indexAnchor = url.indexOf('#');
+		if (indexAnchor !== -1) {
+			var anchor = url.substring(indexAnchor, url.length);
+			url = url.substring(0, indexAnchor);
+		}
+	}
+	// Parse GET variables
+	if (PARSE_GET_VARS) {
+		var indexGetVariables = url.indexOf('?');
+		if (indexGetVariables !== -1) {
+			var getVariables = url.substring(indexGetVariables, url.length);
+			url = url.substring(0, indexGetVariables);
+		}
+	}
 	// Compute base URL
-	var baseUrl = url.substring(indexProtocol + 3, hasLeadingSlash ? url.length - 1 : url.length - 2);
-	var index = baseUrl.lastIndexOf('/');
-	if (index === -1) {
-		return null;
+	var baseUrl = url.substring(indexProtocol + 3, url.length);
+	// Extract folder from tree
+	var parts = baseUrl.split('/');
+	// Build folders from tree
+	var folder = protocol;
+	for (var index = 0; index < parts.length; index++) {
+		// Append new folder name
+		folder += parts[index];
+		// Check if not last folder or if last resource has a leading slash
+		if (index < parts.length - 1 || hasLeadingSlash) {
+			// Append folder separator
+			folder+= '/';
+		}
+		// Append computed folder
+		folders.push(folder);
 	}
-	// Return computed upper folder
-	return protocol + baseUrl.substring(0, index+1);
-}
-
-function computeFolders(url) {
-	console.log("Compute urls: "+url);
-	var urls = new Array();
-	while (url) {
-		urls.push(url);
-		url = computeUpperFolder(url);
+	// Append folder with GET variables
+	if (PARSE_GET_VARS && getVariables) {
+		folder += getVariables;
+		folders.push(folder);
 	}
-	return urls;
+	// Append folder with anchor
+	if (PARSE_ANCHOR && anchor) {
+		folder += anchor;
+		folders.push(folder);
+	}
+	// Return computed folders
+	return folders;
 }
 
 /**
