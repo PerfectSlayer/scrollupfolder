@@ -13,9 +13,9 @@ var urlCache = {};
  * @return An array of URL representing the hierarchy of the given URL.
  */
 function computeFolders(url) {
-	console.log("Compute urls: "+url);
+	console.log("Compute urls: " + url);
 	// Declare folders
-	var folders = new Array();
+	var folders = [];
 	// Check leading slash
 	var hasLeadingSlash = url.substring(url.length - 1, url.length) === "/";
 	// Get URL protocal
@@ -52,7 +52,7 @@ function computeFolders(url) {
 		// Check if not last folder or if last resource has a leading slash
 		if (index < parts.length - 1 || hasLeadingSlash) {
 			// Append folder separator
-			folder+= '/';
+			folder += '/';
 		}
 		// Append computed folder
 		folders.push(folder);
@@ -99,8 +99,10 @@ function getCurrentTab() {
  * @param url The URL to load.
  */
 function loadUrl(tab, url) {
-	console.log("Load URL: "+url);
-	browser.tabs.update(tab.id, {"url": url});
+	console.log("Load URL: " + url);
+	browser.tabs.update(tab.id, {
+		"url": url
+	});
 }
 
 /**
@@ -193,6 +195,7 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 /*
  * Declare commands behavior.
  */
+// Bind command listener
 browser.commands.onCommand.addListener(command => {
 	// Declare function to compute URL to load from tab URLs.
 	var computeUrlFunction;
@@ -208,11 +211,11 @@ browser.commands.onCommand.addListener(command => {
 			break;
 		case "browse-down":
 			console.log("Browse down command");
-			computeUrlFunction = tab => tab.urls[Math.min(tab.selected + 1, tab.urls.length-1)];
+			computeUrlFunction = tab => tab.urls[Math.min(tab.selected + 1, tab.urls.length - 1)];
 			break;
 		case "browse-to-bottom":
 			console.log("Browse to bottom command");
-			computeUrlFunction = tab => tab.urls[ tab.urls.length-1];
+			computeUrlFunction = tab => tab.urls[tab.urls.length - 1];
 			break;
 	}
 	// Check fuction
@@ -245,6 +248,8 @@ browser.runtime.onInstalled.addListener(details => {
 	}
 	// Open welcome URL in a new tab if defined
 	if (welcomeUrl) {
-		browser.tabs.create({'url': welcomeUrl});
+		browser.tabs.create({
+			'url': welcomeUrl
+		});
 	}
 });
