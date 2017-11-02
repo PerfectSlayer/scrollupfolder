@@ -1,0 +1,26 @@
+body {
+    width: 25em;
+}
+
+section {
+    padding: 0.5em 0;
+    width: 100%;
+}
+
+section input {
+    float: right;
+}
+
+label {
+    display: block;
+    padding: 0.2em 0;
+}
+
+label:hover {
+    background-color: #EAEFF2;
+}
+
+span.title {
+    display: block;
+    font-size: 1.2em;
+}

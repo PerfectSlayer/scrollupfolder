@@ -46,8 +46,13 @@
             "description": "Browse to the deepest folder"
         }
     },
+    "options_ui": {
+        "page": "options/options.html",
+        "browser_style": true
+    },
     "permissions": [
         "tabs",
-        "activeTab"
+        "activeTab",
+        "storage"
     ]
 }
