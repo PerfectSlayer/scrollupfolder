@@ -1,6 +1,34 @@
-// TODO Add settings
-var PARSE_GET_VARS = true;
-var PARSE_ANCHOR = true;
+/*
+ * Declare settings.
+ */
+// Declare display urlbar icon settings (true if displayed, false otherwise)
+var displayUrlbarIcon = true;
+// Declare enable shortcuts settings (true if enabled, false otherwise)
+var enableShortcuts = true;
+// Declare parse anchor in URL settings (true if parsed, false otherwise)
+var parseAnchor = true;
+// Declare parse GET variables in URL settings (true if parsed, false otherwise)
+var parseGetVariables = true;
+// Bind storage change listener
+browser.storage.onChanged.addListener((changes, area) => {
+	// Check settings change
+	if (!changes.settings) {
+		return;
+	}
+	// Update current settings
+	displayUrlbarIcon = changes.settings.newValue.displayUrlbarIcon;
+	enableShortcuts = changes.settings.newValue.enableShortcuts;
+	parseAnchor = changes.settings.newValue.parseAnchor;
+	parseGetVariables = changes.settings.newValue.parseGetVariables;
+	// Clear URLs cache
+	urlCache = {};
+	// Update urlbar icon
+	browser.tabs.query({}).then(tabs => {
+		for (let tab of tabs) {
+			updateUrlbarIcon(tab);
+		}
+	});
+});
 
 /*
  * Declare URL management.
@@ -25,7 +53,7 @@ function computeFolders(url) {
 	}
 	var protocol = url.substring(0, indexProtocol + 3);
 	// Parse anchor
-	if (PARSE_ANCHOR) {
+	if (parseAnchor) {
 		var indexAnchor = url.indexOf('#');
 		if (indexAnchor !== -1) {
 			var anchor = url.substring(indexAnchor, url.length);
@@ -33,7 +61,7 @@ function computeFolders(url) {
 		}
 	}
 	// Parse GET variables
-	if (PARSE_GET_VARS) {
+	if (parseGetVariables) {
 		var indexGetVariables = url.indexOf('?');
 		if (indexGetVariables !== -1) {
 			var getVariables = url.substring(indexGetVariables, url.length);
@@ -58,12 +86,12 @@ function computeFolders(url) {
 		folders.push(folder);
 	}
 	// Append folder with GET variables
-	if (PARSE_GET_VARS && getVariables) {
+	if (parseGetVariables && getVariables) {
 		folder += getVariables;
 		folders.push(folder);
 	}
 	// Append folder with anchor
-	if (PARSE_ANCHOR && anchor) {
+	if (parseAnchor && anchor) {
 		folder += anchor;
 		folders.push(folder);
 	}
@@ -179,24 +207,31 @@ browser.runtime.onMessage.addListener(handleMessage);
 /*
  * Declare page action behavior.
  */
-// Bind tab update listener
-browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	console.log("Tab update " + tabId);
-	console.log(changeInfo);
-	console.log(tab);
-	// Check tab URL
-	if (tab.url && tab.url.substr(0, 6) !== 'about:') {
-		browser.pageAction.show(tabId);
+/**
+ * Update urlbar icon.
+ * @param tab The tab to update the icon.
+ */
+function updateUrlbarIcon(tab) {
+	console.log("Tab update " + tab.id);
+	// Check feature status and tab URL
+	if (displayUrlbarIcon && tab.url && tab.url.substr(0, 6) !== 'about:') {
+		browser.pageAction.show(tab.id);
 	} else {
-		browser.pageAction.hide(tabId);
+		browser.pageAction.hide(tab.id);
 	}
-});
+}
+// Bind tab update listener
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => updateUrlbarIcon(tab));
 
 /*
  * Declare commands behavior.
  */
 // Bind command listener
 browser.commands.onCommand.addListener(command => {
+	// Check feature status
+	if (!enableShortcuts) {
+		return;
+	}
 	// Declare function to compute URL to load from tab URLs.
 	var computeUrlFunction;
 	// Check the command

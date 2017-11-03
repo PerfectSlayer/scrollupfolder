@@ -1,6 +1,6 @@
 // Retrieve settings elements
-const urlbarIconCheckbox = document.querySelector("#urlbar-icon-checkbox");
-const shortcutsCheckbox = document.querySelector("#shortcuts-checkbox");
+const displayUrlbarIconCheckbox = document.querySelector("#display-urlbar-icon-checkbox");
+const enableShortcutsCheckbox = document.querySelector("#enable-shortcuts-checkbox");
 const parseAnchorCheckbox = document.querySelector("#parse-anchor-checkbox");
 const parseGetVariablesCheckbox = document.querySelector("#parse-get-variables-checbox");
 
@@ -8,8 +8,8 @@ const parseGetVariablesCheckbox = document.querySelector("#parse-get-variables-c
  * Attach event listener to settings elements.
  */
 function attachListeners() {
-	urlbarIconCheckbox.addEventListener("change", saveOptions);
-	shortcutsCheckbox.addEventListener("change", saveOptions);
+	displayUrlbarIconCheckbox.addEventListener("change", saveOptions);
+	enableShortcutsCheckbox.addEventListener("change", saveOptions);
 	parseAnchorCheckbox.addEventListener("change", saveOptions);
 	parseGetVariablesCheckbox.addEventListener("change", saveOptions);
 }
@@ -18,8 +18,8 @@ function attachListeners() {
  * Bind current settings values to settings elements.
  */
 function bindSettings(settings) {
-	urlbarIconCheckbox.checked = settings.urlbarIcon;
-	shortcutsCheckbox.checked = settings.shortcuts;
+	displayUrlbarIconCheckbox.checked = settings.displayUrlbarIcon;
+	enableShortcutsCheckbox.checked = settings.enableShortcuts;
 	parseAnchorCheckbox.checked = settings.parseAnchor;
 	parseGetVariablesCheckbox.checked = settings.parseGetVariables;
 }
@@ -30,8 +30,8 @@ function bindSettings(settings) {
 function saveOptions() {
 	browser.storage.local.set({ // TODO: USE SYNC STORAGE
 		"settings": {
-			urlbarIcon: urlbarIconCheckbox.checked,
-			shortcuts: shortcutsCheckbox.checked,
+			displayUrlbarIcon: displayUrlbarIconCheckbox.checked,
+			enableShortcuts: enableShortcutsCheckbox.checked,
 			parseAnchor: parseAnchorCheckbox.checked,
 			parseGetVariables: parseGetVariablesCheckbox.checked
 		}
@@ -47,8 +47,8 @@ function loadOptions() {
 	// Get the user settings (defining default options otherwise)
 	browser.storage.local.get({ // TODO: USE SYNC STORAGE
 		"settings": {
-			urlbarIcon: true,
-			shortcuts: true,
+			displayUrlbarIcon: true,
+			enableShortcuts: true,
 			parseAnchor: true,
 			parseGetVariables: true
 		}
