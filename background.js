@@ -75,8 +75,13 @@ function computeFolders(url) {
 	// Build folders from tree
 	var folder = protocol;
 	for (var index = 0; index < parts.length; index++) {
+		// Get next part
+		var part = parts[index];
+		if (part === '') {
+			break;
+		}
 		// Append new folder name
-		folder += parts[index];
+		folder += part;
 		// Check if not last folder or if last resource has a leading slash
 		if (index < parts.length - 1 || hasLeadingSlash) {
 			// Append folder separator
