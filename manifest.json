@@ -9,6 +9,11 @@
     },
     "author": "Bruce Bujon (Perfect Slayer)",
     "homepage_url": "https://github.com/PerfectSlayer/scrollupfolder",
+    "applications": {
+        "gecko": {
+            "id": "scrollupfolder@omni.n0ne.org"
+        }
+    },
     "background": {
         "scripts": [
             "background.js"
