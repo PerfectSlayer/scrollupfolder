@@ -4,23 +4,16 @@ body {
 
 section {
     padding: 0.5em 0;
-    width: 100%;
-}
-
-section input {
-    float: right;
 }
 
 label {
     display: block;
-    padding: 0.2em 0;
-}
-
-label:hover {
-    background-color: #EAEFF2;
+    padding: 0.2em;
 }
 
 span.title {
     display: block;
+    padding-bottom: 0.5em;
     font-size: 1.2em;
+    font-weight: bold;
 }
