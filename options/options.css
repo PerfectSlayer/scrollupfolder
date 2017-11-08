@@ -1,0 +1,19 @@
+body {
+    width: 25em;
+}
+
+section {
+    padding: 0.5em 0;
+}
+
+label {
+    display: block;
+    padding: 0.2em;
+}
+
+span.title {
+    display: block;
+    padding-bottom: 0.5em;
+    font-size: 1.2em;
+    font-weight: bold;
+}

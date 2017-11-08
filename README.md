@@ -4,9 +4,9 @@
 A Firefox add-on which goes up a folder of a website.
 
 ### Usage:
-Place mouse over urlbar, scroll wheel up or down. Middle click bar to go.    
-Otherwise, click on the URL bar button to show all folders and select it.    
-More details on [first run page](FirstRun.md).
+Open the panel from the address bar to display folders then click on the one you want to load.    
+Otherwise, use the <kbd>Alt</kbd>+<kbd>Up</kbd> and <kbd>Alt</kbd>+<kbd>Down</kbd> shortcuts to navigate through folders.    
+More details on [first run page](https://github.com/PerfectSlayer/scrollupfolder/wiki/FirstRun).
 
 ### Screenshots:
 ![Preview scroll feature](https://raw.githubusercontent.com/PerfectSlayer/scrollupfolder/wiki/preview.gif)

@@ -1,0 +1,63 @@
+{
+    "manifest_version": 2,
+    "name": "Scroll Up Folder",
+    "version": "6.0.0",
+    "description": "Browse for folders of a website.",
+    "short_name": "SUF",
+    "icons": {
+        "32": "icons/icon-32.png"
+    },
+    "author": "Bruce Bujon (Perfect Slayer)",
+    "homepage_url": "https://github.com/PerfectSlayer/scrollupfolder",
+    "applications": {
+        "gecko": {
+            "id": "scrollupfolder@omni.n0ne.org"
+        }
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "page_action": {
+        "browser_style": true,
+        "default_icon": "icons/folder.png",
+        "default_popup": "popup/panel.html",
+        "default_title": "Browse for folders"
+    },
+    "commands": {
+        "browse-to-top": {
+            "suggested_key": {
+                "default": "Alt+Shift+Up"
+            },
+            "description": "Browse to the root folder"
+        },
+        "browse-up": {
+            "suggested_key": {
+                "default": "Alt+Up"
+            },
+            "description": "Browse to the next folder up"
+        },
+        "browse-down": {
+            "suggested_key": {
+                "default": "Alt+Down"
+            },
+            "description": "Browse to the next folder down"
+        },
+        "browse-to-bottom": {
+            "suggested_key": {
+                "default": "Alt+Shift+Down"
+            },
+            "description": "Browse to the deepest folder"
+        }
+    },
+    "options_ui": {
+        "page": "options/options.html",
+        "browser_style": true
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage"
+    ]
+}

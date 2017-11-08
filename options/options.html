@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="options.css" />
+</head>
+
+<body>
+    <section>
+        <span class="title">Features</span>
+        <label><input type="checkbox" id="display-urlbar-icon-checkbox" checked="false" data-type="urlIcon"/>Enable icon in address bar</label>
+        <label><input type="checkbox" id="enable-shortcuts-checkbox" checked="false" data-type="shortcuts"/>Enable <kbd>Alt</kbd> (+<kbd>Shift</kbd>) +<kbd>Up</kbd> / <kbd>Down</kbd> shortcuts</label>
+    </section>
+
+    <section>
+        <span class="title">URL parsing</span>
+        <label><input type="checkbox" id="parse-anchor-checkbox" checked="false" data-type="parseAnchor"/>Parse archor</label>
+        <label><input type="checkbox" id="parse-get-variables-checbox" checked="false" data-type="parseGetVariables"/>Parse GET variables</label>
+    </section>
+
+    <script src="options.js"></script>
+</body>
+
+</html>
