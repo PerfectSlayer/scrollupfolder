@@ -28,7 +28,7 @@ function bindSettings(settings) {
  * Save the current settings elements values.
  */
 function saveOptions() {
-	browser.storage.local.set({ // TODO: USE SYNC STORAGE
+	browser.storage.sync.set({
 		"settings": {
 			displayUrlbarIcon: displayUrlbarIconCheckbox.checked,
 			enableShortcuts: enableShortcutsCheckbox.checked,
@@ -45,7 +45,7 @@ function saveOptions() {
  */
 function loadOptions() {
 	// Get the user settings (defining default options otherwise)
-	browser.storage.local.get({ // TODO: USE SYNC STORAGE
+	browser.storage.sync.get({
 		"settings": {
 			displayUrlbarIcon: true,
 			enableShortcuts: true,
