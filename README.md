@@ -4,8 +4,8 @@
 A Firefox add-on which goes up a folder of a website.
 
 ### Usage:
-Place mouse over urlbar, scroll wheel up or down. Middle click bar to go.    
-Otherwise, click on the URL bar button to show all folders and select it.    
+Open the panel from the address bar to display folders then click on the one you want to load.    
+Otherwise, use the `alt`+`up` or `alt`+`down` shortcuts to navigate through folders.    
 More details on [first run page](FirstRun.md).
 
 ### Screenshots:
