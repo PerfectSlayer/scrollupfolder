@@ -275,6 +275,10 @@ browser.commands.onCommand.addListener(command => {
  */
 // Bind runtine installation listener
 browser.runtime.onInstalled.addListener(details => {
+	// Check temporary installation
+	if (details.temporary) {
+		return;
+	}
 	// Declare the welcome URL
 	var welcomeUrl;
 	// Check installation reason
