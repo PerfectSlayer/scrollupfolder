@@ -2,9 +2,9 @@
  * Declare settings.
  */
 // Declare display urlbar icon settings (true if displayed, false otherwise)
-var displayUrlbarIcon = true;
+var displayUrlbarIcon = false;
 // Declare enable shortcuts settings (true if enabled, false otherwise)
-var enableShortcuts = true;
+var enableShortcuts = false;
 // Declare parse anchor in URL settings (true if parsed, false otherwise)
 var parseAnchor = true;
 // Declare parse GET variables in URL settings (true if parsed, false otherwise)
@@ -15,11 +15,19 @@ browser.storage.onChanged.addListener((changes, area) => {
 	if (!changes.settings) {
 		return;
 	}
+	// Apply new settings
+	applySettings(changes.settings.newValue);
+});
+/**
+ * Apply the settings.
+ * @param settings The settings to apply.
+ */
+function applySettings(settings) {
 	// Update current settings
-	displayUrlbarIcon = changes.settings.newValue.displayUrlbarIcon;
-	enableShortcuts = changes.settings.newValue.enableShortcuts;
-	parseAnchor = changes.settings.newValue.parseAnchor;
-	parseGetVariables = changes.settings.newValue.parseGetVariables;
+	displayUrlbarIcon = settings.displayUrlbarIcon;
+	enableShortcuts = settings.enableShortcuts;
+	parseAnchor = settings.parseAnchor;
+	parseGetVariables = settings.parseGetVariables;
 	// Clear URLs cache
 	urlCache = {};
 	// Update urlbar icon
@@ -28,14 +36,31 @@ browser.storage.onChanged.addListener((changes, area) => {
 			updateUrlbarIcon(tab);
 		}
 	});
-});
+}
+/**
+ * Load the settings.
+ */
+function loadSettings() {
+	// Get the user settings (defining default options otherwise)
+	browser.storage.sync.get({
+		"settings": {
+			displayUrlbarIcon: true,
+			enableShortcuts: true,
+			parseAnchor: true,
+			parseGetVariables: true
+		}
+	}).then(result => {
+		applySettings(result.settings);
+	}, error => {
+		console.error("Unable to load settings: " + error);
+	});
+}
 
 /*
  * Declare URL management.
  */
 // Declare URLs cache (indexed by tab id)
 var urlCache = {};
-
 /**
  * Compute folders from an URL.
  * @return An array of URL representing the hierarchy of the given URL.
@@ -102,7 +127,6 @@ function computeFolders(url) {
 	// Return computed folders
 	return folders;
 }
-
 /**
  * Get the current tab of the current window.
  * @return A premise that will return the current tab of the current window.
@@ -124,7 +148,6 @@ function getCurrentTab() {
 	// Return combine promise
 	return querying.then(extractFirstTab);
 }
-
 /**
  * Load an URL into a tab.
  * @param tab The tab to load URL into.
@@ -135,7 +158,6 @@ function loadUrl(tab, url) {
 		"url": url
 	});
 }
-
 /**
  * Get URLs of a tab.
  * @param tab The tab to compute URLs.
@@ -166,7 +188,6 @@ function getUrls(tab) {
 		"selected": selected
 	};
 }
-
 /**
  * Delete URLs of a tab.
  * @param tabId The tab identifier to remove cache.
@@ -174,14 +195,12 @@ function getUrls(tab) {
 function deleteUrls(tabId) {
 	delete urlCache.tabId;
 }
-
 // Bind tab remove listener
 browser.tabs.onRemoved.addListener(deleteUrls);
 
 /*
  * Declare messaging between add-on parts.
  */
-
 /**
  * Handle runtime messages.
  * @param request The message request.
@@ -265,6 +284,10 @@ browser.commands.onCommand.addListener(command => {
  */
 // Bind runtine installation listener
 browser.runtime.onInstalled.addListener(details => {
+	// Check temporary installation
+	if (details.temporary) {
+		return;
+	}
 	// Declare the welcome URL
 	var welcomeUrl;
 	// Check installation reason
@@ -283,3 +306,9 @@ browser.runtime.onInstalled.addListener(details => {
 		});
 	}
 });
+
+/*
+ * Initialize add-on.
+ */
+// Load settings
+loadSettings();
