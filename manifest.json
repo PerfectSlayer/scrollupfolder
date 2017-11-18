@@ -23,32 +23,32 @@
         "browser_style": true,
         "default_icon": "icons/folder.png",
         "default_popup": "popup/panel.html",
-        "default_title": "Browse for folders"
+        "default_title": "Navigate folders"
     },
     "commands": {
         "browse-to-top": {
             "suggested_key": {
                 "default": "Alt+Shift+Up"
             },
-            "description": "Browse to the root folder"
+            "description": "Navigate to the root folder"
         },
         "browse-up": {
             "suggested_key": {
                 "default": "Alt+Up"
             },
-            "description": "Browse to the next folder up"
+            "description": "Navigate to the next folder up"
         },
         "browse-down": {
             "suggested_key": {
                 "default": "Alt+Down"
             },
-            "description": "Browse to the next folder down"
+            "description": "Navigate to the next folder down"
         },
         "browse-to-bottom": {
             "suggested_key": {
                 "default": "Alt+Shift+Down"
             },
-            "description": "Browse to the deepest folder"
+            "description": "Navigate to the deepest folder"
         }
     },
     "options_ui": {
