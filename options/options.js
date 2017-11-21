@@ -2,6 +2,7 @@
 const displayUrlbarIconCheckbox = document.querySelector("#display-urlbar-icon-checkbox");
 const enableShortcutsCheckbox = document.querySelector("#enable-shortcuts-checkbox");
 const parseAnchorCheckbox = document.querySelector("#parse-anchor-checkbox");
+const parseDomainCheckbox = document.querySelector("#parse-domain-checkbox");
 const parseGetVariablesCheckbox = document.querySelector("#parse-get-variables-checbox");
 
 /**
@@ -11,6 +12,7 @@ function attachListeners() {
 	displayUrlbarIconCheckbox.addEventListener("change", saveOptions);
 	enableShortcutsCheckbox.addEventListener("change", saveOptions);
 	parseAnchorCheckbox.addEventListener("change", saveOptions);
+	parseDomainCheckbox.addEventListener("change", saveOptions);
 	parseGetVariablesCheckbox.addEventListener("change", saveOptions);
 }
 
@@ -21,6 +23,7 @@ function bindSettings(settings) {
 	displayUrlbarIconCheckbox.checked = settings.displayUrlbarIcon;
 	enableShortcutsCheckbox.checked = settings.enableShortcuts;
 	parseAnchorCheckbox.checked = settings.parseAnchor;
+	parseDomainCheckbox.checked = settings.parseDomain;
 	parseGetVariablesCheckbox.checked = settings.parseGetVariables;
 }
 
@@ -33,6 +36,7 @@ function saveOptions() {
 			displayUrlbarIcon: displayUrlbarIconCheckbox.checked,
 			enableShortcuts: enableShortcutsCheckbox.checked,
 			parseAnchor: parseAnchorCheckbox.checked,
+			parseDomain: parseDomainCheckbox.checked,
 			parseGetVariables: parseGetVariablesCheckbox.checked
 		}
 	}).then(null, error => {
@@ -50,6 +54,7 @@ function loadOptions() {
 			displayUrlbarIcon: true,
 			enableShortcuts: true,
 			parseAnchor: true,
+			parseDomain: true,
 			parseGetVariables: true
 		}
 	}).then(result => {

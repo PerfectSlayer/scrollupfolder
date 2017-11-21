@@ -7,6 +7,8 @@ var displayUrlbarIcon = false;
 var enableShortcuts = false;
 // Declare parse anchor in URL settings (true if parsed, false otherwise)
 var parseAnchor = true;
+// Declare parse domain in URL settings (true if parsed, false otherwise)
+var parseDomain = true;
 // Declare parse GET variables in URL settings (true if parsed, false otherwise)
 var parseGetVariables = true;
 // Bind storage change listener
@@ -27,6 +29,7 @@ function applySettings(settings) {
 	displayUrlbarIcon = settings.displayUrlbarIcon;
 	enableShortcuts = settings.enableShortcuts;
 	parseAnchor = settings.parseAnchor;
+	parseDomain = settings.parseDomain;
 	parseGetVariables = settings.parseGetVariables;
 	// Clear URLs cache
 	urlCache = {};
@@ -47,6 +50,7 @@ function loadSettings() {
 			displayUrlbarIcon: true,
 			enableShortcuts: true,
 			parseAnchor: true,
+			parseDomain: true,
 			parseGetVariables: true
 		}
 	}).then(result => {
@@ -65,7 +69,7 @@ var urlCache = {};
  * Compute folders from an URL.
  * @return An array of URL representing the hierarchy of the given URL.
  */
-function computeFolders(url) {
+function computeFolders(url)  {
 	console.log("Compute urls: " + url);
 	// Declare folders
 	var folders = [];
@@ -97,6 +101,11 @@ function computeFolders(url) {
 	var baseUrl = url.substring(indexProtocol + 3, url.length);
 	// Extract folder from tree
 	var parts = baseUrl.split('/');
+
+	if (parseDomain) {
+		addDomainUrls(parts, protocol, folders);
+	}
+
 	// Build folders from tree
 	var folder = protocol;
 	for (var index = 0; index < parts.length; index++) {
@@ -128,6 +137,25 @@ function computeFolders(url) {
 	// Return computed folders
 	return folders;
 }
+/**
+ * 
+ */
+function addDomainUrls(parts, protocol, folders){
+	if (parts.length > 0) {
+		var domains = parts[0].split(".");
+		if(domains.length > 2){
+			var mainDomain = "";
+			mainDomain += domains[domains.length - 2] + ".";
+			mainDomain += domains[domains.length - 1] + "/";
+			folders.push(protocol + mainDomain);
+			for(var i = 3; i < domains.length; i++){
+				mainDomain = domains[domains.length - i] + "." + mainDomain;
+				folders.push(protocol + mainDomain);
+			}
+		}
+	}
+}
+
 /**
  * Get the current tab of the current window.
  * @return A premise that will return the current tab of the current window.
