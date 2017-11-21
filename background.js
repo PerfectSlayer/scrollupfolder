@@ -138,7 +138,8 @@ function computeFolders(url)  {
 	return folders;
 }
 /**
- * 
+ * Parse the domain part, and add to folders.
+ * Eg. test.addons.mozilla.org => ["mozilla.org","addons.mozilla.org"]
  */
 function addDomainUrls(parts, protocol, folders){
 	if (parts.length > 0) {
