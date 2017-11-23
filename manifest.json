@@ -5,7 +5,9 @@
     "description": "Browse for folders of a website.",
     "short_name": "SUF",
     "icons": {
-        "32": "icons/icon-32.png"
+        "32": "icons/icon-32.png",
+        "48": "icons/icon-48.png",
+        "96": "icons/icon-96.png"
     },
     "author": "Bruce Bujon (Perfect Slayer)",
     "homepage_url": "https://github.com/PerfectSlayer/scrollupfolder",
@@ -21,7 +23,11 @@
     },
     "page_action": {
         "browser_style": true,
-        "default_icon": "icons/folder.png",
+        "default_icon": {
+            "16": "icons/folder-16.svg",
+            "32": "icons/folder-32.svg",
+            "64": "icons/folder-64.svg"
+        },
         "default_popup": "popup/panel.html",
         "default_title": "Browse for folders"
     },
