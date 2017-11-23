@@ -20,11 +20,12 @@ function attachListeners() {
  * Bind current settings values to settings elements.
  */
 function bindSettings(settings) {
-	displayUrlbarIconCheckbox.checked = settings.displayUrlbarIcon;
-	enableShortcutsCheckbox.checked = settings.enableShortcuts;
-	parseAnchorCheckbox.checked = settings.parseAnchor;
-	parseDomainCheckbox.checked = settings.parseDomain;
-	parseGetVariablesCheckbox.checked = settings.parseGetVariables;
+	console.log(settings);
+	displayUrlbarIconCheckbox.checked = !(settings.displayUrlbarIcon === false);
+	enableShortcutsCheckbox.checked = !(settings.enableShortcuts === false);
+	parseAnchorCheckbox.checked = !(settings.parseAnchor === false);
+	parseDomainCheckbox.checked = !(settings.parseDomain === false);
+	parseGetVariablesCheckbox.checked = !(settings.parseGetVariables === false);
 }
 
 /**

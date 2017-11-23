@@ -26,11 +26,11 @@ browser.storage.onChanged.addListener((changes, area) => {
  */
 function applySettings(settings) {
 	// Update current settings
-	displayUrlbarIcon = settings.displayUrlbarIcon;
-	enableShortcuts = settings.enableShortcuts;
-	parseAnchor = settings.parseAnchor;
-	parseDomain = settings.parseDomain;
-	parseGetVariables = settings.parseGetVariables;
+	displayUrlbarIcon = !(settings.displayUrlbarIcon === false);
+	enableShortcuts = !(settings.enableShortcuts === false);
+	parseAnchor = !(settings.parseAnchor === false);
+	parseDomain = !(settings.parseDomain === false);
+	parseGetVariables = !(settings.parseGetVariables === false);
 	// Clear URLs cache
 	urlCache = {};
 	// Update urlbar icon
@@ -69,7 +69,7 @@ var urlCache = {};
  * Compute folders from an URL.
  * @return An array of URL representing the hierarchy of the given URL.
  */
-function computeFolders(url)  {
+function computeFolders(url) {
 	console.log("Compute urls: " + url);
 	// Declare folders
 	var folders = [];
