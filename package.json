@@ -1,0 +1,32 @@
+{
+    "name": "scrollupfolder-addon",
+    "title": "Scroll Up Folder",
+    "description": "A Firefox extension to browse for folders of a website.",
+    "version": "6.1.0",
+    "author": "Bruce Bujon (Perfect Slayer)",
+    "homepage": "https://github.com/PerfectSlayer/scrollupfolder",
+    "bugs": {
+        "url": "https://github.com/PerfectSlayer/scrollupfolder/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PerfectSlayer/scrollupfolder.git"
+    },
+    "license": "MPL-1.1",
+    "keywords": [
+        "firefox",
+        "webextensions"
+    ],
+    "devDependencies": {
+        "eslint": "^4.13.1",
+        "eslint-plugin-json": "^1.2.0",
+        "web-ext": "^2.2.2"
+    },
+    "scripts": {
+        "eslint": "eslint addon --ext=js,json",
+        "web-ext-lint": "web-ext lint -source-dir addon",
+        "web-ext-run": "web-ext run --firefox=\"C:\\Program Files\\Firefox Developer Edition\\firefox.exe\" --source-dir addon",
+        "web-ext-build": "web-ext build --source-dir addon --artifacts-dir build --ignore-files build --overwrite-dest"
+    }
+}
+
