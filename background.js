@@ -26,11 +26,11 @@ browser.storage.onChanged.addListener((changes, area) => {
  */
 function applySettings(settings) {
 	// Update current settings
-	displayUrlbarIcon = !(settings.displayUrlbarIcon === false);
-	enableShortcuts = !(settings.enableShortcuts === false);
-	parseAnchor = !(settings.parseAnchor === false);
-	parseDomain = !(settings.parseDomain === false);
-	parseGetVariables = !(settings.parseGetVariables === false);
+	displayUrlbarIcon = !settings.hasOwnProperty('displayUrlbarIcon') || settings.displayUrlbarIcon;
+	enableShortcuts = !settings.hasOwnProperty('enableShortcuts') || settings.enableShortcuts;
+	parseAnchor = !settings.hasOwnProperty('parseAnchor') || settings.parseAnchor;
+	parseDomain = !settings.hasOwnProperty('parseDomain') || settings.parseDomain;
+	parseGetVariables = !settings.hasOwnProperty('parseGetVariables') || settings.parseGetVariables;
 	// Clear URLs cache
 	urlCache = {};
 	// Update urlbar icon

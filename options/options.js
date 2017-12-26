@@ -21,11 +21,11 @@ function attachListeners() {
  */
 function bindSettings(settings) {
 	console.log(settings);
-	displayUrlbarIconCheckbox.checked = !(settings.displayUrlbarIcon === false);
-	enableShortcutsCheckbox.checked = !(settings.enableShortcuts === false);
-	parseAnchorCheckbox.checked = !(settings.parseAnchor === false);
-	parseDomainCheckbox.checked = !(settings.parseDomain === false);
-	parseGetVariablesCheckbox.checked = !(settings.parseGetVariables === false);
+	displayUrlbarIconCheckbox.checked = !settings.hasOwnProperty('displayUrlbarIcon') || settings.displayUrlbarIcon;
+	enableShortcutsCheckbox.checked = !settings.hasOwnProperty('enableShortcuts') || settings.enableShortcuts;
+	parseAnchorCheckbox.checked = !settings.hasOwnProperty('parseAnchor') || settings.parseAnchor;
+	parseDomainCheckbox.checked = !settings.hasOwnProperty('parseDomain') || settings.parseDomain;
+	parseGetVariablesCheckbox.checked = !settings.hasOwnProperty('parseGetVariables') || settings.parseGetVariables;
 }
 
 /**
