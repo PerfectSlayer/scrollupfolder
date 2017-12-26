@@ -101,11 +101,15 @@ function computeFolders(url) {
 	var baseUrl = url.substring(indexProtocol + 3, url.length);
 	// Extract folder from tree
 	var parts = baseUrl.split('/');
-
+	// Parse domain
 	if (parseDomain) {
-		addDomainUrls(parts, protocol, folders);
+		console.log("Parse domain: "+parseDomain);
+		// Append each domain level
+		for (const domain of extractSubDomains(parts[0])) {
+			console.log("domain: "+ domain)
+			folders.push(protocol + domain);
+		}
 	}
-
 	// Build folders from tree
 	var folder = protocol;
 	for (var index = 0; index < parts.length; index++) {
@@ -138,25 +142,31 @@ function computeFolders(url) {
 	return folders;
 }
 /**
- * Parse the domain part, and add to folders.
- * Eg. test.addons.mozilla.org => ["mozilla.org","addons.mozilla.org"]
+ * Extract sub-domains of a domain name.
+ * @param domainName The domain name to get sub-domains.
+ * @return The sub-domains in an array.
  */
-function addDomainUrls(parts, protocol, folders){
-	if (parts.length > 0) {
-		var domains = parts[0].split(".");
-		if(domains.length > 2){
-			var mainDomain = "";
-			mainDomain += domains[domains.length - 2] + ".";
-			mainDomain += domains[domains.length - 1] + "/";
-			folders.push(protocol + mainDomain);
-			for(var i = 3; i < domains.length; i++){
-				mainDomain = domains[domains.length - i] + "." + mainDomain;
-				folders.push(protocol + mainDomain);
-			}
+function extractSubDomains(domainName) {
+	// Declare sub-domains
+	var domains = [];
+	// Split domain name by level
+	var parts = domainName.split(".");
+	// Check minimum required level
+	if (parts.length > 2) {
+		// Compute root domain name
+		var domain = "";
+		domain += parts[parts.length - 2] + ".";
+		domain += parts[parts.length - 1] + "/";
+		domains.push(domain);
+		for (var i = parts.length - 3; i > 0; i--) {
+			console.log("i: "+i);
+			domain = parts[i] + "." + domain;
+			domains.push(domain);
 		}
 	}
+	// Return sub-domains
+	return domains;
 }
-
 /**
  * Get the current tab of the current window.
  * @return A premise that will return the current tab of the current window.
