@@ -26,8 +26,8 @@
     "scripts": {
         "eslint": "eslint addon --ext=js,json",
         "test": "mocha",
-        "web-ext-lint": "web-ext lint -source-dir addon",
-        "web-ext-run": "web-ext run --source-dir addon --start-url https:\/\/github.com/PerfectSlayer/scrollupfolder --firefox=\"C:\\Program Files\\Firefox Developer Edition\\firefox.exe\"",
-        "web-ext-build": "web-ext build --source-dir addon --artifacts-dir build --overwrite-dest"
+        "lint": "web-ext lint --source-dir=addon",
+        "run": "web-ext run --source-dir=addon --start-url=https://github.com/PerfectSlayer/scrollupfolder --keep-profile-changes --firefox-profile=./.profile",
+        "build": "web-ext build --source-dir=addon --artifacts-dir=build --overwrite-dest"
     }
 }
