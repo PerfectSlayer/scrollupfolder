@@ -118,7 +118,7 @@ function getUrls(tab) {
 	if (selected === -1) {
 		// Update invalid cache
 		urlCache[tabId] = computeFolders(url);
-		selected = 0;
+		selected = urlCache[tabId].length -1;
 	}
 	// Notify callback
 	return {
