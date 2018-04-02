@@ -1,5 +1,5 @@
 /*
- * Check if URL exists from WebExtensions API.
+ * Check if URL exists from WebExtensions API.
  * Otherwise, load it as NodeJS module.
  */
 if (typeof URL === 'undefined') {
@@ -10,10 +10,10 @@ if (typeof URL === 'undefined') {
  * @return An array of URL representing the hierarchy of the given URL.
  */
 function computeFolders(url) {
-    // Parse original URL into object
-	var urlObject = new URL(url);
-	// Declare folders with original URL
-	var folders = Array.of(urlObject.href);
+    // Parse original URL into object
+    var urlObject = new URL(url);
+    // Declare folders with original URL
+    var folders = Array.of(urlObject.href);
     // Check if should parse anchor and anchor is present
     if (parseAnchor && urlObject.hash) {
         // Clear anchor
@@ -21,11 +21,11 @@ function computeFolders(url) {
         // Add folder
         folders.unshift(urlObject.href);
     }
-    // Check if GET variables are present
+    // Check if GET variables are present
     if (urlObject.search) {
         // Clear GET variables
         urlObject.search = '';
-        // Check if should parse GET variables
+        // Check if should parse GET variables
         if (parseGetVariables) {
             // Append folder
             folders.unshift(urlObject.href);
@@ -33,8 +33,8 @@ function computeFolders(url) {
 
     }
     // Declare parent URL as current folder
-    parentUrlObject = new URL('.', urlObject);
-    // Check if parent URL differs from current URL
+    var parentUrlObject = new URL('.', urlObject);
+    // Check if parent URL differs from current URL
     while (parentUrlObject.href != urlObject.href) {
         // Apppend folder
         folders.unshift(parentUrlObject.href);
@@ -43,18 +43,18 @@ function computeFolders(url) {
         // Compute next parent URL
         parentUrlObject = new URL('..', urlObject);
     }
-	// Check if should parse domain
-	if (parseDomain) {
-	    // Get URL host name
-	    var host = urlObject.host;
-	    // Extract sub domains from host
-	    var subDomains = extractSubDomains(host);
-	    // Ensure www domain is included
-	    subDomains = ensureWwwDomain(host, subDomains);
-		// Append each domain level
-		for (const domain of subDomains) {
-		    urlObject.host = domain;
-		    folders.unshift(urlObject.href);
+    // Check if should parse domain
+    if (parseDomain) {
+        // Get URL host name
+        var host = urlObject.host;
+        // Extract sub domains from host
+        var subDomains = extractSubDomains(host);
+        // Ensure www domain is included
+        subDomains = ensureWwwDomain(host, subDomains);
+        // Append each domain level
+        for (const domain of subDomains) {
+            urlObject.host = domain;
+            folders.unshift(urlObject.href);
         }
     }
     // Return computed folders
@@ -71,22 +71,22 @@ function extractSubDomains(domainName) {
         // Return no sub domain
         return [];
     }
-	// Declare sub-domains
-	var domains = [];
-	// Split domain name by level
-	var parts = domainName.split(".");
-	// Check minimum required level
-	if (parts.length > 2) {
-		// Compute root domain name
-		var domain = parts[parts.length - 2] + "." + parts[parts.length - 1];
-		domains.push(domain);
-		for (var i = parts.length - 3; i > 0; i--) {
-			domain = parts[i] + "." + domain;
-			domains.push(domain);
-		}
-	}
-	// Return sub-domains
-	return domains;
+    // Declare sub-domains
+    var domains = [];
+    // Split domain name by level
+    var parts = domainName.split(".");
+    // Check minimum required level
+    if (parts.length > 2) {
+        // Compute root domain name
+        var domain = parts[parts.length - 2] + "." + parts[parts.length - 1];
+        domains.push(domain);
+        for (var i = parts.length - 3; i > 0; i--) {
+            domain = parts[i] + "." + domain;
+            domains.push(domain);
+        }
+    }
+    // Return sub-domains
+    return domains;
 }
 /**
  * Ensure www domain is included in sub domains.
@@ -114,7 +114,7 @@ function ensureWwwDomain(host, subDomains) {
     return results;
 }
 /**
- * Check if a domain is an IPv4 address.
+ * Check if a domain is an IPv4 address.
  * @param domain The domain to check.
  * @return true if the domain is an IPv4 address, false otherwise.
  */
@@ -130,7 +130,7 @@ if (typeof module !== 'undefined') {
     module.exports = {
         computeFolders: computeFolders,
         extractSubDomains: extractSubDomains,
-        isIpv4Address: isIpv4Address
+        isIpv4Address: isIpv4Address
     };
 }
 
