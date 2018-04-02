@@ -16,6 +16,7 @@
     },
     "background": {
         "scripts": [
+            "folder.js",
             "background.js"
         ]
     },

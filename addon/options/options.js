@@ -2,8 +2,8 @@
 const displayUrlbarIconCheckbox = document.querySelector("#display-urlbar-icon-checkbox");
 const enableShortcutsCheckbox = document.querySelector("#enable-shortcuts-checkbox");
 const parseAnchorCheckbox = document.querySelector("#parse-anchor-checkbox");
-const parseDomainCheckbox = document.querySelector("#parse-domain-checkbox");
 const parseGetVariablesCheckbox = document.querySelector("#parse-get-variables-checbox");
+const parseDomainCheckbox = document.querySelector("#parse-domain-checkbox");
 
 /**
  * Attach event listener to settings elements.
@@ -12,8 +12,8 @@ function attachListeners() {
 	displayUrlbarIconCheckbox.addEventListener("change", saveOptions);
 	enableShortcutsCheckbox.addEventListener("change", saveOptions);
 	parseAnchorCheckbox.addEventListener("change", saveOptions);
-	parseDomainCheckbox.addEventListener("change", saveOptions);
 	parseGetVariablesCheckbox.addEventListener("change", saveOptions);
+	parseDomainCheckbox.addEventListener("change", saveOptions);
 }
 
 /**
@@ -24,8 +24,8 @@ function bindSettings(settings) {
 	displayUrlbarIconCheckbox.checked = !settings.hasOwnProperty('displayUrlbarIcon') || settings.displayUrlbarIcon;
 	enableShortcutsCheckbox.checked = !settings.hasOwnProperty('enableShortcuts') || settings.enableShortcuts;
 	parseAnchorCheckbox.checked = !settings.hasOwnProperty('parseAnchor') || settings.parseAnchor;
-	parseDomainCheckbox.checked = !settings.hasOwnProperty('parseDomain') || settings.parseDomain;
 	parseGetVariablesCheckbox.checked = !settings.hasOwnProperty('parseGetVariables') || settings.parseGetVariables;
+	parseDomainCheckbox.checked = !settings.hasOwnProperty('parseDomain') || settings.parseDomain;
 }
 
 /**
@@ -37,8 +37,8 @@ function saveOptions() {
 			displayUrlbarIcon: displayUrlbarIconCheckbox.checked,
 			enableShortcuts: enableShortcutsCheckbox.checked,
 			parseAnchor: parseAnchorCheckbox.checked,
-			parseDomain: parseDomainCheckbox.checked,
-			parseGetVariables: parseGetVariablesCheckbox.checked
+			parseGetVariables: parseGetVariablesCheckbox.checked,
+			parseDomain: parseDomainCheckbox.checked
 		}
 	}).then(null, error => {
 		console.error("Unable to save settings: " + error);
@@ -55,8 +55,8 @@ function loadOptions() {
 			displayUrlbarIcon: true,
 			enableShortcuts: true,
 			parseAnchor: true,
-			parseDomain: true,
-			parseGetVariables: true
+			parseGetVariables: true,
+			parseDomain: true
 		}
 	}).then(result => {
 		bindSettings(result.settings);
