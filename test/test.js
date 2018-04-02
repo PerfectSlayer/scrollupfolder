@@ -80,6 +80,27 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
+        it('should not duplicate entry (1/2)', function() {
+            parseAnchor = false;
+            parseGetVariables = true;
+            parseDomain = false;
+            var folders = folder.computeFolders('http://github.com/?key1=value1&key2=value2');
+            var result = [
+                'http://github.com/',
+                'http://github.com/?key1=value1&key2=value2'
+            ];
+            assert.deepStrictEqual(folders, result);
+        });
+        it('should not duplicate entry (2/2)', function() {
+            parseAnchor = false;
+            parseGetVariables = false;
+            parseDomain = false;
+            var folders = folder.computeFolders('http://github.com/?key1=value1&key2=value2');
+            var result = [
+                'http://github.com/?key1=value1&key2=value2'
+            ];
+            assert.deepStrictEqual(folders, result);
+        });
         it('should parse domain', function() {
             parseAnchor = false;
             parseGetVariables = false;

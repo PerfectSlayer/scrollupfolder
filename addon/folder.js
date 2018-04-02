@@ -21,12 +21,16 @@ function computeFolders(url) {
         // Add folder
         folders.unshift(urlObject.href);
     }
-    // Check if should parse GET variables and GET variables are present
-    if (parseGetVariables && urlObject.search) {
-        // Clear GET variables
+    // Check if GET variables are present
+    if (urlObject.search) {
+        // Clear GET variables
         urlObject.search = '';
-        // Append folder
-        folders.unshift(urlObject.href);
+        // Check if should parse GET variables
+        if (parseGetVariables) {
+            // Append folder
+            folders.unshift(urlObject.href);
+        }
+
     }
     // Declare parent URL as current folder
     parentUrlObject = new URL('.', urlObject);
