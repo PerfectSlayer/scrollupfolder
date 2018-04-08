@@ -34,6 +34,11 @@ function computeFolders(url) {
     }
     // Declare parent URL as current folder
     var parentUrlObject = new URL('.', urlObject);
+    // If current URL is already the root of folder
+    if (parentUrlObject.href == urlObject.href) {
+        // Define parent URL as the parent folder
+        parentUrlObject = new URL('..', urlObject);
+    }
     // Check if parent URL differs from current URL
     while (parentUrlObject.href != urlObject.href) {
         // Apppend folder

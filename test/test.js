@@ -128,6 +128,27 @@ describe('folder', () => {
             ];
             assert.deepStrictEqual(folders, result);
         });
+        it('should not duplicate with trailing slash', () => {
+            parseAnchor = false;
+            parseGetVariables = false;
+            parseDomain = false;
+            var folders = folder.computeFolders('http://www.github.com/PerfectSlayer/');
+            var result = [
+                'http://www.github.com/',
+                'http://www.github.com/PerfectSlayer/'
+            ];
+            assert.deepStrictEqual(folders, result);
+        });
+        it('should not duplicate host with trailing slash', () => {
+            parseAnchor = false;
+            parseGetVariables = false;
+            parseDomain = false;
+            var folders = folder.computeFolders('http://www.github.com/');
+            var result = [
+                'http://www.github.com/'
+            ];
+            assert.deepStrictEqual(folders, result);
+        });
 
         // TEST WITH AND WITHOUT ENDING SLASHES
     });
