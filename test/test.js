@@ -1,9 +1,9 @@
 var assert = require('assert');
 var folder = require('../addon/folder.js');
 
-describe('folder', function() {
-    describe('#computeFolders()', function() {
-        it('should parse anchor', function() {
+describe('folder', () => {
+    describe('#computeFolders()', () => {
+        it('should parse anchor', () => {
             parseAnchor = true;
             parseGetVariables = false;
             parseDomain = false;
@@ -16,7 +16,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should not parse anchor', function() {
+        it('should not parse anchor', () => {
             parseAnchor = false;
             parseGetVariables = false;
             parseDomain = false;
@@ -28,7 +28,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should parse GET variables', function() {
+        it('should parse GET variables', () => {
             parseAnchor = false;
             parseGetVariables = true;
             parseDomain = false;
@@ -41,7 +41,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should not parse GET variables', function() {
+        it('should not parse GET variables', () => {
             parseAnchor = false;
             parseGetVariables = false;
             parseDomain = false;
@@ -53,7 +53,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should parse GET variables and anchor', function() {
+        it('should parse GET variables and anchor', () => {
             parseAnchor = true;
             parseGetVariables = true;
             parseDomain = false;
@@ -67,7 +67,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should parse GET variables and leave anchor', function() {
+        it('should parse GET variables and leave anchor', () => {
             parseAnchor = false;
             parseGetVariables = true;
             parseDomain = false;
@@ -80,7 +80,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should not duplicate entry (1/2)', function() {
+        it('should not duplicate entry (1/2)', () => {
             parseAnchor = false;
             parseGetVariables = true;
             parseDomain = false;
@@ -91,7 +91,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should not duplicate entry (2/2)', function() {
+        it('should not duplicate entry (2/2)', () => {
             parseAnchor = false;
             parseGetVariables = false;
             parseDomain = false;
@@ -101,7 +101,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should parse domain', function() {
+        it('should parse domain', () => {
             parseAnchor = false;
             parseGetVariables = false;
             parseDomain = true;
@@ -115,7 +115,7 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(folders, result);
         });
-        it('should not duplicate www domain', function() {
+        it('should not duplicate www domain', () => {
             parseAnchor = false;
             parseGetVariables = false;
             parseDomain = true;
@@ -129,23 +129,23 @@ describe('folder', function() {
             assert.deepStrictEqual(folders, result);
         });
 
-        // TEST WITH AND WITHOUT ENDING SLASHES
+        // TEST WITH AND WITHOUT ENDING SLASHES
     });
 
-    describe('#extractSubDomains()', function() {
-        it('should not find any more domain', function() {
+    describe('#extractSubDomains()', () => {
+        it('should not find any more domain', () => {
             var subDomains = folder.extractSubDomains('github.com');
             var result = [];
             assert.deepStrictEqual(subDomains, result);
         });
-        it('should find default root domain', function() {
+        it('should find default root domain', () => {
             var subDomains = folder.extractSubDomains('test.github.com');
             var result = [
                 'github.com'
             ];
             assert.deepStrictEqual(subDomains, result);
         });
-        it('should find all domains', function() {
+        it('should find all domains', () => {
             var subDomains = folder.extractSubDomains('test5.test4.test3.test2.test1.github.com');
             var result = [
                 'github.com',
@@ -156,30 +156,27 @@ describe('folder', function() {
             ];
             assert.deepStrictEqual(subDomains, result);
         });
-        it('should not touch IPv4 address', function() {
+        it('should not touch IPv4 address', () => {
             var subDomains = folder.extractSubDomains('127.0.0.1');
             var result = [];
             assert.deepStrictEqual(subDomains, result);
         });
     });
-    describe('#isIpv4Address()', function() {
-        it('should match IPv4 address', function() {
+    describe('#isIpv4Address()', () => {
+        it('should match IPv4 address', () => {
             var ipv4Address = folder.isIpv4Address('127.0.0.1');
             var result = true;
             assert.equal(ipv4Address, result);
         });
-        it('should not match domain name', function() {
+        it('should not match domain name', () => {
             var ipv4Address = folder.isIpv4Address('github.com');
             var result = false;
             assert.equal(ipv4Address, result);
         });
-        it('should not match IPv4 address like domain name', function() {
+        it('should not match IPv4 address like domain name', () => {
             var ipv4Address = folder.isIpv4Address('123.456.github.com');
             var result = false;
             assert.equal(ipv4Address, result);
         });
     });
 });
-
-// folder courrant n'est pas bon dans le panneau
-

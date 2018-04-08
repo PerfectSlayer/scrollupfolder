@@ -133,4 +133,3 @@ if (typeof module !== 'undefined') {
         isIpv4Address: isIpv4Address
     };
 }
-
