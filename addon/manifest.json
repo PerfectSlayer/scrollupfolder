@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Scroll Up Folder",
-    "version": "6.0.1",
+    "version": "6.1.0",
     "description": "Browse for folders of a website.",
     "short_name": "SUF",
     "icons": {
@@ -16,6 +16,7 @@
     },
     "background": {
         "scripts": [
+            "folder.js",
             "background.js"
         ]
     },

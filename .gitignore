@@ -1,2 +1,3 @@
+.profile
 build
-script/profile/
+node_modules

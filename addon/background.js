@@ -9,6 +9,8 @@ var enableShortcuts = false;
 var parseAnchor = true;
 // Declare parse GET variables in URL settings (true if parsed, false otherwise)
 var parseGetVariables = true;
+// Declare parse domain in URL settings (true if parsed, false otherwise)
+var parseDomain = true;
 // Bind storage change listener
 browser.storage.onChanged.addListener((changes, area) => {
 	// Check settings change
@@ -24,10 +26,11 @@ browser.storage.onChanged.addListener((changes, area) => {
  */
 function applySettings(settings) {
 	// Update current settings
-	displayUrlbarIcon = settings.displayUrlbarIcon;
-	enableShortcuts = settings.enableShortcuts;
-	parseAnchor = settings.parseAnchor;
-	parseGetVariables = settings.parseGetVariables;
+	displayUrlbarIcon = !settings.hasOwnProperty('displayUrlbarIcon') || settings.displayUrlbarIcon;
+	enableShortcuts = !settings.hasOwnProperty('enableShortcuts') || settings.enableShortcuts;
+	parseAnchor = !settings.hasOwnProperty('parseAnchor') || settings.parseAnchor;
+	parseGetVariables = !settings.hasOwnProperty('parseGetVariables') || settings.parseGetVariables;
+	parseDomain = !settings.hasOwnProperty('parseDomain') || settings.parseDomain;
 	// Clear URLs cache
 	urlCache = {};
 	// Update urlbar icon
@@ -47,7 +50,8 @@ function loadSettings() {
 			displayUrlbarIcon: true,
 			enableShortcuts: true,
 			parseAnchor: true,
-			parseGetVariables: true
+			parseGetVariables: true,
+			parseDomain: true
 		}
 	}).then(result => {
 		applySettings(result.settings);
@@ -61,72 +65,6 @@ function loadSettings() {
  */
 // Declare URLs cache (indexed by tab id)
 var urlCache = {};
-/**
- * Compute folders from an URL.
- * @return An array of URL representing the hierarchy of the given URL.
- */
-function computeFolders(url) {
-	// Declare folders
-	var folders = [];
-	// Check leading slash
-	var hasLeadingSlash = url.substring(url.length - 1, url.length) === "/";
-	// Get URL protocal
-	var indexProtocol = url.indexOf('://');
-	if (indexProtocol === -1) {
-		return;
-	}
-	var protocol = url.substring(0, indexProtocol + 3);
-	// Parse anchor
-	if (parseAnchor) {
-		var indexAnchor = url.indexOf('#');
-		if (indexAnchor !== -1) {
-			var anchor = url.substring(indexAnchor, url.length);
-			url = url.substring(0, indexAnchor);
-		}
-	}
-	// Parse GET variables
-	if (parseGetVariables) {
-		var indexGetVariables = url.indexOf('?');
-		if (indexGetVariables !== -1) {
-			var getVariables = url.substring(indexGetVariables, url.length);
-			url = url.substring(0, indexGetVariables);
-		}
-	}
-	// Compute base URL
-	var baseUrl = url.substring(indexProtocol + 3, url.length);
-	// Extract folder from tree
-	var parts = baseUrl.split('/');
-	// Build folders from tree
-	var folder = protocol;
-	for (var index = 0; index < parts.length; index++) {
-		// Get next part
-		var part = parts[index];
-		if (part === '') {
-			break;
-		}
-		// Append new folder name
-		folder += part;
-		// Check if not last folder or if last resource has a leading slash
-		if (index < parts.length - 1 || hasLeadingSlash) {
-			// Append folder separator
-			folder += '/';
-		}
-		// Append computed folder
-		folders.push(folder);
-	}
-	// Append folder with GET variables
-	if (parseGetVariables && getVariables) {
-		folder += getVariables;
-		folders.push(folder);
-	}
-	// Append folder with anchor
-	if (parseAnchor && anchor) {
-		folder += anchor;
-		folders.push(folder);
-	}
-	// Return computed folders
-	return folders;
-}
 /**
  * Get the current tab of the current window.
  * @return A premise that will return the current tab of the current window.
@@ -178,7 +116,7 @@ function getUrls(tab) {
 	if (selected === -1) {
 		// Update invalid cache
 		urlCache[tabId] = computeFolders(url);
-		selected = 0;
+		selected = urlCache[tabId].length -1;
 	}
 	// Notify callback
 	return {
