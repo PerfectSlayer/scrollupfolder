@@ -1,4 +1,4 @@
-# Scroll Up Folder
+# Scroll Up Folder [![Build Status](https://img.shields.io/travis/PerfectSlayer/scrollupfolder.svg?style=for-the-badge)](https://travis-ci.org/PerfectSlayer/scrollupfolder) [![License: MPL 1.1](https://img.shields.io/badge/License-MPL%201.1-blue.svg?style=for-the-badge)](blob/master/LICENSE)
 
 ### Description:
 A Firefox add-on which goes up a folder of a website.
