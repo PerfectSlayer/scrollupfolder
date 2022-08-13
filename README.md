@@ -19,7 +19,7 @@ _Screenshots are taken from 4.2.0 version._
 Discover what happened to the add-on during the last 13 years on [the timeline website](http://scrollupfolder.hardcoding.fr/timeline/).
 
 ### Download:
-You can download the public version on [the project page on Mozilla website](https://addons.mozilla.org/fr/firefox/addon/scroll-up-folder/).   
+You can download the public version on [the project page on Mozilla website](https://addons.mozilla.org/firefox/addon/scroll-up-folder/).   
 You can compare each version with the [changelog page](https://github.com/PerfectSlayer/scrollupfolder/wiki/Changelog).
 
 ### Review:
